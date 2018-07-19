@@ -1,7 +1,7 @@
 {
     "AUTHOR" : "Whiskey Maple",
     "DESCRIPTION" : "This cog was created to query the Ardent Maples Fight Club server.",
-    "INSTALL_MSG" : "This cog was created to query the Ardent Maples Fight Club life is feudal server.",
+    "INSTALL_MSG" : "Congrats, it installed.  Make sure you have python-valve installed from pip.",
     "NAME" : "LifServerQuery",
     "REQUIREMENTS" : [
         "python-valve"
