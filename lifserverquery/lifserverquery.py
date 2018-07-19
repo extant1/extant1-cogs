@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+import valve.source.a2s
 
 
 class LifServerQuery:
@@ -9,12 +10,12 @@ class LifServerQuery:
     def __init__(self, bot):
         self.bot = bot
 	
-	def query_server():
-		SERVER_ADDRESS = ('64.94.95.122', 28082)
+    def query_server():
+        SERVER_ADDRESS = ('64.94.95.122', 28082)
 
-		with valve.source.a2s.ServerQuerier(SERVER_ADDRESS) as server:
-			info = server.info()
-		return "There are currently {player_count}/{max_players} players.".format(**info)
+        with valve.source.a2s.ServerQuerier(SERVER_ADDRESS) as server:
+            info = server.info()
+        return "There are currently {player_count}/{max_players} players.".format(**info)
 
 	
     @commands.command()
