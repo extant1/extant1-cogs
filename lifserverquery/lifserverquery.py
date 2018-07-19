@@ -17,10 +17,10 @@ class LifServerQuery:
     def __init__(self, bot):
         self.bot = bot
 
-	@commands.command()
-	async def players(self):
-	    """Query the server for player count."""
-		await self.bot.say(query_server())
+    @commands.command()
+    async def players(self):
+        """Query the server for player count."""
+        await self.bot.say(query_server())
 	
     @commands.command()
     async def ip(self):
