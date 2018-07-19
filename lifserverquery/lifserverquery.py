@@ -17,22 +17,23 @@ class LifServerQuery:
             info = server.info()
         return "There are currently {player_count}/{max_players} players.".format(**info)
 
-	
+    @commands.command()
+    async def players(self):
+        """Query the server for player count."""
+        await self.bot.say(query_server())
+
     @commands.command()
     async def ip(self):
-        """Query the server for player count."""
+        """Display the server IP."""
 
-        
         await self.bot.say("The server ip is:  64.94.95.122:28082")
-		
-	@commands.command()
-    async def password(self):
-        """Query the server for player count."""
 
-        
+    @commands.command()
+    async def password(self):
+        """Display the server password."""
+
         await self.bot.say("The is currently no server password.")
-		
-	
+
 
 def setup(bot):
     bot.add_cog(LifServerQuery(bot))
