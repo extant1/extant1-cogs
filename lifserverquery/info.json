@@ -1,0 +1,16 @@
+{
+    "AUTHOR" : "Whiskey Maple",
+    "DESCRIPTION" : "This cog was created to query the Ardent Maples Fight Club server.",
+    "INSTALL_MSG" : "This cog was created to query the Ardent Maples Fight Club life is feudal server.",
+    "NAME" : "LifServerQuery",
+    "REQUIREMENTS" : [
+        "python-valve"
+    ],
+    "SHORT" : "LiF Server Query for Ardent Maples",
+    "TAGS" : [
+        "lif",
+        "server",
+        "query",
+        "a2s"
+    ]
+}
