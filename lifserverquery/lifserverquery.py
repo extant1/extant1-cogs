@@ -32,7 +32,7 @@ class LifServerQuery:
     async def password(self):
         """Display the server password."""
 
-        await self.bot.say("The is currently no server password.")
+        await self.bot.say("There is currently no server password.")
 		
 	
 
