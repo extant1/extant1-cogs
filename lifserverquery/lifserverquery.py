@@ -33,7 +33,25 @@ class LifServerQuery:
         """Display the server password."""
 
         await self.bot.say("There is currently no server password.")
-		
+	
+    @commands.command(pass_context=True)
+    async def unflip(self, ctx, user : discord.Member=None):
+        """Flips a coin... or a user.
+        Defaults to coin.
+        """
+        if user != None:
+            msg = ""
+            if user.id == self.bot.user.id:
+                pass
+            char = "abcdefghijklmnopqrstuvwxyz"
+            tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
+            table = str.maketrans(char, tran)
+            name = user.display_name.translate(table)
+            char = char.upper()
+            tran = "∀qƆpƎℲפHIſʞ˥WNOԀQᴚS┴∩ΛMX⅄Z"
+            table = str.maketrans(char, tran)
+            name = name.translate(table)
+            await self.bot.say(msg + name[::-1] + " ノ( ゜-゜ノ)")
 	
 
 def setup(bot):
