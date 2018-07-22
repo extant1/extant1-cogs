@@ -46,11 +46,7 @@ class LifServerQuery:
             char = "abcdefghijklmnopqrstuvwxyz"
             tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
             table = str.maketrans(char, tran)
-            name = user.display_name.translate(table)
-            char = char.upper()
-            tran = "∀qƆpƎℲפHIſʞ˥WNOԀQᴚS┴∩ΛMX⅄Z"
-            table = str.maketrans(char, tran)
-            name = name.translate(table)
+            name = user.display_name
             await self.bot.say(msg + name[::-1] + " ノ( ゜-゜ノ)")
 	
 
