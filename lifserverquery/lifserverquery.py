@@ -48,7 +48,7 @@ class LifServerQuery:
             table = str.maketrans(char, tran)
             name = user.display_name
             await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
-	else:
+        else:
             name = author.display_name
             await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
 	
