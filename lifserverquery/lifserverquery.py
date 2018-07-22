@@ -49,7 +49,7 @@ class LifServerQuery:
             name = user.display_name
             await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
         else:
-            name = author.display_name
+            name = ctx.message.author.display_name
             await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
 	
 
