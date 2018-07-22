@@ -36,9 +36,7 @@ class LifServerQuery:
 	
     @commands.command(pass_context=True)
     async def unflip(self, ctx, user : discord.Member=None):
-        """Flips a coin... or a user.
-        Defaults to coin.
-        """
+        """Unflip yourself or another user."""
         if user != None:
             msg = ""
             if user.id == self.bot.user.id:
