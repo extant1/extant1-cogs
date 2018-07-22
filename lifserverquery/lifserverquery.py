@@ -50,7 +50,7 @@ class LifServerQuery:
             await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
         else:
             name = ctx.message.author.display_name
-            await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
+            await self.bot.say(name + " ノ( ゜-゜ノ)")
 	
 
 def setup(bot):
