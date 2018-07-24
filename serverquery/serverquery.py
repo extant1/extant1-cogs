@@ -132,13 +132,13 @@ class ServerQuery:
 
     @checks.admin()
     @commands.command(name="querydebug", pass_context=True)
-    async def _debug(self, ctx):
+    async def _querydebug(self, ctx):
         info = self.query_info(ctx)
         debug_info = ""
 
         if info is not None:
             for x, y in info.items():
-                debug_info += '{} --- {}\n'.format(x, y)
+                debug_info += '{} = {}\n'.format(x, y)
             await self.bot.say("```py\n" + debug_info + "```")
         else:
             await self.bot.say("No server config available.")
