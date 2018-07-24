@@ -1,0 +1,11 @@
+{
+    "AUTHOR" : "Whiskey Maple",
+    "DESCRIPTION" : "This cog contains generic commands for my server.",
+    "INSTALL_MSG" : "Congrats, it installed.",
+    "NAME" : "GeneralExtant1",
+    "SHORT" : "Generic commands",
+    "TAGS" : [
+        "general",
+        "unflip"
+    ]
+}
