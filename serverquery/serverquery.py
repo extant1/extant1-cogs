@@ -1,3 +1,4 @@
+import os
 from .utils.dataIO import dataIO
 
 import discord
@@ -67,5 +68,21 @@ class ServerQuery:
             await self.bot.say(name + " ノ( ゜-゜ノ)")
 
 
+def check_folders():
+    if os.path.exists("data/serverquery/"):
+        os.rename("data/serverquery/", DATA_PATH)
+    if not os.path.exists(DATA_PATH):
+        print("Creating data/serverquery folder...")
+        os.mkdir(DATA_PATH)
+
+
+def check_files():
+    if not dataIO.is_valid_json(JSON_PATH):
+        print("Creating config.json...")
+        dataIO.save_json(JSON_PATH, {})
+
+
 def setup(bot):
+    check_folders()
+    check_files()
     bot.add_cog(ServerQuery(bot))
