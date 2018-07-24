@@ -25,13 +25,11 @@ class ServerQuery:
             settings = {"ip": "", "port": 0, "discord_gm_role": None}
         settings[setting] = value
 
-    def _set_settings(self, ctx, ip, port, gm_role):
+    def _set_settings(self, ctx, settings):
         serverid = ctx.message.server.id
         if serverid not in self.config:
             self.config[serverid] = {}
-        self.config[serverid]["ip"] = ip
-        self.config[serverid]["port"] = port
-        self.config[serverid]["gm_role"] = gm_role
+        self.config[serverid] = settings
         dataIO.save_json(JSON_PATH, self.config)
 
     def _get_settings(self, ctx):
