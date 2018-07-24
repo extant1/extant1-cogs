@@ -78,7 +78,7 @@ class ServerQuery:
 
     @commands.command(pass_context=True)
     async def mission(self, ctx):
-        info = self.query.info(ctx)
+        info = self.query_info(ctx)
         if info is not None:
             if info['game'] is not None or "lif":
                 await self.bot.say("We are playing {game} on {map}.".format(**info))
