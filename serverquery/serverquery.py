@@ -78,9 +78,10 @@ class ServerQuery:
 
     @commands.command(pass_context=True)
     async def mission(self, ctx):
+        """Display the current mission."""
         info = self.query_info(ctx)
         if info is not None:
-            if info['game'] is not None or "lif":
+            if info['game'] is not None or "Life is Feudal: Your Own":
                 await self.bot.say("We are playing {game} on {map}.".format(**info))
             else:
                 return
@@ -108,7 +109,7 @@ class ServerQuery:
         """Set the server query port."""
         if port is not None:
             self._set_setting(ctx, "port", port)
-            await self.bot.say("Setting server query port to: " + port)
+            await self.bot.say("Setting server query port to: " + str(port))
         else:
             await self.bot.send_cmd_help(ctx)
 
