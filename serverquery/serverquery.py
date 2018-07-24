@@ -92,17 +92,17 @@ class ServerQuery:
     @_server.command(name="ip", pass_context=True)
     async def _ip(self, ctx, ip: str = None):
         """Add a game server ip to this discord."""
-        self._set_setting(self, ctx, "ip", ip)
+        self._set_setting(ctx, "ip", ip)
 
     @_server.command(name="port", pass_context=True)
     async def _port(self, ctx, port: int = None):
         """Add a game server port to this discord."""
-        self._set_setting(self, ctx, "port", port)
+        self._set_setting(ctx, "port", port)
 
     @_server.command(name="gm", pass_context=True)
     async def _gm(self, ctx, role: str = None):
         """Add the discord role that is an admin for this discord."""
-        self._set_setting(self, ctx, "discord_gm_role", role)
+        self._set_setting(ctx, "discord_gm_role", role)
 
 
 def check_folders():
