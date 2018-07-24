@@ -42,7 +42,7 @@ class ServerQuery:
             return self.config[serverid]
 
     def query_info(self, ctx):
-        settings = self.get_settings(ctx)
+        settings = self._get_settings(ctx)
         if settings is not None:
             server_address = (settings['ip'], settings['port'])
             with valve.source.a2s.ServerQuerier(server_address) as server:
@@ -51,7 +51,7 @@ class ServerQuery:
             return None
 
     def query_players(self, ctx):
-        settings = self.get_settings(ctx)
+        settings = self._get_settings(ctx)
         if settings is not None:
             server_address = (settings['ip'], settings['port'])
             with valve.source.a2s.ServerQuerier(server_address) as server:
