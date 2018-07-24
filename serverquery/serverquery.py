@@ -84,21 +84,24 @@ class ServerQuery:
 
     @checks.admin()
     @commands.group(name="gameserver", invoke_without_command=False, no_pm=True, pass_context=True)
-    async def _server(self, ctx, user: discord.Member):
+    async def _server(self, ctx):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
             await self.bot.say("Missing required subcommand.")
 
     @_server.command(name="ip", pass_context=True)
     async def _ip(self, ctx, ip: str = None):
+        """Add a game server ip to this discord."""
         self._set_setting(self, ctx, "ip", ip)
 
     @_server.command(name="port", pass_context=True)
     async def _port(self, ctx, port: int = None):
+        """Add a game server port to this discord."""
         self._set_setting(self, ctx, "port", port)
 
     @_server.command(name="gm", pass_context=True)
     async def _gm(self, ctx, role: str = None):
+        """Add the discord role that is an admin for this discord."""
         self._set_setting(self, ctx, "discord_gm_role", role)
 
 
