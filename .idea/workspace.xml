@@ -16,8 +16,8 @@
       <file leaf-file-name="serverquery.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="139" column="19" selection-start-line="139" selection-start-column="19" selection-end-line="139" selection-end-column="19" />
+            <state relative-caret-position="338">
+              <caret line="133" column="33" selection-start-line="133" selection-start-column="33" selection-end-line="133" selection-end-column="33" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -69,8 +69,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="106" />
-    <option name="y" value="2" />
+    <option name="x" value="100" />
+    <option name="y" value="1" />
     <option name="width" value="1782" />
     <option name="height" value="956" />
   </component>
@@ -153,7 +153,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="106" y="2" width="1782" height="956" extended-state="0" />
+    <frame x="100" y="1" width="1782" height="956" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -212,8 +212,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="139" column="19" selection-start-line="139" selection-start-column="19" selection-end-line="139" selection-end-column="19" />
+        <state relative-caret-position="338">
+          <caret line="133" column="33" selection-start-line="133" selection-start-column="33" selection-end-line="133" selection-end-column="33" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

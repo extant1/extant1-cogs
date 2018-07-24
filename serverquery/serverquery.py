@@ -131,7 +131,7 @@ class ServerQuery:
             await self.bot.send_cmd_help(ctx)
 
     @checks.admin()
-    @commands.command(name="debug", pass_context=True)
+    @commands.command(name="querydebug", pass_context=True)
     async def _debug(self, ctx):
         info = self.query_info(ctx)
         debug_info = ""
