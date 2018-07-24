@@ -1,5 +1,6 @@
 import os
 from .utils.dataIO import dataIO
+from .utils import checks
 
 import discord
 from discord.ext import commands
@@ -18,28 +19,32 @@ class ServerQuery:
         self.bot = bot
         self.config = dataIO.load_json(JSON_PATH)
 
+    def _set_setting(self, ctx, setting, value):
+        settings = self._get_settings(ctx)
+        if not settings:
+            settings = {"ip": "", "port": 0, "discord_gm_role": None}
+        settings[setting] = value
+
     def _set_settings(self, ctx, ip, port, gm_role):
         serverid = ctx.message.server.id
         if serverid not in self.config:
-            self.duelists[serverid] = {}
+            self.config[serverid] = {}
         self.config[serverid]["ip"] = ip
         self.config[serverid]["port"] = port
         self.config[serverid]["gm_role"] = gm_role
         dataIO.save_json(JSON_PATH, self.config)
 
-    def _get_setting(self, ctx, setting):
+    def _get_settings(self, ctx):
         serverid = ctx.message.server.id
         if serverid not in self.config:
             return None
-        elif setting == "server":
-            return str(self.config[serverid]['ip']), int(self.config[serverid]['port'])
         else:
-            return self.config[serverid][setting]
+            return self.config[serverid]
 
     def query_info(self, ctx):
         server_address = self._get_setting(ctx, 'server')
 
-        if server_address is not None:
+        if server_address is None:
             with valve.source.a2s.ServerQuerier(server_address) as server:
                 return server.info()
         else:
@@ -70,18 +75,31 @@ class ServerQuery:
         else:
             await self.bot.say("No server config available.")
 
-    # @commands.command()
-    # async def password(self):
-    #     """Display the server password."""
-    #
-    #     await self.bot.say("There is currently no server password.")
-
     @commands.command(pass_context=True)
     async def mission(self, ctx):
         if self.query_info(ctx) is not None:
             await self.bot.say("We are playing {game} on {map}.".format(**self.query_info(ctx)))
         else:
             await self.bot.say("No server config available.")
+
+    @checks.admin()
+    @commands.group(name="server", invoke_without_command=False, no_pm=True, pass_context=True)
+    async def _server(self, ctx, user: discord.Member):
+        """Change the server settings"""
+        if ctx.invoked_subcommand is None:
+            await self.bot.say("Missing required subcommand.")
+
+    @_server.command(name="ip", pass_context=True)
+    async def _ip(self, ctx, ip: str = None):
+        self._set_setting(self, ctx, "ip", ip)
+
+    @_server.command(name="port", pass_context=True)
+    async def _port(self, ctx, port: int = None):
+        self._set_setting(self, ctx, "port", port)
+
+    @_server.command(name="gm", pass_context=True)
+    async def _gm(self, ctx, role: str = None):
+        self._set_setting(self, ctx, "discord_gm_role", role)
 
 
 def check_folders():
