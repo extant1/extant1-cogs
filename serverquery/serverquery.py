@@ -30,12 +30,12 @@ class ServerQuery:
         with valve.source.a2s.ServerQuerier(server_address) as server:
             return server.players()
 
-    @commands.command(name="players", pass_context=True)
+    @commands.command(pass_context=True)
     async def players(self, ctx):
         """Query the server for player count."""
         await self.bot.say("There are currently {player_count}/{max_players} players.".format(**query_info(ctx)))
 
-    @commands.command(name="ip", pass_context=True)
+    @commands.command(pass_context=True)
     async def ip(self, ctx):
         """Display the server IP."""
 
@@ -47,7 +47,7 @@ class ServerQuery:
     #
     #     await self.bot.say("There is currently no server password.")
 
-    @commands.command(name="mission", pass_context=True)
+    @commands.command(pass_context=True)
     async def mission(self, ctx):
         await self.bot.say("We are playing {game} on {map}.".format(**query_info(ctx)))
 
