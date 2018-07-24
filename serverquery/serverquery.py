@@ -18,28 +18,41 @@ class ServerQuery:
         self.bot = bot
         self.config = dataIO.load_json(JSON_PATH)
 
+    @staticmethod
     def query_info(self, ctx):
-        server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
+        if self.config['ctx.message.server.id']['ip'] and self.config[ctx.message.server.id]['port'] is not None:
+            server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
 
-        with valve.source.a2s.ServerQuerier(server_address) as server:
-            return server.info()
+            with valve.source.a2s.ServerQuerier(server_address) as server:
+                return server.info()
+        else:
+            return None
 
+    @staticmethod
     def query_players(self, ctx):
-        server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
+        if self.config['ctx.message.server.id']['ip'] and self.config[ctx.message.server.id]['port'] is not None:
+            server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
 
-        with valve.source.a2s.ServerQuerier(server_address) as server:
-            return server.players()
+            with valve.source.a2s.ServerQuerier(server_address) as server:
+                return server.players()
+        else:
+            return None
 
     @commands.command(pass_context=True)
     async def players(self, ctx):
         """Query the server for player count."""
-        await self.bot.say("There are currently {player_count}/{max_players} players.".format(**query_info(ctx)))
+        if self.query_info(ctx) is not None:
+            await self.bot.say("There are currently {player_count}/{max_players} players.".format(**self.query_info(ctx)))
+        else:
+            await self.bot.say("No server config available.")
 
     @commands.command(pass_context=True)
     async def ip(self, ctx):
         """Display the server IP."""
-
-        await self.bot.say("The server ip is: " + config[ctx.message.server.id]['ip'] + config[ctx.message.server.id]['port'])
+        if self.query_info(ctx) is not None:
+            await self.bot.say("The server ip is: " + self.config[ctx.message.server.id]['ip'] + self.config[ctx.message.server.id]['port'])
+        else:
+            await self.bot.say("No server config available.")
 
     # @commands.command()
     # async def password(self):
@@ -49,23 +62,10 @@ class ServerQuery:
 
     @commands.command(pass_context=True)
     async def mission(self, ctx):
-        await self.bot.say("We are playing {game} on {map}.".format(**query_info(ctx)))
-
-    @commands.command(pass_context=True)
-    async def unflip(self, ctx, user: discord.Member = None):
-        """Unflip yourself or another user."""
-        if user != None:
-            msg = ""
-            if user.id == self.bot.user.id:
-                pass
-            char = "abcdefghijklmnopqrstuvwxyz"
-            tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
-            table = str.maketrans(char, tran)
-            name = user.display_name
-            await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
+        if self.query_info(ctx) is not None:
+            await self.bot.say("We are playing {game} on {map}.".format(**self.query_info(ctx)))
         else:
-            name = ctx.message.author.display_name
-            await self.bot.say(name + " ノ( ゜-゜ノ)")
+            await self.bot.say("No server config available.")
 
 
 def check_folders():
