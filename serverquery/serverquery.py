@@ -61,7 +61,7 @@ class ServerQuery:
     @commands.command(pass_context=True)
     async def players(self, ctx):
         """Query the server for player count."""
-        info = self.query.info(ctx)
+        info = self.query_info(ctx)
         if info is not None:
             await self.bot.say("There are currently {player_count}/{max_players} players.".format(**info))
         else:
