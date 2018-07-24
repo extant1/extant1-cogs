@@ -1,7 +1,0 @@
-{
-  "discord_server_id": {
-    "ip": "str",
-    "port": 12345,
-    "discord_gm_role": "GM"
-  }
-}
