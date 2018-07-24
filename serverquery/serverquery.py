@@ -16,7 +16,7 @@ class ServerQuery:
 
     def __init__(self, bot):
         self.bot = bot
-        self.config = dataIO.load(JSON_PATH)
+        self.config = dataIO.load_json(JSON_PATH)
 
     def query_info(self, ctx):
         server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
