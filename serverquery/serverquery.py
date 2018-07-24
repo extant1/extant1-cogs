@@ -86,7 +86,7 @@ class ServerQuery:
     async def _server(self, ctx):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
-            await self.bot.say("Missing required subcommand.")
+            await self.bot.send_cmd_help(ctx)
 
     @_server.command(name="ip", pass_context=True)
     async def _ip(self, ctx, ip: str = None):
@@ -102,6 +102,11 @@ class ServerQuery:
     async def _gm(self, ctx, role: str = None):
         self._set_setting(ctx, "discord_gm_role", role)
         await self.bot.say("Setting server query GM role to: " + role)
+
+    @_server.command(name="game", pass_context=True)
+    async def _game(self, ctx, game: str = None):
+        self._set_setting(ctx, "game", game)
+        await self.bot.say("Setting server query role to: " + game)
 
 
 def check_folders():
