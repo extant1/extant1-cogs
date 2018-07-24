@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/general/general.py" beforeDir="false" afterPath="$PROJECT_DIR$/general/general.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serverquery/serverquery.py" beforeDir="false" afterPath="$PROJECT_DIR$/serverquery/serverquery.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,13 +16,25 @@
     <splitter split-orientation="horizontal" split-proportion="0.6797699">
       <split-first>
         <leaf>
-          <file leaf-file-name="serverquery.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="serverquery.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="476">
-                  <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+                <state relative-caret-position="340">
+                  <caret line="20" column="17" lean-forward="true" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
                   <folding>
                     <element signature="e#0#9#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="general.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/general/general.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="68">
+                  <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+                  <folding>
+                    <element signature="e#0#14#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -67,9 +80,9 @@
         <option value="$PROJECT_DIR$/lifserverquery/config.json" />
         <option value="$PROJECT_DIR$/lifserverquery/config.json.sample" />
         <option value="$PROJECT_DIR$/lifserverquery/serverquery.py" />
-        <option value="$PROJECT_DIR$/general/general.py" />
         <option value="$PROJECT_DIR$/general/info.json" />
         <option value="$PROJECT_DIR$/serverquery/serverquery.py" />
+        <option value="$PROJECT_DIR$/general/general.py" />
       </list>
     </option>
   </component>
@@ -205,21 +218,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/general/general.py">
+    <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="340">
+          <caret line="20" column="17" lean-forward="true" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
           <folding>
-            <element signature="e#1#15#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
+    <entry file="file://$PROJECT_DIR$/general/general.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+        <state relative-caret-position="68">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

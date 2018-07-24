@@ -18,20 +18,22 @@ class ServerQuery:
         self.bot = bot
         self.config = dataIO.load_json(JSON_PATH)
 
-    @classmethod
-    def query_info(cls, ctx):
-        if cls.config['ctx.message.server.id']['ip'] and cls.config[ctx.message.server.id]['port'] is not None:
-            server_address = (cls.config[ctx.message.server.id]['ip'], cls.config[ctx.message.server.id]['port'])
+        def _get_settings():
+            pass
+
+
+    def query_info(self, ctx):
+        if self.config['ctx.message.server.id']['ip'] and self.config[ctx.message.server.id]['port'] is not None:
+            server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
 
             with valve.source.a2s.ServerQuerier(server_address) as server:
                 return server.info()
         else:
             return None
 
-    @classmethod
-    def query_players(cls, ctx):
-        if cls.config['ctx.message.server.id']['ip'] and cls.config[ctx.message.server.id]['port'] is not None:
-            server_address = (cls.config[ctx.message.server.id]['ip'], cls.config[ctx.message.server.id]['port'])
+    def query_players(self, ctx):
+        if self.config['ctx.message.server.id']['ip'] and self.config[self.message.server.id]['port'] is not None:
+            server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
 
             with valve.source.a2s.ServerQuerier(server_address) as server:
                 return server.players()

@@ -5,6 +5,9 @@ from discord.ext import commands
 class GeneralExtant1:
     """General commands."""
 
+    def __init__(self, bot):
+        self.bot = bot
+
     @commands.command(pass_context=True)
     async def unflip(self, ctx, user: discord.Member = None):
         """Unflip yourself or another user."""
