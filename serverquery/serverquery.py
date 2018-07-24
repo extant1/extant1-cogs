@@ -42,7 +42,7 @@ class ServerQuery:
             return self.config[serverid]
 
     def query_info(self, ctx):
-        server_address = self._get_setting(ctx, 'server')
+        server_address = (self._get_setting(ctx)['ip'], self._get_setting(ctx)['port'])
 
         if server_address is None:
             with valve.source.a2s.ServerQuerier(server_address) as server:
@@ -51,7 +51,7 @@ class ServerQuery:
             return None
 
     def query_players(self, ctx):
-        server_address = self.get_setting(ctx, 'server')
+        server_address = (self._get_setting(ctx)['ip'], self._get_setting(ctx)['port'])
 
         if server_address is not None:
             with valve.source.a2s.ServerQuerier(server_address) as server:
@@ -83,7 +83,7 @@ class ServerQuery:
             await self.bot.say("No server config available.")
 
     @checks.admin()
-    @commands.group(name="server", invoke_without_command=False, no_pm=True, pass_context=True)
+    @commands.group(name="gameserver", invoke_without_command=False, no_pm=True, pass_context=True)
     async def _server(self, ctx, user: discord.Member):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
