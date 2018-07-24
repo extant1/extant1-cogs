@@ -18,23 +18,37 @@ class ServerQuery:
         self.bot = bot
         self.config = dataIO.load_json(JSON_PATH)
 
-        def _get_settings():
-            pass
+    def _set_settings(self, ctx, ip, port, gm_role):
+        serverid = ctx.message.server.id
+        if serverid not in self.config:
+            self.duelists[serverid] = {}
+        self.config[serverid]["ip"] = ip
+        self.config[serverid]["port"] = port
+        self.config[serverid]["gm_role"] = gm_role
+        dataIO.save_json(JSON_PATH, self.config)
 
+    def _get_setting(self, ctx, setting):
+        serverid = ctx.message.server.id
+        if serverid not in self.config:
+            return None
+        elif setting == "server":
+            return str(self.config[serverid]['ip']), int(self.config[serverid]['port'])
+        else:
+            return self.config[serverid][setting]
 
     def query_info(self, ctx):
-        if self.config['ctx.message.server.id']['ip'] and self.config[ctx.message.server.id]['port'] is not None:
-            server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
+        server_address = self._get_setting(ctx, 'server')
 
+        if server_address is not None:
             with valve.source.a2s.ServerQuerier(server_address) as server:
                 return server.info()
         else:
             return None
 
     def query_players(self, ctx):
-        if self.config['ctx.message.server.id']['ip'] and self.config[self.message.server.id]['port'] is not None:
-            server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
+        server_address = self.get_setting(ctx, 'server')
 
+        if server_address is not None:
             with valve.source.a2s.ServerQuerier(server_address) as server:
                 return server.players()
         else:
