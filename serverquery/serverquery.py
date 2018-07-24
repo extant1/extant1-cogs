@@ -76,8 +76,12 @@ class ServerQuery:
 
     @commands.command(pass_context=True)
     async def mission(self, ctx):
-        if self.query_info(ctx) is not None:
-            await self.bot.say("We are playing {game} on {map}.".format(**self.query_info(ctx)))
+        info = self.query.info(ctx)
+        if info is not None:
+            if info['game'] is not "lif":
+                await self.bot.say("We are playing {game} on {map}.".format(**self.query_info(ctx)))
+            else:
+                return
         else:
             await self.bot.say("No server config available.")
 
@@ -90,23 +94,31 @@ class ServerQuery:
 
     @_server.command(name="ip", pass_context=True)
     async def _ip(self, ctx, ip: str = None):
-        self._set_setting(ctx, "ip", ip)
-        await self.bot.say("Setting server query ip to: " + ip)
+        """Set the server query ip."""
+        if ip is not None:
+            self._set_setting(ctx, "ip", ip)
+            await self.bot.say("Setting server query ip to: " + ip)
 
     @_server.command(name="port", pass_context=True)
     async def _port(self, ctx, port: int = None):
-        self._set_setting(ctx, "port", port)
-        await self.bot.say("Setting server query port to: " + port)
+        """Set the server query port."""
+        if port is not None:
+            self._set_setting(ctx, "port", port)
+            await self.bot.say("Setting server query port to: " + port)
 
-    @_server.command(name="gm", pass_context=True)
-    async def _gm(self, ctx, role: str = None):
-        self._set_setting(ctx, "discord_gm_role", role)
-        await self.bot.say("Setting server query GM role to: " + role)
+    @_server.command(name="role", pass_context=True)
+    async def _role(self, ctx, role: str = None):
+        """Set the server query discord GM role."""
+        if role is not None:
+            self._set_setting(ctx, "discord_gm_role", role)
+            await self.bot.say("Setting server query GM role to: " + role)
 
     @_server.command(name="game", pass_context=True)
     async def _game(self, ctx, game: str = None):
-        self._set_setting(ctx, "game", game)
-        await self.bot.say("Setting server query role to: " + game)
+        """Set the server query game."""
+        if game is not None:
+            self._set_setting(ctx, "game", game)
+            await self.bot.say("Setting server query role to: " + game)
 
 
 def check_folders():
