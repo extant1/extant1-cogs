@@ -1,26 +1,13 @@
-import json
+from .utils.dataIO import dataIO
 
 import discord
 from discord.ext import commands
 
 import valve.source.a2s
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-
-def query_info(ctx):
-    server_address = (config[ctx.message.server.id]['ip'], config[ctx.message.server.id]['port'])
-
-    with valve.source.a2s.ServerQuerier(server_address) as server:
-        return server.info()
-
-
-def query_players(ctx):
-    server_address = (config[ctx.message.server.id]['ip'], config[ctx.message.server.id]['port'])
-
-    with valve.source.a2s.ServerQuerier(server_address) as server:
-        return server.players()
+DATA_PATH = "data/serverquery/"
+JSON_PATH = DATA_PATH + "config.json"
+# LOG_PATH = DATA_PATH + "serverquery.log"
 
 
 class ServerQuery:
@@ -28,6 +15,19 @@ class ServerQuery:
 
     def __init__(self, bot):
         self.bot = bot
+        self.config = dataIO.load(JSON_PATH)
+
+    def query_info(self, ctx):
+        server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
+
+        with valve.source.a2s.ServerQuerier(server_address) as server:
+            return server.info()
+
+    def query_players(self, ctx):
+        server_address = (self.config[ctx.message.server.id]['ip'], self.config[ctx.message.server.id]['port'])
+
+        with valve.source.a2s.ServerQuerier(server_address) as server:
+            return server.players()
 
     @commands.command(name="players", pass_context=True)
     async def players(self, ctx):
