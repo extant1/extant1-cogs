@@ -47,7 +47,7 @@ class ServerQuery:
             await self.bot.say("No server config available.")
 
     @commands.command(pass_context=True)
-    async def ip(self, ctx):
+    async def server(self, ctx):
         """Display the server IP."""
         if self.query_info(ctx) is not None:
             await self.bot.say("The server ip is: " + self.config[ctx.message.server.id]['ip'] + self.config[ctx.message.server.id]['port'])
