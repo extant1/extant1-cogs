@@ -61,16 +61,18 @@ class ServerQuery:
     @commands.command(pass_context=True)
     async def players(self, ctx):
         """Query the server for player count."""
-        if self.query_info(ctx) is not None:
-            await self.bot.say("There are currently {player_count}/{max_players} players.".format(**self.query_info(ctx)))
+        info = self.query.info(ctx)
+        if info is not None:
+            await self.bot.say("There are currently {player_count}/{max_players} players.".format(**info))
         else:
             await self.bot.say("No server config available.")
 
     @commands.command(pass_context=True)
     async def ip(self, ctx):
         """Display the server IP."""
+        settings = self._get_settings(ctx)
         if self.query_info(ctx) is not None:
-            await self.bot.say("The server ip is: " + self.config[ctx.message.server.id]['ip'] + self.config[ctx.message.server.id]['port'])
+            await self.bot.say("The server ip is: " + settings['ip'] + settings['port'])
         else:
             await self.bot.say("No server config available.")
 
@@ -78,8 +80,8 @@ class ServerQuery:
     async def mission(self, ctx):
         info = self.query.info(ctx)
         if info is not None:
-            if info['game'] is not "lif":
-                await self.bot.say("We are playing {game} on {map}.".format(**self.query_info(ctx)))
+            if info['game'] is not None or "lif":
+                await self.bot.say("We are playing {game} on {map}.".format(**info))
             else:
                 return
         else:
@@ -98,6 +100,8 @@ class ServerQuery:
         if ip is not None:
             self._set_setting(ctx, "ip", ip)
             await self.bot.say("Setting server query ip to: " + ip)
+        else:
+            await self.bot.send_cmd_help(ctx)
 
     @_server.command(name="port", pass_context=True)
     async def _port(self, ctx, port: int = None):
@@ -105,6 +109,8 @@ class ServerQuery:
         if port is not None:
             self._set_setting(ctx, "port", port)
             await self.bot.say("Setting server query port to: " + port)
+        else:
+            await self.bot.send_cmd_help(ctx)
 
     @_server.command(name="role", pass_context=True)
     async def _role(self, ctx, role: str = None):
@@ -112,6 +118,8 @@ class ServerQuery:
         if role is not None:
             self._set_setting(ctx, "discord_gm_role", role)
             await self.bot.say("Setting server query GM role to: " + role)
+        else:
+            await self.bot.send_cmd_help(ctx)
 
     @_server.command(name="game", pass_context=True)
     async def _game(self, ctx, game: str = None):
@@ -119,6 +127,8 @@ class ServerQuery:
         if game is not None:
             self._set_setting(ctx, "game", game)
             await self.bot.say("Setting server query role to: " + game)
+        else:
+            await self.bot.send_cmd_help(ctx)
 
 
 def check_folders():
