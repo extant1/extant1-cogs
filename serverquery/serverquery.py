@@ -100,6 +100,15 @@ class ServerQuery:
     async def _server(self, ctx):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
+            settings = self._get_settings(ctx)
+            embed = discord.Embed(title="Gameserver Settings",
+                                  description="The current settings for the game server query.", color=0x1675a3)
+            embed.add_field(name="IP", value=settings['ip'], inline=True)
+            embed.add_field(name="Port", value=settings['port'], inline=True)
+            embed.add_field(name="Game", value=settings['game'], inline=True)
+            embed.add_field(name="GM Role", value=settings['discord_gm_role'], inline=True)
+            embed.add_field(name="Port modifier", value=settings['port_modifier'], inline=True)
+            await self.bot.say(embed=embed)
             await self.bot.send_cmd_help(ctx)
 
     @_server.command(name="ip", pass_context=True)
@@ -117,6 +126,15 @@ class ServerQuery:
         if port is not None:
             self._set_setting(ctx, "port", port)
             await self.bot.say("Setting server query port to: " + chat_formatting.bold(str(port)))
+        else:
+            await self.bot.send_cmd_help(ctx)
+
+    @_server.command(name="modifier", pass_context=True)
+    async def _port_modifier(self, ctx, modifier: int = None):
+        """Set the server query port modifier to the value needed to subtract to get the game server join port."""
+        if modifier is not None:
+            self._set_setting(ctx, "port_modifier", modifier)
+            await self.bot.say("Setting server query port modifier to: " + chat_formatting.bold(str(modifier)))
         else:
             await self.bot.send_cmd_help(ctx)
 
