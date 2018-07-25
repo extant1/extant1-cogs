@@ -89,7 +89,7 @@ class ServerQuery:
         info = self.query_info(ctx)
         if info is not None:
             if info['game'] is not None or "Life is Feudal: Your Own":
-                await self.bot.say("We are playing ***{game}*** on ***{map}***.".format(**info))
+                await self.bot.say("The server is running ***{game}*** on ***{map}***.".format(**info))
             else:
                 return
         else:
