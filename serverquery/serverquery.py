@@ -71,10 +71,14 @@ class ServerQuery:
     async def ip(self, ctx):
         """Display the server IP."""
         settings = self._get_settings(ctx)
-        if settings['game'] is "arma3":
-
+        if settings['game'] is "Arma3":
+            port = int(settings['port']) - 1
+        elif settings['game'] is 'lifyo':
+            port = int(settings['port'] -2)
+        else:
+            port = settings['game']
         if self.query_info(ctx) is not None:
-            await self.bot.say("The server ip is: " + settings['ip'] + settings['port'])
+            await self.bot.say("The server ip is: " + settings['ip'] + str(port))
         else:
             await self.bot.say("No server config available.")
 
