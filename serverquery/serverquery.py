@@ -97,7 +97,7 @@ class ServerQuery:
             await self.bot.say("No server config available.")
 
     @checks.admin()
-    @commands.group(name="gameserver", invoke_without_command=False, no_pm=True, pass_context=True, no_pm=True) 
+    @commands.group(name="gameserver", invoke_without_command=False, pass_context=True, no_pm=True) 
     async def _server(self, ctx):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
