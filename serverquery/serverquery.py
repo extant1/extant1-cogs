@@ -25,7 +25,7 @@ class ServerQuery:
     def _set_setting(self, ctx, setting, value):
         settings = self._get_settings(ctx)
         if not settings:
-            settings = {"ip": "", "port": 0, "discord_gm_role": None, "port_modifier": 0}
+            settings = {"ip": None, "port": None, "discord_gm_role": None, "port_modifier": None}
         settings[setting] = value
         return self._set_settings(ctx, settings)
 
@@ -74,7 +74,7 @@ class ServerQuery:
     async def ip(self, ctx):
         """Display the server IP."""
         settings = self._get_settings(ctx)
-        if settings['port_modifier'] is None or '0':
+        if settings['port_modifier'] is None:
             await self.bot.say(
                 "Can't determine game join port without port modifier, please use !gameserver modifier to set.")
         else:
