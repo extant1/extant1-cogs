@@ -1,6 +1,7 @@
 import os
 from .utils.dataIO import dataIO
 from .utils import checks
+from .utils import chat_formatting
 
 import discord
 from discord.ext import commands
@@ -63,7 +64,7 @@ class ServerQuery:
         """Query the server for player count."""
         info = self.query_info(ctx)
         if info is not None:
-            await self.bot.say("There are currently {player_count}/{max_players} players.".format(**info))
+            await self.bot.say("There are currently ***{player_count}/{max_players}*** players.".format(**info))
         else:
             await self.bot.say("No server config available.")
 
@@ -78,7 +79,7 @@ class ServerQuery:
         else:
             port = settings['game']
         if self.query_info(ctx) is not None:
-            await self.bot.say("The server ip is: " + settings['ip'] + str(port))
+            await self.bot.say("The server ip is: " + settings['ip'] + chat_formatting.bold(str(port)))
         else:
             await self.bot.say("No server config available.")
 
@@ -88,7 +89,7 @@ class ServerQuery:
         info = self.query_info(ctx)
         if info is not None:
             if info['game'] is not None or "Life is Feudal: Your Own":
-                await self.bot.say("We are playing {game} on {map}.".format(**info))
+                await self.bot.say("We are playing ***{game}*** on ***{map}***.".format(**info))
             else:
                 return
         else:
@@ -106,7 +107,7 @@ class ServerQuery:
         """Set the server query ip."""
         if ip is not None:
             self._set_setting(ctx, "ip", ip)
-            await self.bot.say("Setting server query ip to: " + ip)
+            await self.bot.say("Setting server query ip to: " + chat_formatting.bold(ip))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -115,7 +116,7 @@ class ServerQuery:
         """Set the server query port."""
         if port is not None:
             self._set_setting(ctx, "port", port)
-            await self.bot.say("Setting server query port to: " + str(port))
+            await self.bot.say("Setting server query port to: " + chat_formatting.bold(str(port)))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -124,7 +125,7 @@ class ServerQuery:
         """Set the server query discord GM role."""
         if role is not None:
             self._set_setting(ctx, "discord_gm_role", role)
-            await self.bot.say("Setting server query GM role to: " + role)
+            await self.bot.say("Setting server query GM role to: " + chat_formatting.bold(role))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -133,11 +134,11 @@ class ServerQuery:
         """Set the server query game."""
         if game is not None:
             self._set_setting(ctx, "game", game)
-            await self.bot.say("Setting server query role to: " + game)
+            await self.bot.say("Setting server query game to: " + chat_formatting.bold(game))
         else:
             info = self.query_info(ctx)
             self._set_setting(ctx, "game", info['folder'])
-            await self.bot.say("Setting server query role to: " + info['folder'])
+            await self.bot.say("Setting server query game to: " + chat_formatting.bold(info['folder']))
 
     @checks.admin()
     @commands.command(name="querydebug", pass_context=True)
