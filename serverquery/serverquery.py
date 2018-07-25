@@ -10,6 +10,8 @@ import valve.source.a2s
 
 DATA_PATH = "data/serverquery/"
 JSON_PATH = DATA_PATH + "config.json"
+
+
 # LOG_PATH = DATA_PATH + "serverquery.log"
 
 
@@ -72,11 +74,15 @@ class ServerQuery:
     async def ip(self, ctx):
         """Display the server IP."""
         settings = self._get_settings(ctx)
-        port = (int(settings['port']) - int(settings['port_modifier']))
-        if self.query_info(ctx) is not None:
-            await self.bot.say("The server ip is: " + settings['ip'] + chat_formatting.bold(str(port)))
+        if settings['port_modifier'] is None or '0':
+            await self.bot.say(
+                "Can't determine game join port without port modifier, please use !gameserver modifier to set.")
         else:
-            await self.bot.say("No server config available.")
+            port = (int(settings['port']) - int(settings['port_modifier']))
+            if self.query_info(ctx) is not None:
+                await self.bot.say("The server ip is: " + settings['ip'] + chat_formatting.bold(str(port)))
+            else:
+                await self.bot.say("No server config available.")
 
     @commands.command(pass_context=True)
     async def mission(self, ctx):
@@ -102,7 +108,8 @@ class ServerQuery:
             embed.add_field(name="Port", value=settings['port'], inline=True)
             embed.add_field(name="Game", value=settings['game'], inline=True)
             embed.add_field(name="GM Role", value=settings['discord_gm_role'], inline=True)
-            embed.add_field(name="Port modifier", value="-" + str(settings['port_modifier']) + " (" + str((settings['port'] - settings['port_modifier'])) + ")", inline=True)
+            embed.add_field(name="Port modifier", value="-" + str(settings['port_modifier']) + " (" + str(
+                (settings['port'] - settings['port_modifier'])) + ")", inline=True)
             await self.bot.say(embed=embed)
             await self.bot.send_cmd_help(ctx)
 
