@@ -80,7 +80,7 @@ class ServerQuery:
         else:
             port = (int(settings['port']) - int(settings['port_modifier']))
             if self.query_info(ctx) is not None:
-                await self.bot.say("The server ip is: " + settings['ip'] + chat_formatting.bold(str(port)))
+                await self.bot.say("The server ip is: " + chat_formatting.bold(settings['ip']) + ":" + chat_formatting.bold(str(port)))
             else:
                 await self.bot.say("No server config available.")
 
