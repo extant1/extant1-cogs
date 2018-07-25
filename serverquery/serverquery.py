@@ -66,7 +66,7 @@ class ServerQuery:
         """Query the server for player count."""
         info = self.query_info(ctx)
         if info is not None:
-            await self.bot.say("There are currently ***{player_count}/{max_players}*** players.".format(**info))
+            await self.bot.say("There are currently **{player_count}/{max_players}** players.".format(**info))
         else:
             await self.bot.say("No server config available.")
 
@@ -90,7 +90,7 @@ class ServerQuery:
         info = self.query_info(ctx)
         if info is not None:
             if info['game'] is not None or "Life is Feudal: Your Own":
-                await self.bot.say("The server is running ***{game}*** on ***{map}***.".format(**info))
+                await self.bot.say("The server is running **{game}** on **{map}**.".format(**info))
             else:
                 return
         else:
