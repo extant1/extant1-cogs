@@ -107,7 +107,7 @@ class ServerQuery:
             embed.add_field(name="Port", value=settings['port'], inline=True)
             embed.add_field(name="Game", value=settings['game'], inline=True)
             embed.add_field(name="GM Role", value=settings['discord_gm_role'], inline=True)
-            embed.add_field(name="Port modifier", value=str(settings['port_modifier']) + str((settings['port'] - settings['port_modifier'])), inline=True)
+            embed.add_field(name="Port modifier", value=str(settings['port_modifier']) + " (" + str((settings['port'] - settings['port_modifier'])) + ")", inline=True)
             await self.bot.say(embed=embed)
             await self.bot.send_cmd_help(ctx)
 
