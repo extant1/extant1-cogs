@@ -71,6 +71,8 @@ class ServerQuery:
     async def ip(self, ctx):
         """Display the server IP."""
         settings = self._get_settings(ctx)
+        if settings['game'] is "arma3":
+
         if self.query_info(ctx) is not None:
             await self.bot.say("The server ip is: " + settings['ip'] + settings['port'])
         else:
@@ -129,7 +131,9 @@ class ServerQuery:
             self._set_setting(ctx, "game", game)
             await self.bot.say("Setting server query role to: " + game)
         else:
-            await self.bot.send_cmd_help(ctx)
+            info = self.query_info(ctx)
+            self._set_setting(ctx, "game", info['folder'])
+            await self.bot.say("Setting server query role to: " + info['folder'])
 
     @checks.admin()
     @commands.command(name="querydebug", pass_context=True)
