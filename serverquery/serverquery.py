@@ -72,12 +72,7 @@ class ServerQuery:
     async def ip(self, ctx):
         """Display the server IP."""
         settings = self._get_settings(ctx)
-        if settings['game'] is "Arma3":
-            port = int(settings['port']) - 1
-        elif settings['game'] is 'lifyo':
-            port = int(settings['port'] -2)
-        else:
-            port = settings['game']
+        port = (int(settings['port']) - int(settings['port_modifier']))
         if self.query_info(ctx) is not None:
             await self.bot.say("The server ip is: " + settings['ip'] + chat_formatting.bold(str(port)))
         else:
@@ -107,7 +102,7 @@ class ServerQuery:
             embed.add_field(name="Port", value=settings['port'], inline=True)
             embed.add_field(name="Game", value=settings['game'], inline=True)
             embed.add_field(name="GM Role", value=settings['discord_gm_role'], inline=True)
-            embed.add_field(name="Port modifier", value=str(settings['port_modifier']) + " (" + str((settings['port'] - settings['port_modifier'])) + ")", inline=True)
+            embed.add_field(name="Port modifier", value="-" + str(settings['port_modifier']) + " (" + str((settings['port'] - settings['port_modifier'])) + ")", inline=True)
             await self.bot.say(embed=embed)
             await self.bot.send_cmd_help(ctx)
 
