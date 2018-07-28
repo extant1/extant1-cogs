@@ -121,6 +121,7 @@ class ServerQuery:
             for player in players['players']:
                 embed.add_field(name=player.values['name'], value=str(
                     self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
+            embed.add_field(name="", value="")
             await self.bot.say(embed=embed)
 
     @checks.admin()
