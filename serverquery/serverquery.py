@@ -115,8 +115,9 @@ class ServerQuery:
             await self.bot.say("No one is currently in the server.")
         else:
             players = self.query_players(ctx)
+            info = self.query_info(ctx)
             embed = discord.Embed(title="Player list")
-            embed.set_author(name="E-Z Unsung Server")
+            embed.set_author(name=info['server_name'], color=0x1675a3)
             for player in players['players']:
                 embed.add_field(name=player.values['name'], value=str(
                     self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
@@ -129,7 +130,7 @@ class ServerQuery:
         if ctx.invoked_subcommand is None:
             settings = self._get_settings(ctx)
             embed = discord.Embed(title="Gameserver Settings",
-                                  description="The current settings for the game server query.", color=0x1675a3)
+                                  description="Current settings for the game server query.", color=0x1675a3)
             embed.add_field(name="IP", value=settings['ip'], inline=True)
             embed.add_field(name="Port", value=settings['port'], inline=True)
             embed.add_field(name="Game", value=settings['game'], inline=True)
