@@ -107,7 +107,7 @@ class ServerQuery:
             embed = discord.Embed(title="Player list")
             embed.set_author(name="E-Z Unsung Server")
             for player in players['players']:
-                embed.add_field(name=player.values['name'], value=str(datetime.timedelta(seconds=player.values['duration']).strftime("%I:%M:%S")), inline=True)
+                embed.add_field(name=player.values['name'], value=str(datetime.timedelta(seconds=player.values['duration']).strptime("%I:%M:%S")), inline=True)
             await self.bot.say(embed=embed)
 
     @checks.admin()
