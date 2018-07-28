@@ -62,6 +62,10 @@ class ServerQuery:
         else:
             return None
 
+    @staticmethod
+    def remove_microseconds(delta):
+        return delta - datetime.timedelta(microseconds=delta.microseconds)
+
     @commands.command(pass_context=True, no_pm=True)
     async def players(self, ctx):
         """Query the server for player count."""
@@ -107,7 +111,8 @@ class ServerQuery:
             embed = discord.Embed(title="Player list")
             embed.set_author(name="E-Z Unsung Server")
             for player in players['players']:
-                embed.add_field(name=player.values['name'], value=str(datetime.timedelta(seconds=player.values['duration']).strptime("%I:%M:%S")), inline=True)
+                embed.add_field(name=player.values['name'], value=str(
+                    self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
             await self.bot.say(embed=embed)
 
     @checks.admin()
