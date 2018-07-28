@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class GeneralExtant1:
+class ExtGeneral:
     """General commands."""
 
     def __init__(self, bot):
@@ -26,4 +26,4 @@ class GeneralExtant1:
 
 
 def setup(bot):
-    bot.add_cog(GeneralExtant1(bot))
+    bot.add_cog(ExtGeneral(bot))

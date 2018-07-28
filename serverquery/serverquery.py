@@ -80,7 +80,8 @@ class ServerQuery:
         else:
             port = (int(settings['port']) - int(settings['port_modifier']))
             if self.query_info(ctx) is not None:
-                await self.bot.say("The server ip is: " + chat_formatting.bold(settings['ip']) + ":" + chat_formatting.bold(str(port)))
+                await self.bot.say(
+                    "The server ip is: " + chat_formatting.bold(settings['ip']) + ":" + chat_formatting.bold(str(port)))
             else:
                 await self.bot.say("No server config available.")
 
@@ -97,7 +98,7 @@ class ServerQuery:
             await self.bot.say("No server config available.")
 
     @checks.admin()
-    @commands.group(name="gameserver", invoke_without_command=False, pass_context=True, no_pm=True) 
+    @commands.group(name="gameserver", invoke_without_command=False, pass_context=True, no_pm=True)
     async def _server(self, ctx):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
@@ -113,7 +114,8 @@ class ServerQuery:
             await self.bot.say(embed=embed)
             await self.bot.send_cmd_help(ctx)
 
-    @_server.command(name="ip", pass_context=True, no_pm=True) 
+    @checks.admin()
+    @_server.command(name="ip", pass_context=True, no_pm=True)
     async def _ip(self, ctx, ip: str = None):
         """Set the server query ip."""
         if ip is not None:
@@ -122,7 +124,8 @@ class ServerQuery:
         else:
             await self.bot.send_cmd_help(ctx)
 
-    @_server.command(name="port", pass_context=True, no_pm=True) 
+    @checks.admin()
+    @_server.command(name="port", pass_context=True, no_pm=True)
     async def _port(self, ctx, port: int = None):
         """Set the server query port."""
         if port is not None:
@@ -131,7 +134,8 @@ class ServerQuery:
         else:
             await self.bot.send_cmd_help(ctx)
 
-    @_server.command(name="modifier", pass_context=True, no_pm=True) 
+    @checks.admin()
+    @_server.command(name="modifier", pass_context=True, no_pm=True)
     async def _port_modifier(self, ctx, modifier: int = None):
         """Set the server query port modifier to the value needed to subtract to get the game server join port."""
         if modifier is not None:
@@ -140,7 +144,8 @@ class ServerQuery:
         else:
             await self.bot.send_cmd_help(ctx)
 
-    @_server.command(name="role", pass_context=True, no_pm=True) 
+    @checks.admin()
+    @_server.command(name="role", pass_context=True, no_pm=True)
     async def _role(self, ctx, role: str = None):
         """Set the server query discord GM role."""
         if role is not None:
@@ -149,7 +154,8 @@ class ServerQuery:
         else:
             await self.bot.send_cmd_help(ctx)
 
-    @_server.command(name="game", pass_context=True, no_pm=True) 
+    @checks.admin()
+    @_server.command(name="game", pass_context=True, no_pm=True)
     async def _game(self, ctx, game: str = None):
         """Set the server query game."""
         if game is not None:
@@ -161,13 +167,35 @@ class ServerQuery:
             await self.bot.say("Setting server query game to: " + chat_formatting.bold(info['folder']))
 
     @checks.admin()
-    @commands.command(name="querydebug", pass_context=True, no_pm=True) 
+    @commands.group(name="querydebug", invoke_without_command=False, no_pm=True, pass_context=True)
     async def _querydebug(self, ctx):
+        """Server Query debug info."""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+
+    @checks.admin()
+    @_querydebug.command(name="info", pass_context=True)
+    async def _info(self, ctx):
+        """Server Query debug info query."""
         info = self.query_info(ctx)
         debug_info = ""
 
         if info is not None:
             for x, y in info.items():
+                debug_info += '{} = {}\n'.format(x, y)
+            await self.bot.say("```py\n" + debug_info + "```")
+        else:
+            await self.bot.say("No server config available.")
+
+    @checks.admin()
+    @_querydebug.command(name="player", pass_context=True)
+    async def _player(self, ctx):
+        """Server Query debug player query."""
+        players = self.query_players(ctx)
+        debug_info = ""
+
+        if players is not None:
+            for x, y in players.items():
                 debug_info += '{} = {}\n'.format(x, y)
             await self.bot.say("```py\n" + debug_info + "```")
         else:
