@@ -103,11 +103,11 @@ class ServerQuery:
         """Display players in the server if available."""
         settings = self._get_settings(ctx)
         if settings['game'] is not None or 'lifyo':
-            players = self.query_players(ctx)['players']
+            players = self.query_players(ctx)
             embed = discord.Embed(title="Player list")
             embed.set_author(name="E-Z Unsung Server")
-            for player in players.values:
-                embed.add_field(name=player['name'], value=str(datetime.timedelta(seconds=player['duration'])), inline=True)
+            for player in players['players']:
+                embed.add_field(name=player.value['name'], value=str(datetime.timedelta(seconds=player.value['duration'])), inline=True)
             await self.bot.say(embed=embed)
 
     @checks.admin()
