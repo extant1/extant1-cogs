@@ -195,7 +195,7 @@ class ServerQuery:
         debug_info = ""
 
         if len(players['players']) is not 0:
-            for x in players['players'].items():
+            for x in players['players']:
                 debug_info += '{}\n'.format(x.__dict__)
             await self.bot.say("```py\n" + debug_info + "```")
         else:
