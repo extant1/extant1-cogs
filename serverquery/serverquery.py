@@ -194,8 +194,8 @@ class ServerQuery:
         players = self.query_players(ctx)
         debug_info = ""
 
-        if players is not None:
-            for x, y in players.items():
+        if players[0] is not None:
+            for x, y in players[0].items():
                 debug_info += '{} = {}\n'.format(x, y)
             await self.bot.say("```py\n" + debug_info + "```")
         else:
