@@ -106,7 +106,11 @@ class ServerQuery:
     async def who(self, ctx):
         """Display players in the server if available."""
         settings = self._get_settings(ctx)
-        if settings['game'] is not None or 'lifyo':
+        if settings['game'] is None or 'lifyo':
+            await self.bot.say("There is no one currently in the server.")
+        elif settings['game'] is 'lifyo':
+            await self.bot.say("This game does not support player queries.")
+        else:
             players = self.query_players(ctx)
             embed = discord.Embed(title="Player list")
             embed.set_author(name="E-Z Unsung Server")
