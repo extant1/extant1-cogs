@@ -194,9 +194,9 @@ class ServerQuery:
         players = self.query_players(ctx)
         debug_info = ""
 
-        if players[0] is not None:
-            for x, y in players[0].items():
-                debug_info += '{} = {}\n'.format(x, y)
+        if len(players['players']) is not 0:
+            for x in players['players'].items():
+                debug_info += '{}\n'.format(x.__dict__)
             await self.bot.say("```py\n" + debug_info + "```")
         else:
             await self.bot.say("No server config available.")
