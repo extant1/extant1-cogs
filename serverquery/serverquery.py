@@ -1,4 +1,5 @@
 import os
+import datetime
 from .utils.dataIO import dataIO
 from .utils import checks
 from .utils import chat_formatting
@@ -90,12 +91,24 @@ class ServerQuery:
         """Display the current mission."""
         info = self.query_info(ctx)
         if info is not None:
-            if info['game'] is not None or "Life is Feudal: Your Own":
+            if info['game'] is not None or "lifyo":
                 await self.bot.say("The server is running **{game}** on **{map}**.".format(**info))
             else:
                 return
         else:
             await self.bot.say("No server config available.")
+
+    @commands.command(name="who", pass_context=True)
+    async def who(self, ctx):
+        """Display players in the server if available."""
+        settings = self._get_settings(ctx)
+        if settings['game'] is not None or 'lifyo':
+            players = self.query_players(ctx)['players']
+            embed = discord.Embed(title="Player list")
+            embed.set_author(name="E-Z Unsung Server")
+            for player in players.values:
+                embed.add_field(name=player['name'], value=str(datetime.timedelta(seconds=player['duration'])), inline=True)
+            await self.bot.say(embed=embed)
 
     @checks.admin()
     @commands.group(name="gameserver", invoke_without_command=False, pass_context=True, no_pm=True)
