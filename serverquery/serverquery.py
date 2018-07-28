@@ -71,7 +71,10 @@ class ServerQuery:
         """Query the server for player count."""
         info = self.query_info(ctx)
         if info is not None:
-            await self.bot.say("There are currently **{player_count}/{max_players}** players.".format(**info))
+            if info['player_count'] is 0:
+                await self.bot.say("The server is empty, why not ask if anyone would like to play?")
+            else:
+                await self.bot.say("There are currently **{player_count}/{max_players}** players.".format(**info))
         else:
             await self.bot.say("No server config available.")
 
@@ -107,7 +110,7 @@ class ServerQuery:
         """Display players in the server if available."""
         settings = self._get_settings(ctx)
         if settings['game'] is None or 'lifyo':
-            await self.bot.say("There is no one currently in the server.")
+            await self.bot.say("No one is currently in the server.")
         elif settings['game'] is 'lifyo':
             await self.bot.say("This game does not support player queries.")
         else:
