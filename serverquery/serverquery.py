@@ -116,7 +116,9 @@ class ServerQuery:
         else:
             players = self.query_players(ctx)
             info = self.query_info(ctx)
-            embed = discord.Embed(title="Player list", color=0x1675a3)
+            embed = discord.Embed(title="Player list",
+                                  description="There are currently **{player_count}/{max_players}** players.".format(
+                                      **info), color=0x1675a3)
             embed.set_author(name=info['server_name'])
             for player in players['players']:
                 embed.add_field(name=player.values['name'], value=str(
