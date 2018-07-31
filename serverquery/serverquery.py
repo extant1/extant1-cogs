@@ -72,7 +72,7 @@ class ServerQuery:
         info = self.query_info(ctx)
         if info is not None:
             if info['player_count'] is 0:
-                await self.bot.say("The server is empty, why not ask if anyone would like to play?")
+                await self.bot.say("The server is empty.")
             else:
                 await self.bot.say("There are currently **{player_count}/{max_players}** players.".format(**info))
         else:
@@ -114,16 +114,19 @@ class ServerQuery:
         elif settings['game'] is None:
             await self.bot.say("No one is currently in the server.")
         else:
-            players = self.query_players(ctx)
             info = self.query_info(ctx)
-            embed = discord.Embed(title="Player list",
-                                  description="There are currently **{player_count}/{max_players}** players.".format(
-                                      **info), color=0x1675a3)
-            embed.set_author(name=info['server_name'])
-            for player in players['players']:
-                embed.add_field(name=player.values['name'], value=str(
-                    self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
-            await self.bot.say(embed=embed)
+            if info['player_count'] is 0:
+                await self.bot.say("The server empty.")
+            else:
+                players = self.query_players(ctx)
+                embed = discord.Embed(title="Player list",
+                                      description="There are currently **{player_count}/{max_players}** players.".format(
+                                          **info), color=0x1675a3)
+                embed.set_author(name=info['server_name'])
+                for player in players['players']:
+                    embed.add_field(name=player.values['name'], value=str(
+                        self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
+                await self.bot.say(embed=embed)
 
     @checks.admin()
     @commands.group(name="gameserver", invoke_without_command=False, pass_context=True, no_pm=True)
