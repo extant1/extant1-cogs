@@ -105,7 +105,7 @@ class ServerQuery:
         else:
             await self.bot.say("No server config available.")
 
-    @commands.command(name="who", pass_context=True)
+    @commands.command(name="who", pass_context=True, no_pm=True)
     async def who(self, ctx):
         """Display players in the server if available."""
         settings = self._get_settings(ctx)
@@ -204,7 +204,7 @@ class ServerQuery:
             await self.bot.send_cmd_help(ctx)
 
     @checks.admin()
-    @_querydebug.command(name="info", pass_context=True)
+    @_querydebug.command(name="info", pass_context=True, no_pm=True)
     async def _info(self, ctx):
         """Server Query debug info query."""
         info = self.query_info(ctx)
@@ -218,7 +218,7 @@ class ServerQuery:
             await self.bot.say("No server config available.")
 
     @checks.admin()
-    @_querydebug.command(name="player", pass_context=True)
+    @_querydebug.command(name="player", pass_context=True, no_pm=True)
     async def _player(self, ctx):
         """Server Query debug player query."""
         players = self.query_players(ctx)
