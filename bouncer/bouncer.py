@@ -44,12 +44,12 @@ class Bouncer:
     async def on_member_join(self, member):
         logger.info("Someone joined the server.")
         channel_name = self._get_settings(member.server.id)
-        logger.debug("server settings: " + channel_name)
+        logger.info("server settings: " + channel_name)
         if channel_name is not None:
-            logger.debug("Config channel name: " + channel_name['channel'])
+            logger.info("Config channel name: " + channel_name['channel'])
             channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
-            logger.debug("channel: " + channel)
-            logger.debug("member: " + member.nick)
+            logger.info("channel: " + channel)
+            logger.info("member: " + member.nick)
             await self.bot.send_message(channel, '{} joined the server.'.format(member.nick))
 
         else:
