@@ -28,9 +28,9 @@ class ServerQuery:
         if not settings:
             settings = {"ip": None, "port": None, "discord_gm_role": None, "port_modifier": None}
         settings[setting] = value
-        return self._set_settings(ctx, settings)
+        return self._create_settings(ctx, settings)
 
-    def _set_settings(self, ctx, settings):
+    def _create_settings(self, ctx, settings):
         serverid = ctx.message.server.id
         if serverid not in self.config:
             self.config[serverid] = {}
