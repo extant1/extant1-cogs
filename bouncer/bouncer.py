@@ -1,5 +1,7 @@
-import os
 import datetime
+import logging
+import os
+
 from .utils.dataIO import dataIO
 from .utils import checks
 from .utils import chat_formatting
@@ -40,6 +42,7 @@ class Bouncer:
             return self.config[serverid]
 
     async def on_member_join(self, member):
+        logger.info("Someone joined the server.")
         channel_name = self._get_settings(member.server.id)
         if channel_name is not None:
             channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
@@ -60,6 +63,7 @@ class Bouncer:
         """Set the channel the bouncer reports to."""
         if channel is not None:
             self._set_setting(ctx, "channel", channel)
+            logger.info("Someone joined the server.")
             await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
         else:
             await self.bot.send_cmd_help(ctx)
@@ -80,6 +84,16 @@ def check_files():
 
 
 def setup(bot):
+    global logger
     check_folders()
     check_files()
+    logger = logging.getLogger("bouncer")
+    if logger.level == 0:
+        # Prevents the logger from being loaded again in case of module reload
+        logger.setLevel(logging.INFO)
+        handler = logging.FileHandler(
+            filename='data/bouncer/bouncer.log', encoding='utf-8', mode='a')
+        handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(message)s', datefmt="[%d/%m/%Y %H:%M]"))
+        logger.addHandler(handler)
     bot.add_cog(Bouncer(bot))
