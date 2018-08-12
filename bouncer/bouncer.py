@@ -42,7 +42,7 @@ class Bouncer:
             return self.config[serverid]
 
     async def on_member_join(self, member):
-        logger.info("Someone joined the server.")
+        logger.info("{} joined the server.".format(member.nick))
         channel_name = self._get_settings(member.server.id)
         logger.info("server settings: " + channel_name)
         if channel_name is not None:
@@ -51,8 +51,22 @@ class Bouncer:
             logger.info("channel: " + channel)
             logger.info("member: " + member.nick)
             await self.bot.send_message(channel, '{} joined the server.'.format(member.nick))
-
         else:
+            logger.info("None?")
+            return
+
+    async def on_member_leave(self, member):
+        logger.info("{} left the server.".format(member.nick))
+        channel_name = self._get_settings(member.server.id)
+        logger.info("Lserver settings: " + channel_name)
+        if channel_name is not None:
+            logger.info("LConfig channel name: " + channel_name['channel'])
+            channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
+            logger.info("Lchannel: " + channel)
+            logger.info("Lmember: " + member.nick)
+            await self.bot.send_message(channel, '{} joined the server.'.format(member.nick))
+        else:
+            logger.info("LNone?")
             return
 
     @checks.admin()
