@@ -105,7 +105,7 @@ class Bouncer:
                 channel = discord.utils.get(after.server.channels, name=str(channel_name['channel']),
                                             type=ChannelType.text)
                 embed = discord.Embed(title="Role changed",
-                                      description="{} changed their name to {}.".format(old_roles,
+                                      description="Before:\n{}\n\nAfter:\n{}.".format(old_roles,
                                                                                         new_roles),
                                       color=0xffff00)
                 embed.add_field(name="{}".format(after.display_name), value="{}#{}".format(after.name, after.discriminator))
