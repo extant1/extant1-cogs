@@ -106,9 +106,10 @@ class Bouncer:
                                             type=ChannelType.text)
                 embed = discord.Embed(title="Role changed",
                                       description="Before:\n{}\n\nAfter:\n{}.".format(old_roles,
-                                                                                        new_roles),
+                                                                                      new_roles),
                                       color=0xffff00)
-                embed.add_field(name="{}".format(after.display_name), value="{}#{}".format(after.name, after.discriminator))
+                embed.add_field(name="{}".format(after.display_name),
+                                value="{}#{}".format(after.name, after.discriminator))
                 embed.set_footer(text="ID: {}".format(before.id))
                 await self.bot.send_message(channel, embed=embed)
         else:
@@ -133,11 +134,11 @@ class Bouncer:
 
     @checks.admin()
     @_bouncer.command(name="enabled", pass_context=True, no_pm=True)
-    async def _enabled(self, ctx, option: bool = True):
+    async def _enabled(self, ctx, option: bool):
         """Enable or disable the Bouncer."""
         if option is not None:
             self._set_setting(ctx, "enabled", option)
-            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
+            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option.capitalize()))
         else:
             await self.bot.send_cmd_help(ctx)
 
