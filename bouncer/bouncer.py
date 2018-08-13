@@ -24,7 +24,7 @@ class Bouncer:
     def _set_setting(self, ctx, setting, value):
         settings = self._get_settings(ctx.message)
         if not settings:
-            settings = {"channel": None}
+            settings = {"channel": None, "enabled": True}
         settings[setting] = value
         return self._create_settings(ctx, settings)
 
@@ -123,11 +123,21 @@ class Bouncer:
 
     @checks.admin()
     @_bouncer.command(name="channel", pass_context=True, no_pm=True)
-    async def _ip(self, ctx, channel: str = None):
+    async def _channel(self, ctx, channel: str = None):
         """Set the channel the bouncer reports to."""
         if channel is not None:
             self._set_setting(ctx, "channel", channel)
             await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
+        else:
+            await self.bot.send_cmd_help(ctx)
+
+    @checks.admin()
+    @_bouncer.command(name="enabled", pass_context=True, no_pm=True)
+    async def _enabled(self, ctx, option: bool = True):
+        """Enable or disable the Bouncer."""
+        if option is not None:
+            self._set_setting(ctx, "enabled", option)
+            await self.bot.say("The bouncer is: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
 
