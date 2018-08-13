@@ -67,7 +67,7 @@ class Bouncer:
                                         type=ChannelType.text)
             logger.info("Lchannel: {}".format(channel.name))
             logger.info("LMember: " + member.display_name)
-            await self.bot.send_message(channel, '{} joined the server.'.format(member.display_name))
+            await self.bot.send_message(channel, '{} left the server.'.format(member.display_name))
         else:
             logger.info("LNone?")
             return
