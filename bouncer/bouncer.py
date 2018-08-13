@@ -43,10 +43,10 @@ class Bouncer:
             return self.config[serverid]
 
     async def on_member_join(self, member):
-        channel_name = self._get_settings(member)
-        if channel_name is not None:
+        settings = self._get_settings(member)
+        if settings is not None or settings['enabled'] is False:
             logger.info("{} joined the server.".format(member.display_name))
-            channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
+            channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Joined", color=0x00ff00)
             embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
@@ -57,10 +57,10 @@ class Bouncer:
             return
 
     async def on_member_remove(self, member):
-        channel_name = self._get_settings(member)
-        if channel_name is not None:
+        settings = self._get_settings(member)
+        if settings is not None or settings['enabled'] is False:
             logger.info("{} left the server.".format(member.display_name))
-            channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
+            channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Left", color=0xff8000)
             embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
@@ -70,10 +70,10 @@ class Bouncer:
             return
 
     async def on_member_ban(self, member):
-        channel_name = self._get_settings(member)
-        if channel_name is not None:
+        settings = self._get_settings(member)
+        if settings is not None or settings['enabled'] is False:
             logger.info("{} was banned from the server.".format(member.display_name))
-            channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
+            channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Banned", color=0xffff00)
             embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
@@ -83,11 +83,11 @@ class Bouncer:
             return
 
     async def on_member_update(self, before, after):
-        channel_name = self._get_settings(after)
-        if channel_name is not None:
+        settings = self._get_settings(after)
+        if settings is not None or settings['enabled'] is False:
             if before.display_name != after.display_name or before.name != after.name:
                 logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
-                channel = discord.utils.get(after.server.channels, name=str(channel_name['channel']),
+                channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                             type=ChannelType.text)
                 embed = discord.Embed(title="User changed their name",
                                       description="{} changed their name to {}.\n\n{}".format(before.display_name,
@@ -102,7 +102,7 @@ class Bouncer:
                 old_roles = [r.name for r in before.roles]
                 new_roles = [r.name for r in after.roles]
                 logger.info("{} roles changed from {} to {}.".format(after.mention, old_roles, new_roles))
-                channel = discord.utils.get(after.server.channels, name=str(channel_name['channel']),
+                channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                             type=ChannelType.text)
                 embed = discord.Embed(title="Role changed",
                                       description="Before:\n{}\n\nAfter:\n{}.".format(old_roles,
@@ -137,7 +137,7 @@ class Bouncer:
         """Enable or disable the Bouncer."""
         if option is not None:
             self._set_setting(ctx, "enabled", option)
-            await self.bot.say("The bouncer is: " + chat_formatting.bold(option))
+            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
 
