@@ -96,6 +96,17 @@ class Bouncer:
                 embed.add_field(name=after.mention, value="{}#{}".format(after.name, after.discriminator))
                 embed.set_footer(text="ID: {}".format(before.id))
                 await self.bot.send_message(channel, embed=embed)
+            if before.roles != after.roles:
+                logger.info("{} roles changed from {} to {}.".format(before.display_name, before.roles, after.roles))
+                channel = discord.utils.get(after.server.channels, name=str(channel_name['channel']),
+                                            type=ChannelType.text)
+                embed = discord.Embed(title="Users role changed",
+                                      description="{} changed their name to {}.".format(before.role,
+                                                                                        after.role),
+                                      color=0xffff00)
+                embed.add_field(name=after.mention, value="{}#{}".format(after.name, after.discriminator))
+                embed.set_footer(text="ID: {}".format(before.id))
+                await self.bot.send_message(channel, embed=embed)
         else:
             return
 
