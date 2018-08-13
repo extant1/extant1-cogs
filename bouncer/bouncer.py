@@ -44,7 +44,7 @@ class Bouncer:
     async def on_member_join(self, member):
         logger.info("{} joined the server.".format(member.display_name))
         channel_name = self._get_settings(member)
-        logger.info("server settings: " + channel_name['channel'])
+        logger.info("server settings: {}".format(channel_name['channel']))
         if channel_name is not None:
             logger.info("Config channel name: " + channel_name['channel'])
             channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
@@ -58,7 +58,7 @@ class Bouncer:
     async def on_member_remove(self, member):
         logger.info("{} left the server.".format(member.display_name))
         channel_name = self._get_settings(member)
-        logger.info("Lserver settings: " + channel_name['channel'])
+        logger.info("server settings: {}".format(channel_name['channel']))
         if channel_name is not None:
             logger.info("LConfig channel name: " + channel_name['channel'])
             channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
