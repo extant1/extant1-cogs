@@ -90,10 +90,10 @@ class Bouncer:
                 channel = discord.utils.get(after.server.channels, name=str(channel_name['channel']),
                                             type=ChannelType.text)
                 embed = discord.Embed(title="User changed their name",
-                                      description="{} changed their name to {}.".format(before.display_name,
-                                                                                        after.display_name),
+                                      description="{} changed their name to {}.\n{}".format(before.display_name,
+                                                                                        after.display_name, after.mention),
                                       color=0xffff00)
-                embed.add_field(name=after.mention, value="{}#{}".format(after.name, after.discriminator))
+                embed.add_field(name="Identity", value="{}#{}".format(after.name, after.discriminator))
                 embed.set_footer(text="ID: {}".format(before.id))
                 await self.bot.send_message(channel, embed=embed)
             if before.roles != after.roles:
@@ -104,7 +104,7 @@ class Bouncer:
                                       description="{} changed their name to {}.".format(before.role,
                                                                                         after.role),
                                       color=0xffff00)
-                embed.add_field(name=after.mention, value="{}#{}".format(after.name, after.discriminator))
+                embed.add_field(name="Identity", value="{}#{}".format(after.name, after.discriminator))
                 embed.set_footer(text="ID: {}".format(before.id))
                 await self.bot.send_message(channel, embed=embed)
         else:
