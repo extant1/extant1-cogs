@@ -22,7 +22,7 @@ class Bouncer:
         self.config = dataIO.load_json(JSON_PATH)
 
     def _set_setting(self, ctx, setting, value):
-        settings = self._get_settings(ctx)
+        settings = self._get_settings(ctx.message)
         if not settings:
             settings = {"channel": None}
         settings[setting] = value
@@ -43,33 +43,24 @@ class Bouncer:
             return self.config[serverid]
 
     async def on_member_join(self, member):
-        logger.info("{} joined the server.".format(member.display_name))
         channel_name = self._get_settings(member)
-        logger.info("server settings: {}".format(channel_name['channel']))
         if channel_name is not None:
-            logger.info("Config channel name: " + channel_name['channel'])
+            logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
                                         type=ChannelType.text)
-            logger.info("Channel: {}".format(channel.name))
-            logger.info("Member: " + member.display_name)
             await self.bot.send_message(channel, '{} joined the server.'.format(member.display_name))
         else:
             logger.info("None?")
             return
 
     async def on_member_remove(self, member):
-        logger.info("{} left the server.".format(member.display_name))
         channel_name = self._get_settings(member)
-        logger.info("server settings: {}".format(channel_name['channel']))
         if channel_name is not None:
-            logger.info("LConfig channel name: " + channel_name['channel'])
+            logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
                                         type=ChannelType.text)
-            logger.info("Lchannel: {}".format(channel.name))
-            logger.info("LMember: " + member.display_name)
             await self.bot.send_message(channel, '{} left the server.'.format(member.display_name))
         else:
-            logger.info("LNone?")
             return
 
     @checks.admin()
@@ -85,7 +76,6 @@ class Bouncer:
         """Set the channel the bouncer reports to."""
         if channel is not None:
             self._set_setting(ctx, "channel", channel)
-            logger.info("Someone joined the server.")
             await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
         else:
             await self.bot.send_cmd_help(ctx)
