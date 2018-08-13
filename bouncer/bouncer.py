@@ -8,6 +8,7 @@ from .utils import chat_formatting
 
 import discord
 from discord.ext import commands
+from discord.enums import ChannelType
 
 DATA_PATH = "data/bouncer/"
 JSON_PATH = DATA_PATH + "config.json"
@@ -47,9 +48,10 @@ class Bouncer:
         logger.info("server settings: {}".format(channel_name['channel']))
         if channel_name is not None:
             logger.info("Config channel name: " + channel_name['channel'])
-            channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
-            logger.info("channel: " + channel)
-            logger.info("member: " + member.display_name)
+            channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
+                                        type=ChannelType.text)
+            logger.info("Channel: {}".format(channel.name))
+            logger.info("Member: " + member.display_name)
             await self.bot.send_message(channel, '{} joined the server.'.format(member.display_name))
         else:
             logger.info("None?")
@@ -61,9 +63,10 @@ class Bouncer:
         logger.info("server settings: {}".format(channel_name['channel']))
         if channel_name is not None:
             logger.info("LConfig channel name: " + channel_name['channel'])
-            channel = discord.utils.get(member.server.channels, name=channel_name['channel'])
-            logger.info("Lchannel: " + channel)
-            logger.info("Lmember: " + member.display_name)
+            channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
+                                        type=ChannelType.text)
+            logger.info("Lchannel: {}".format(channel.name))
+            logger.info("LMember: " + member.display_name)
             await self.bot.send_message(channel, '{} joined the server.'.format(member.display_name))
         else:
             logger.info("LNone?")
