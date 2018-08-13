@@ -48,7 +48,10 @@ class Bouncer:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
                                         type=ChannelType.text)
-            await self.bot.send_message(channel, '{} joined the server.'.format(member.display_name))
+            embed = discord.Embed(title="Member Joined", color=0x00ff00)
+            embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
+            embed.set_footer(text="ID: {}".format(member.id))
+            await self.bot.send_message(channel, embed=embed)
         else:
             logger.info("None?")
             return
@@ -59,7 +62,38 @@ class Bouncer:
             logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
                                         type=ChannelType.text)
-            await self.bot.send_message(channel, '{} left the server.'.format(member.display_name))
+            embed = discord.Embed(title="Member Left", color=0xff8000)
+            embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
+            embed.set_footer(text="ID: {}".format(member.id))
+            await self.bot.send_message(channel, embed=embed)
+        else:
+            return
+
+    async def on_member_ban(self, member):
+        channel_name = self._get_settings(member)
+        if channel_name is not None:
+            logger.info("{} was banned from the server.".format(member.display_name))
+            channel = discord.utils.get(member.server.channels, name=str(channel_name['channel']),
+                                        type=ChannelType.text)
+            embed = discord.Embed(title="Member Banned", color=0xffff00)
+            embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
+            embed.set_footer(text="ID: {}".format(member.id))
+            await self.bot.send_message(channel, embed=embed)
+        else:
+            return
+
+    async def on_member_update(self, before, after):
+        channel_name = self._get_settings(after)
+        if channel_name is not None:
+            logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
+            channel = discord.utils.get(after.server.channels, name=str(channel_name['channel']),
+                                        type=ChannelType.text)
+            embed = discord.Embed(title="User changed their name",
+                                  description="{} changed their name to {}.".format(before.display_name,
+                                                                                    after.display_name), color=0xffff00)
+            embed.add_field(name=after.mention, value="{}#{}".format(after.name, after.discriminator), inline=True)
+            embed.set_footer(text="ID: {}".format(before.id))
+            await self.bot.send_message(channel, embed=embed)
         else:
             return
 
