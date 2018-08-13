@@ -138,7 +138,7 @@ class Bouncer:
         """Enable or disable the Bouncer."""
         if option is not None:
             self._set_setting(ctx, "enabled", option)
-            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option.capitalize()))
+            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
 
