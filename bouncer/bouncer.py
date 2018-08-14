@@ -104,12 +104,13 @@ class Bouncer:
                 if before.roles != after.roles:
                     old_roles = [r.name for r in before.roles]
                     new_roles = [r.name for r in after.roles]
-                    logger.info("{} roles changed from {} to {}.".format(after.mention, old_roles, new_roles))
+                    logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
                     channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="Role changed",
-                                          description="Before:\n{}\n\nAfter:\n{}.".format(','.join(old_roles),
-                                                                                          ','.join(new_roles)),
+                                          description="Before:\n{}\n\nAfter:\n{}.".format(
+                                              ','.join(str(e) for e in old_roles),
+                                              ','.join(str(e) for e in new_roles)),
                                           color=0xffff00)
                     embed.add_field(name="{}".format(after.display_name),
                                     value="{}#{}".format(after.name, after.discriminator))
