@@ -16,7 +16,6 @@ JSON_PATH = DATA_PATH + "config.json"
 
 class Bouncer:
     """The bouncer watches who comes and goes and makes a note in a specified channel."""
-
     def __init__(self, bot):
         self.bot = bot
         self.config = dataIO.load_json(JSON_PATH)
@@ -116,8 +115,10 @@ class Bouncer:
                                     value="{}#{}".format(after.name, after.discriminator))
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
-                else:
-                    return
+            else:
+                return
+        else:
+            return
 
         @checks.admin()
         @commands.group(name="bouncer", invoke_without_command=False, pass_context=True, no_pm=True)
@@ -146,29 +147,32 @@ class Bouncer:
             else:
                 await self.bot.send_cmd_help(ctx)
 
-    def check_folders():
-        if os.path.exists("data/bouncer/"):
-            os.rename("data/bouncer/", DATA_PATH)
-        if not os.path.exists(DATA_PATH):
-            print("Creating data/bouncer folder...")
-            os.mkdir(DATA_PATH)
 
-    def check_files():
-        if not dataIO.is_valid_json(JSON_PATH):
-            print("Creating config.json...")
-            dataIO.save_json(JSON_PATH, {})
+def check_folders():
+    if os.path.exists("data/bouncer/"):
+        os.rename("data/bouncer/", DATA_PATH)
+    if not os.path.exists(DATA_PATH):
+        print("Creating data/bouncer folder...")
+        os.mkdir(DATA_PATH)
 
-    def setup(bot):
-        global logger
-        check_folders()
-        check_files()
-        logger = logging.getLogger("bouncer")
-        if logger.level == 0:
-            # Prevents the logger from being loaded again in case of module reload
-            logger.setLevel(logging.INFO)
-            handler = logging.FileHandler(
-                filename='data/bouncer/bouncer.log', encoding='utf-8', mode='a')
-            handler.setFormatter(logging.Formatter(
-                '%(asctime)s %(message)s', datefmt="[%d/%m/%Y %H:%M]"))
-            logger.addHandler(handler)
-        bot.add_cog(Bouncer(bot))
+
+def check_files():
+    if not dataIO.is_valid_json(JSON_PATH):
+        print("Creating config.json...")
+        dataIO.save_json(JSON_PATH, {})
+
+
+def setup(bot):
+    global logger
+    check_folders()
+    check_files()
+    logger = logging.getLogger("bouncer")
+    if logger.level == 0:
+        # Prevents the logger from being loaded again in case of module reload
+        logger.setLevel(logging.INFO)
+        handler = logging.FileHandler(
+            filename='data/bouncer/bouncer.log', encoding='utf-8', mode='a')
+        handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(message)s', datefmt="[%d/%m/%Y %H:%M]"))
+        logger.addHandler(handler)
+    bot.add_cog(Bouncer(bot))
