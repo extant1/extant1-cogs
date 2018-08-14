@@ -62,7 +62,7 @@ class Bouncer:
             logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
-            embed = discord.Embed(title="Member Left", description="\n{}".format(member.mention), color=0xff8000)
+            embed = discord.Embed(title="Member Left", color=0xff8000)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
                             inline=True)
             embed.set_footer(text="ID: {}".format(member.id))
@@ -96,8 +96,8 @@ class Bouncer:
                                                                                                   after.display_name,
                                                                                                   after.mention),
                                           color=0xffff00)
-                    embed.add_field(name="Before", value="{}#{}".format(before.name, before.discriminator), inline=True)
-                    embed.add_field(name="After", value="{}#{}".format(after.name, after.discriminator), inline=True)
+                    embed.add_field(name="Before", value="{}#{}\ntest".format(before.name, before.discriminator), inline=True)
+                    embed.add_field(name="After", value="{}#{}\ntest".format(after.name, after.discriminator), inline=True)
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
                 if before.roles != after.roles:
@@ -107,7 +107,7 @@ class Bouncer:
                     channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="Role changed",
-                                          description="Before:\n{}\n\nAfter:\n{}.".format(
+                                          description="Before:\n{}\n\nAfter:\n{}".format(
                                               ', '.join(str(e) for e in old_roles),
                                               ', '.join(str(e) for e in new_roles)),
                                           color=0xffff00)
