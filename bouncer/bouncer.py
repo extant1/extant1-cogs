@@ -110,12 +110,12 @@ class Bouncer:
                     embed = discord.Embed(title="Role changed",
                                           description="Before:\n{}\n\nAfter:\n{}.".format(','.join(old_roles),
                                                                                           ','.join(new_roles)),
-                                                                                          color=0xffff00)
+                                          color=0xffff00)
                     embed.add_field(name="{}".format(after.display_name),
                                     value="{}#{}".format(after.name, after.discriminator))
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
-                    else:
+                else:
                     return
 
         @checks.admin()
