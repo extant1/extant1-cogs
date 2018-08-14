@@ -16,6 +16,7 @@ JSON_PATH = DATA_PATH + "config.json"
 
 class Bouncer:
     """The bouncer watches who comes and goes and makes a note in a specified channel."""
+
     def __init__(self, bot):
         self.bot = bot
         self.config = dataIO.load_json(JSON_PATH)
@@ -92,12 +93,14 @@ class Bouncer:
                     channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="User changed their name",
-                                          description="{} changed their name to {}.\n\n{}".format(before.display_name,
-                                                                                                  after.display_name,
-                                                                                                  after.mention),
+                                          description="{}".format(after.mention),
                                           color=0xffff00)
-                    embed.add_field(name="Before", value="{}#{}\ntest".format(before.name, before.discriminator), inline=True)
-                    embed.add_field(name="After", value="{}#{}\ntest".format(after.name, after.discriminator), inline=True)
+                    embed.add_field(name="Before",
+                                    value="{}\n{}#{}".format(before.display_name, before.name, before.discriminator),
+                                    inline=True)
+                    embed.add_field(name="After",
+                                    value="{}\n{}#{}".format(after.display_name, after.name, after.discriminator),
+                                    inline=True)
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
                 if before.roles != after.roles:
