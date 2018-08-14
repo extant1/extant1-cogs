@@ -48,8 +48,9 @@ class Bouncer:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
-            embed = discord.Embed(title="Member Joined", color=0x00ff00)
-            embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
+            embed = discord.Embed(title="Member Joined", description="\n{}".format(member.mention), color=0x00ff00)
+            embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
+                            inline=True)
             embed.set_footer(text="ID: {}".format(member.id))
             await self.bot.send_message(channel, embed=embed)
         else:
@@ -62,8 +63,9 @@ class Bouncer:
             logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
-            embed = discord.Embed(title="Member Left", color=0xff8000)
-            embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
+            embed = discord.Embed(title="Member Left", description="\n{}".format(member.mention), color=0xff8000)
+            embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
+                            inline=True)
             embed.set_footer(text="ID: {}".format(member.id))
             await self.bot.send_message(channel, embed=embed)
         else:
