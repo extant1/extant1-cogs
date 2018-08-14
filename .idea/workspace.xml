@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bouncer/bouncer.py" beforeDir="false" afterPath="$PROJECT_DIR$/bouncer/bouncer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +16,8 @@
       <file leaf-file-name="bouncer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="50" column="98" selection-start-line="50" selection-start-column="98" selection-end-line="50" selection-end-column="98" />
+            <state relative-caret-position="561">
+              <caret line="111" column="110" selection-start-line="111" selection-start-column="110" selection-end-line="111" selection-end-column="110" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -64,8 +63,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="53" />
-    <option name="y" value="35" />
+    <option name="x" value="-1" />
+    <option name="y" value="19" />
     <option name="width" value="1781" />
     <option name="height" value="929" />
   </component>
@@ -154,7 +153,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="53" y="35" width="1781" height="929" extended-state="0" />
+    <frame x="-1" y="19" width="1781" height="929" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -368,8 +367,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="50" column="98" selection-start-line="50" selection-start-column="98" selection-end-line="50" selection-end-column="98" />
+        <state relative-caret-position="561">
+          <caret line="111" column="110" selection-start-line="111" selection-start-column="110" selection-end-line="111" selection-end-column="110" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
