@@ -1,11 +1,15 @@
 {
     "AUTHOR" : "Whiskey Maple",
-    "DESCRIPTION" : "The bouncer watches who comes and goes and makes a note in a specified channel.",
+    "DESCRIPTION" : "The bouncer watches and makes note of changes in a specified channel.",
     "INSTALL_MSG" : "Congrats, it installed.",
     "NAME" : "Bouncer",
-    "SHORT" : "Watches who comes and goes.",
+    "SHORT" : "Watches and notates changes.",
     "TAGS" : [
         "join",
-        "leave"
+        "leave",
+        "edit",
+        "banned",
+        "events",
+        "name change"
     ]
 }

@@ -104,8 +104,8 @@ class Bouncer:
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
                 if before.roles != after.roles:
-                    old_roles = [r.name for r in before.roles if r != "@everyone"]
-                    new_roles = [r.name for r in after.roles if r != "@everyone"]
+                    old_roles = [r.name for r in before.roles]
+                    new_roles = [r.name for r in after.roles]
                     logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
                     channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                                 type=ChannelType.text)
