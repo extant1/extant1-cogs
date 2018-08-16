@@ -106,6 +106,10 @@ class Bouncer:
                 if before.roles != after.roles:
                     old_roles = [r.name for r in before.roles if r.name != "@everyone"]
                     new_roles = [r.name for r in after.roles if r.name != "@everyone"]
+                    if len(old_roles) == 0:
+                        old_roles.append("None")
+                    if len(new_roles) == 0:
+                        new_roles.append("None")
                     logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
                     channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
                                                 type=ChannelType.text)
