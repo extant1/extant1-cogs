@@ -44,7 +44,7 @@ class Bouncer:
 
     async def on_member_join(self, member):
         settings = self._get_settings(member)
-        if settings is not None or settings['enabled']:
+        if settings is not None and settings['enabled'] is not False:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
@@ -59,7 +59,7 @@ class Bouncer:
 
     async def on_member_remove(self, member):
         settings = self._get_settings(member)
-        if settings is not None or settings['enabled']:
+        if settings is not None and settings['enabled'] is not False:
             logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
@@ -73,7 +73,7 @@ class Bouncer:
 
     async def on_member_ban(self, member):
         settings = self._get_settings(member)
-        if settings is not None or settings['enabled']:
+        if settings is not None and settings['enabled'] is not False:
             logger.info("{} was banned from the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
