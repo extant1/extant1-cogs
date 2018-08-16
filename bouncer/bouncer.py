@@ -127,32 +127,32 @@ class Bouncer:
         else:
             return
 
-        @checks.admin()
-        @commands.group(name="bouncer", invoke_without_command=False, pass_context=True, no_pm=True)
-        async def _bouncer(self, ctx):
-            """Change the bouncer settings"""
-            if ctx.invoked_subcommand is None:
-                await self.bot.send_cmd_help(ctx)
+    @checks.admin()
+    @commands.group(name="bouncer", invoke_without_command=False, pass_context=True, no_pm=True)
+    async def _bouncer(self, ctx):
+        """Change the bouncer settings"""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
 
-        @checks.admin()
-        @_bouncer.command(name="channel", pass_context=True, no_pm=True)
-        async def _channel(self, ctx, channel: str = None):
-            """Set the channel the bouncer reports to."""
-            if channel is not None:
-                self._set_setting(ctx, "channel", channel)
-                await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
-            else:
-                await self.bot.send_cmd_help(ctx)
+    @checks.admin()
+    @_bouncer.command(name="channel", pass_context=True, no_pm=True)
+    async def _channel(self, ctx, channel: str = None):
+        """Set the channel the bouncer reports to."""
+        if channel is not None:
+            self._set_setting(ctx, "channel", channel)
+            await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
+        else:
+            await self.bot.send_cmd_help(ctx)
 
-        @checks.admin()
-        @_bouncer.command(name="enabled", pass_context=True, no_pm=True)
-        async def _enabled(self, ctx, option: bool):
-            """Enable or disable the Bouncer."""
-            if option is not None:
-                self._set_setting(ctx, "enabled", option)
-                await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
-            else:
-                await self.bot.send_cmd_help(ctx)
+    @checks.admin()
+    @_bouncer.command(name="enabled", pass_context=True, no_pm=True)
+    async def _enabled(self, ctx, option: bool):
+        """Enable or disable the Bouncer."""
+        if option is not None:
+            self._set_setting(ctx, "enabled", option)
+            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
+        else:
+            await self.bot.send_cmd_help(ctx)
 
 
 def check_folders():
