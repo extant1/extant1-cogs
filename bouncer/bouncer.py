@@ -22,7 +22,7 @@ class Bouncer:
         self.config = dataIO.load_json(JSON_PATH)
 
     def _set_setting(self, ctx, setting, value):
-        settings = self._get_settings(ctx)
+        settings = self._get_settings(ctx.server)
         if not settings:
             settings = {"CHANNEL": None, "ENABLED": False}
         settings[setting] = value
@@ -36,7 +36,7 @@ class Bouncer:
         dataIO.save_json(JSON_PATH, self.config)
 
     def _get_settings(self, ctx):
-        serverid = ctx.server.id
+        serverid = ctx.id
         if serverid not in self.config:
             self.config[serverid] = {}
             settings = {"CHANNEL": None, "ENABLED": False}
@@ -45,7 +45,7 @@ class Bouncer:
         return self.config[serverid]
 
     async def on_member_join(self, member):
-        settings = self._get_settings(member)
+        settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
@@ -60,7 +60,7 @@ class Bouncer:
             return
 
     async def on_member_remove(self, member):
-        settings = self._get_settings(member)
+        settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
@@ -74,7 +74,7 @@ class Bouncer:
             return
 
     async def on_member_ban(self, member):
-        settings = self._get_settings(member)
+        settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was banned from the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
@@ -89,7 +89,7 @@ class Bouncer:
 
     async def on_member_unban(self, server, user):
         logger.info("member unbanned, {}, {}".format(server.id, user.display_name))
-        settings = self._get_settings(server)
+        settings = self._get_settings(server.server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was unbanned from the server.".format(user.display_name))
             channel = discord.utils.get(server.channels, name=str(settings['CHANNEL']),
@@ -102,7 +102,7 @@ class Bouncer:
             return
 
     async def on_member_update(self, before, after):
-        settings = self._get_settings(after)
+        settings = self._get_settings(after.server)
         if settings is not None:
             if settings['ENABLED']:
                 if before.display_name != after.display_name or before.name != after.name:
