@@ -87,6 +87,19 @@ class Bouncer:
         else:
             return
 
+    async def on_member_unban(self, server, user):
+        settings = self._get_settings(server)
+        if settings is not None and settings['enabled'] is not False:
+            logger.info("{} was unbanned from the server.".format(user.display_name))
+            channel = discord.utils.get(server.channels, name=str(settings['channel']),
+                                        type=ChannelType.text)
+            embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
+            embed.add_field(name=user.mention, value="{}#{}".format(user.name, user.discriminator), inline=True)
+            embed.set_footer(text="ID: {}".format(user.id))
+            await self.bot.send_message(channel, embed=embed)
+        else:
+            return
+
     async def on_member_update(self, before, after):
         settings = self._get_settings(after)
         if settings is not None:
