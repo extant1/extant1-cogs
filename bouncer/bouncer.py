@@ -39,8 +39,10 @@ class Bouncer:
         serverid = ctx.server.id
         if serverid not in self.config:
             self.config[serverid] = {}
-        else:
-            return self.config[serverid]
+            settings = {"channel": None, "enabled": False}
+            self._create_settings(ctx, settings)
+            dataIO.save_json(JSON_PATH, self.config)
+        return self.config[serverid]
 
     async def on_member_join(self, member):
         settings = self._get_settings(member)
