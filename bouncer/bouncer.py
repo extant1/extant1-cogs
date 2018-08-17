@@ -142,7 +142,7 @@ class Bouncer:
     async def _channel(self, ctx, channel: str = None):
         """Set the channel the bouncer reports to."""
         if channel is not None:
-            self._set_setting(ctx, "CHANNEL", channel)
+            self._set_setting(ctx.message, "CHANNEL", channel)
             await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
         else:
             await self.bot.send_cmd_help(ctx)
@@ -152,7 +152,7 @@ class Bouncer:
     async def _enabled(self, ctx, option: bool):
         """Enable or disable the Bouncer."""
         if option is not None:
-            self._set_setting(ctx, "ENABLED", option)
+            self._set_setting(ctx.message, "ENABLED", option)
             await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
