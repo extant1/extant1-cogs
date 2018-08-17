@@ -87,6 +87,7 @@ class Bouncer:
             return
 
     async def on_member_unban(self, server, user):
+        logger.info("member unbanned")
         settings = self._get_settings(server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was unbanned from the server.".format(user.display_name))
