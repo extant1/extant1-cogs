@@ -11,7 +11,7 @@ from discord.ext import commands
 from discord.enums import ChannelType
 
 DATA_PATH = "data/bouncer/"
-JSON_PATH = DATA_PATH + "config.json"
+JSON_PATH = DATA_PATH + "settings.json"
 
 
 class Bouncer:
