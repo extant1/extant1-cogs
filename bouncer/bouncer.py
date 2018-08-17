@@ -22,14 +22,14 @@ class Bouncer:
         self.config = dataIO.load_json(JSON_PATH)
 
     def _set_setting(self, ctx, setting, value):
-        settings = self._get_settings(ctx.message)
+        settings = self._get_settings(ctx)
         if not settings:
-            settings = {"channel": None, "enabled": False}
+            settings = {"CHANNEL": None, "ENABLED": False}
         settings[setting] = value
         return self._create_settings(ctx, settings)
 
     def _create_settings(self, ctx, settings):
-        serverid = ctx.message.server.id
+        serverid = ctx.server.id
         if serverid not in self.config:
             self.config[serverid] = {}
         self.config[serverid] = settings
@@ -37,9 +37,10 @@ class Bouncer:
 
     def _get_settings(self, ctx):
         serverid = ctx.server.id
+        logger.info("serverid: " + serverid)
         if serverid not in self.config:
             self.config[serverid] = {}
-            settings = {"channel": None, "enabled": False}
+            settings = {"CHANNEL": None, "ENABLED": False}
             self._create_settings(ctx, settings)
             dataIO.save_json(JSON_PATH, self.config)
         return self.config[serverid]
@@ -141,7 +142,7 @@ class Bouncer:
     async def _channel(self, ctx, channel: str = None):
         """Set the channel the bouncer reports to."""
         if channel is not None:
-            self._set_setting(ctx, "channel", channel)
+            self._set_setting(ctx, "CHANNEL", channel)
             await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
         else:
             await self.bot.send_cmd_help(ctx)
@@ -151,7 +152,7 @@ class Bouncer:
     async def _enabled(self, ctx, option: bool):
         """Enable or disable the Bouncer."""
         if option is not None:
-            self._set_setting(ctx, "enabled", option)
+            self._set_setting(ctx, "ENABLED", option)
             await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
