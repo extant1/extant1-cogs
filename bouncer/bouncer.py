@@ -37,7 +37,6 @@ class Bouncer:
 
     def _get_settings(self, ctx):
         serverid = ctx.server.id
-        logger.info("serverid: " + serverid)
         if serverid not in self.config:
             self.config[serverid] = {}
             settings = {"CHANNEL": None, "ENABLED": False}
@@ -47,7 +46,7 @@ class Bouncer:
 
     async def on_member_join(self, member):
         settings = self._get_settings(member)
-        if settings is not None and settings['enabled'] is not False:
+        if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
@@ -62,7 +61,7 @@ class Bouncer:
 
     async def on_member_remove(self, member):
         settings = self._get_settings(member)
-        if settings is not None and settings['enabled'] is not False:
+        if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
@@ -76,7 +75,7 @@ class Bouncer:
 
     async def on_member_ban(self, member):
         settings = self._get_settings(member)
-        if settings is not None and settings['enabled'] is not False:
+        if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was banned from the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
@@ -89,7 +88,7 @@ class Bouncer:
 
     async def on_member_unban(self, server, user):
         settings = self._get_settings(server)
-        if settings is not None and settings['enabled'] is not False:
+        if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was unbanned from the server.".format(user.display_name))
             channel = discord.utils.get(server.channels, name=str(settings['channel']),
                                         type=ChannelType.text)
@@ -103,7 +102,7 @@ class Bouncer:
     async def on_member_update(self, before, after):
         settings = self._get_settings(after)
         if settings is not None:
-            if settings['enabled']:
+            if settings['ENABLED']:
                 if before.display_name != after.display_name or before.name != after.name:
                     logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
                     channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
