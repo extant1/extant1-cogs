@@ -24,7 +24,7 @@ class Bouncer:
     def _set_setting(self, ctx, setting, value):
         settings = self._get_settings(ctx.message)
         if not settings:
-            settings = {"channel": None, "enabled": True}
+            settings = {"channel": None, "enabled": False}
         settings[setting] = value
         return self._create_settings(ctx, settings)
 
@@ -38,7 +38,7 @@ class Bouncer:
     def _get_settings(self, ctx):
         serverid = ctx.server.id
         if serverid not in self.config:
-            return None
+            self.config[serverid] = {}
         else:
             return self.config[serverid]
 

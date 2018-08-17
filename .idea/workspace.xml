@@ -16,8 +16,8 @@
       <file leaf-file-name="bouncer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="75" column="35" selection-start-line="75" selection-start-column="35" selection-end-line="75" selection-end-column="35" />
+            <state relative-caret-position="476">
+              <caret line="40" column="38" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -83,8 +83,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="136" />
-    <option name="y" value="110" />
+    <option name="x" value="117" />
+    <option name="y" value="40" />
     <option name="width" value="1781" />
     <option name="height" value="885" />
   </component>
@@ -179,7 +179,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="136" y="110" width="1781" height="885" extended-state="0" />
+    <frame x="117" y="40" width="1781" height="885" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -430,8 +430,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="75" column="35" selection-start-line="75" selection-start-column="35" selection-end-line="75" selection-end-column="35" />
+        <state relative-caret-position="476">
+          <caret line="40" column="38" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
