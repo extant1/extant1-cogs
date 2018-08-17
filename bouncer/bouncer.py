@@ -48,7 +48,7 @@ class Bouncer:
         settings = self._get_settings(member)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} joined the server.".format(member.display_name))
-            channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
+            channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Joined", description="\n{}".format(member.mention), color=0x00ff00)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
@@ -63,7 +63,7 @@ class Bouncer:
         settings = self._get_settings(member)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} left the server.".format(member.display_name))
-            channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
+            channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Left", color=0xff8000)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
@@ -77,7 +77,7 @@ class Bouncer:
         settings = self._get_settings(member)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was banned from the server.".format(member.display_name))
-            channel = discord.utils.get(member.server.channels, name=str(settings['channel']),
+            channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Banned", color=0xffff00)
             embed.add_field(name=member.mention, value="{}#{}".format(member.name, member.discriminator), inline=True)
@@ -90,7 +90,7 @@ class Bouncer:
         settings = self._get_settings(server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was unbanned from the server.".format(user.display_name))
-            channel = discord.utils.get(server.channels, name=str(settings['channel']),
+            channel = discord.utils.get(server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
             embed.add_field(name=user.mention, value="{}#{}".format(user.name, user.discriminator), inline=True)
@@ -105,7 +105,7 @@ class Bouncer:
             if settings['ENABLED']:
                 if before.display_name != after.display_name or before.name != after.name:
                     logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
-                    channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
+                    channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="User changed their name",
                                           description="{}".format(after.mention),
@@ -126,7 +126,7 @@ class Bouncer:
                     if len(new_roles) == 0:
                         new_roles.append("None")
                     logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
-                    channel = discord.utils.get(after.server.channels, name=str(settings['channel']),
+                    channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="Role changed",
                                           description="Before:\n{}\n\nAfter:\n{}".format(
