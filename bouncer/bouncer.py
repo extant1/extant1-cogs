@@ -145,9 +145,8 @@ class Bouncer:
 
     async def on_message_edit(self, before, after):
         settings = self._get_settings(before.server)
-        if settings is not None and settings['ENABLED'] is not False:
-            logger.info("changed the message {} to {}.".format(before.context,
-                                                               after.context))
+        if settings is not None and settings['ENABLED']:
+            logger.info("message change")
             channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Message edited",
