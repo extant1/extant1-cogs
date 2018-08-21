@@ -147,8 +147,10 @@ class Bouncer:
         settings = self._get_settings(before.server)
         if settings is not None and settings['ENABLED']:
             if after.call is MessageType.pins_add:
+                logger.info("pins add")
                 return
             if after.embeds is not None:
+                logger.info("embeds: {}".format(after.embeds))
                 return
             if after.call is MessageType.default:
                 logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
