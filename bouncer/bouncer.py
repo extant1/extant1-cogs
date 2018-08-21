@@ -145,8 +145,7 @@ class Bouncer:
 
     async def on_message_edit(self, before, after):
         settings = self._get_settings(before.server)
-        logger.info(before.server.id)
-        print(settings.CHANNEL)
+        logger.info(settings.CHANNEL)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} changed the message {} to {}.".format(after.author.display_name))
             channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
