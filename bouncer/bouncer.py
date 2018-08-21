@@ -149,9 +149,9 @@ class Bouncer:
             # if len(after.embeds) is not 0:
             #     logger.info("embeds: {}".format(after.embeds))
             #     return
-            if after.call is MessageType.pins_add:
-                logger.info("messaged was pinned:  {}".format(after.content))
-                return
+            # if after.call is MessageType.pins_add:
+            #     logger.info("messaged was pinned:  {}".format(after.content))
+            #     return
             if after.call is MessageType.default:
                 logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
                                                                       after.content))

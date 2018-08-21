@@ -14,8 +14,8 @@
       <file leaf-file-name="bouncer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="148" column="24" lean-forward="true" selection-start-line="148" selection-start-column="24" selection-end-line="150" selection-end-column="24" />
+            <state relative-caret-position="255">
+              <caret line="151" column="12" selection-start-line="151" selection-start-column="14" selection-end-line="153" selection-end-column="24" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -479,8 +479,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="148" column="24" lean-forward="true" selection-start-line="148" selection-start-column="24" selection-end-line="150" selection-end-column="24" />
+        <state relative-caret-position="255">
+          <caret line="151" column="12" selection-start-line="151" selection-start-column="14" selection-end-line="153" selection-end-column="24" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
