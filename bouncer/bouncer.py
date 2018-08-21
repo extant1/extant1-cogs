@@ -88,14 +88,13 @@ class Bouncer:
             return
 
     async def on_member_unban(self, server, user):
-        logger.info("member unbanned, {}, {}".format(server.id, user.display_name))
         settings = self._get_settings(server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} was unbanned from the server.".format(user.display_name))
             channel = discord.utils.get(server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
-            embed.add_field(name=user.mention, value="{}#{}".format(user.name, user.discriminator), inline=True)
+            embed.add_field(name=user.display_name, value="{}#{}".format(user.name, user.discriminator), inline=True)
             embed.set_footer(text="ID: {}".format(user.id))
             await self.bot.send_message(channel, embed=embed)
         else:
@@ -141,6 +140,21 @@ class Bouncer:
                     await self.bot.send_message(channel, embed=embed)
             else:
                 return
+        else:
+            return
+
+    async def on_message_edit(self, before, after):
+        settings = self._get_settings(after.server)
+        if settings is not None and settings['ENABLED'] is not False:
+            logger.info("{} changed the message {} to {}.".format(after.author.display_name))
+            channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
+                                        type=ChannelType.text)
+            embed = discord.Embed(title="Message edited",
+                                  description="{}\n{}\nto\n{}".format(after.author.display_name, before.context,
+                                                                      after.context),
+                                  color=0x8080ff)
+            embed.set_footer(text="ID: {}".format(after.author.id))
+            await self.bot.send_message(channel, embed=embed)
         else:
             return
 
