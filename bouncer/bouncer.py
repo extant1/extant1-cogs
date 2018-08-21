@@ -1,14 +1,13 @@
-import datetime
 import logging
 import os
 
-from .utils.dataIO import dataIO
-from .utils import checks
-from .utils import chat_formatting
-
 import discord
-from discord.ext import commands
 from discord.enums import ChannelType, MessageType
+from discord.ext import commands
+
+from .utils import chat_formatting
+from .utils import checks
+from .utils.dataIO import dataIO
 
 DATA_PATH = "data/bouncer/"
 JSON_PATH = DATA_PATH + "settings.json"
@@ -146,25 +145,25 @@ class Bouncer:
     async def on_message_edit(self, before, after):
         settings = self._get_settings(before.server)
         if settings is not None and settings['ENABLED']:
-            # if len(after.embeds) is not 0:
-            #     logger.info("embeds: {}".format(after.embeds))
-            #     return
-            # if after.call is MessageType.pins_add:
-            #     logger.info("messaged was pinned:  {}".format(after.content))
-            #     return
-            if after.call is MessageType.default:
-                logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
-                                                                      after.content))
-                channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
-                                            type=ChannelType.text)
-                embed = discord.Embed(title="Message edited",
-                                      description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
-                                                                          after.content),
-                                      color=0x8080ff)
-                embed.set_footer(text="ID: {}".format(after.author.id))
-                await self.bot.send_message(channel, embed=embed)
-            else:
+            if len(after.embeds) is not 0:
+                logger.info("embeds: {}".format(after.embeds))
                 return
+            if after.call is MessageType.pins_add:
+                logger.info("messaged was pinned:  {}".format(after.content))
+                return
+            # if after.call is MessageType.default:
+            logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
+                                                                  after.content))
+            channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
+                                        type=ChannelType.text)
+            embed = discord.Embed(title="Message edited",
+                                  description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
+                                                                      after.content),
+                                  color=0x8080ff)
+            embed.set_footer(text="ID: {}".format(after.author.id))
+            await self.bot.send_message(channel, embed=embed)
+            # else:
+            #     return
         else:
             return
 
