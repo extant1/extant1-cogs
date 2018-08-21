@@ -145,7 +145,6 @@ class Bouncer:
 
     async def on_message_edit(self, before, after):
         settings = self._get_settings(before.server)
-        logger.info(settings["ENABLED"])
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} changed the message {} to {}.".format(after.author.user, before.context,
                                                                       after.context))
