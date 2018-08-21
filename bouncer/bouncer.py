@@ -147,11 +147,11 @@ class Bouncer:
         settings = self._get_settings(before.server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} changed the message {} to {}.".format(after.author.user, before.context,
-                                                                      after.context))
+                                                                  after.context))
             channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Message edited",
-                                  description="{}\n{}\nto\n{}".format(after.author.display_name, before.context,
+                                  description="{}\n{}\nto\n{}".format(after.author.user, before.context,
                                                                       after.context),
                                   color=0x8080ff)
             embed.set_footer(text="ID: {}".format(after.author.id))
