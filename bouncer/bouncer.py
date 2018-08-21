@@ -149,7 +149,7 @@ class Bouncer:
             if after.call is MessageType.pins_add:
                 logger.info("pins add")
                 return
-            if len(after.embeds) is 0:
+            if len(after.embeds) is not 0:
                 logger.info("embeds: {}".format(after.embeds))
                 return
             if after.call is MessageType.default:
