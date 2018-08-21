@@ -101,7 +101,7 @@ class Bouncer:
             return
 
     async def on_member_update(self, before, after):
-        settings = self._get_settings(after.server)
+        settings = self._get_settings(before.server)
         if settings is not None:
             if settings['ENABLED']:
                 if before.display_name != after.display_name or before.name != after.name:
