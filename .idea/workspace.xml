@@ -16,8 +16,8 @@
       <file leaf-file-name="bouncer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="147" column="35" selection-start-line="147" selection-start-column="35" selection-end-line="147" selection-end-column="35" />
+            <state relative-caret-position="284">
+              <caret line="148" column="23" selection-start-line="148" selection-start-column="23" selection-end-line="148" selection-end-column="23" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -86,10 +86,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="117" />
-    <option name="y" value="40" />
-    <option name="width" value="1781" />
-    <option name="height" value="885" />
+    <option name="x" value="463" />
+    <option name="y" value="43" />
+    <option name="width" value="1435" />
+    <option name="height" value="882" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -182,7 +182,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="117" y="40" width="1781" height="885" extended-state="0" />
+    <frame x="463" y="43" width="1435" height="882" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -192,7 +192,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15107496" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18909091" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -481,8 +481,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="147" column="35" selection-start-line="147" selection-start-column="35" selection-end-line="147" selection-end-column="35" />
+        <state relative-caret-position="284">
+          <caret line="148" column="23" selection-start-line="148" selection-start-column="23" selection-end-line="148" selection-end-column="23" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
