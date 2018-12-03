@@ -9,12 +9,12 @@ from .utils import chat_formatting
 from .utils import checks
 from .utils.dataIO import dataIO
 
-DATA_PATH = "data/bouncer/"
+DATA_PATH = "data/sentinel/"
 JSON_PATH = DATA_PATH + "settings.json"
 
 
 class Sentinel:
-    """The bouncer watches who comes and goes and makes a note in a specified channel."""
+    """The sentinel watches who comes and goes and makes a note in a specified channel."""
 
     def __init__(self, bot):
         self.bot = bot
@@ -195,19 +195,19 @@ class Sentinel:
             return
 
     @checks.admin()
-    @commands.group(name="bouncer", invoke_without_command=False, pass_context=True, no_pm=True)
+    @commands.group(name="sentinel", invoke_without_command=False, pass_context=True, no_pm=True)
     async def _bouncer(self, ctx):
-        """Change the bouncer settings"""
+        """Change the sentinel settings"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
     @checks.admin()
     @_bouncer.command(name="channel", pass_context=True, no_pm=True)
     async def _channel(self, ctx, channel: str = None):
-        """Set the channel the bouncer reports to."""
+        """Set the channel the sentinel reports to."""
         if channel is not None:
             self._set_setting(ctx.message, "CHANNEL", channel)
-            await self.bot.say("Setting bouncer channel to: " + chat_formatting.bold(channel))
+            await self.bot.say("Setting sentinel channel to: " + chat_formatting.bold(channel))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -217,16 +217,16 @@ class Sentinel:
         """Enable or disable the Bouncer."""
         if option is not None:
             self._set_setting(ctx.message, "ENABLED", option)
-            await self.bot.say("The bouncer is enabled: " + chat_formatting.bold(option))
+            await self.bot.say("The sentinel is enabled: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
 
 
 def check_folders():
-    if os.path.exists("data/bouncer/"):
-        os.rename("data/bouncer/", DATA_PATH)
+    if os.path.exists("data/sentinel/"):
+        os.rename("data/sentinel/", DATA_PATH)
     if not os.path.exists(DATA_PATH):
-        print("Creating data/bouncer folder...")
+        print("Creating data/sentinel folder...")
         os.mkdir(DATA_PATH)
 
 
@@ -245,7 +245,7 @@ def setup(bot):
         # Prevents the logger from being loaded again in case of module reload
         logger.setLevel(logging.INFO)
         handler = logging.FileHandler(
-            filename='data/bouncer/bouncer.log', encoding='utf-8', mode='a')
+            filename='data/sentinel/sentinel.log', encoding='utf-8', mode='a')
         handler.setFormatter(logging.Formatter(
             '%(asctime)s %(message)s', datefmt="[%d/%m/%Y %H:%M]"))
         logger.addHandler(handler)
