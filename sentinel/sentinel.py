@@ -176,7 +176,7 @@ class Sentinel:
                                       description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
                                                                           after.content),
                                       color=0x8080ff)
-                embed.set_thumbnail(url=after.avatar_url)
+                embed.set_thumbnail(url=after.author.avatar_url)
                 embed.set_footer(text="ID: {}".format(after.author.id))
                 await self.bot.send_message(channel, embed=embed)
         else:
