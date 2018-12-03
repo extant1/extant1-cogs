@@ -44,7 +44,7 @@ class ServerQuery:
         else:
             return self.config[serverid]
 
-    async def query_info(self, ctx):
+    def query_info(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             try:
@@ -52,11 +52,11 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.info()
             except:
-                await self.bot.say("Could not query the server.")
+                pass
         else:
             return None
 
-    async def query_players(self, ctx):
+    def query_players(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             try:
@@ -64,7 +64,7 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.players()
             except:
-                await self.bot.say("Could not query the server.")
+                pass
         else:
             return None
 
@@ -82,7 +82,7 @@ class ServerQuery:
             else:
                 await self.bot.say("There are currently **{player_count}/{max_players}** players.".format(**info))
         else:
-            await self.bot.say("No server config available.")
+            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
     @commands.command(pass_context=True, no_pm=True)
     async def ip(self, ctx):
@@ -97,7 +97,7 @@ class ServerQuery:
                 await self.bot.say(
                     "The server ip is: " + chat_formatting.bold(settings['ip']) + ":" + chat_formatting.bold(str(port)))
             else:
-                await self.bot.say("No server config available.")
+                await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
     @commands.command(pass_context=True, no_pm=True)
     async def mission(self, ctx):
@@ -109,7 +109,7 @@ class ServerQuery:
             else:
                 return
         else:
-            await self.bot.say("No server config available.")
+            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
     @commands.command(name="who", pass_context=True, no_pm=True)
     async def who(self, ctx):
@@ -221,7 +221,7 @@ class ServerQuery:
                 debug_info += '{} = {}\n'.format(x, y)
             await self.bot.say("```py\n" + debug_info + "```")
         else:
-            await self.bot.say("No server config available.")
+            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
     @checks.admin()
     @_querydebug.command(name="player", pass_context=True, no_pm=True)
@@ -235,7 +235,7 @@ class ServerQuery:
                 debug_info += '{}\n'.format(x.values)
             await self.bot.say("```json\n" + debug_info + "```")
         else:
-            await self.bot.say("No server config available.")
+            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
 
 def check_folders():
