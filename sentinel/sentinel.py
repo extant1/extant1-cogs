@@ -28,7 +28,7 @@ class Sentinel:
         return self._create_settings(ctx, settings)
 
     def _create_settings(self, ctx, settings):
-        serverid = ctx.server.id
+        serverid = ctx.id
         if serverid not in self.config:
             self.config[serverid] = {}
         self.config[serverid] = settings
