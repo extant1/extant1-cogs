@@ -167,7 +167,7 @@ class Sentinel:
             if after.call is MessageType.pins_add:
                 logger.info("messaged was pinned:  {}".format(after.content))
                 return
-            if after.author.id != self.bot.user.id:
+            if not after.author.bot:
                 logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
                                                                       after.content))
                 channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
