@@ -57,7 +57,7 @@ class ServerQuery:
         else:
             return None
 
-    def query_players(self, ctx):
+    async def query_players(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             try:
