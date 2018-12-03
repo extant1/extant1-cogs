@@ -44,37 +44,29 @@ class ServerQuery:
         else:
             return self.config[serverid]
 
-    async def query_info(self, ctx):
+    def query_info(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
-            print("settings isn't none")
-            try:
-                print("trying")
+            # try:
                 server_address = (settings['ip'], settings['port'])
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     print("it did the thing")
                     return server.info()
-            except:
-                print("the exception triggered")
-                await self.bot.say("Could not query the server.")
+            # except:
+            #     await self.bot.say("Could not query the server.")
         else:
             return None
 
-    async def query_players(self, ctx):
+    def query_players(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
-            print("settings isn't none")
-            try:
-                print("trying")
+            # try:
                 server_address = (settings['ip'], settings['port'])
                 with valve.source.a2s.ServerQuerier(server_address) as server:
-                    print("it did the thing")
                     return server.players()
-            except:
-                print("the exception triggered")
-                await self.bot.say("Could not query the server.")
+            # except:
+            #     await self.bot.say("Could not query the server.")
         else:
-            print("settings are none")
             return None
 
     @staticmethod
