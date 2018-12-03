@@ -28,7 +28,7 @@ class Sentinel:
         return self._create_settings(ctx, settings)
 
     def _create_settings(self, ctx, settings):
-        serverid = ctx.id
+        serverid = ctx.server.id
         if serverid not in self.config:
             self.config[serverid] = {}
         self.config[serverid] = settings
@@ -38,7 +38,7 @@ class Sentinel:
         serverid = ctx.id
         if serverid not in self.config:
             self.config[serverid] = {}
-            settings = {"CHANNEL": None, "ENABLED": False}
+            settings = {"CHANNEL": None, "ENABLED": False, "CreatedBy": 'GetSettings'}
             self._create_settings(ctx, settings)
             dataIO.save_json(JSON_PATH, self.config)
         return self.config[serverid]
