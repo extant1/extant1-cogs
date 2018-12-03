@@ -119,19 +119,47 @@ class Sentinel:
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
                 if before.roles != after.roles:
+                    # old_roles = [r.name for r in before.roles if r.name != "@everyone"]
+                    # new_roles = [r.name for r in after.roles if r.name != "@everyone"]
+                    # if len(old_roles) == 0:
+                    #     old_roles.append("None")
+                    # if len(new_roles) == 0:
+                    #     new_roles.append("None")
+                    # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
+                    # channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
+                    #                             type=ChannelType.text)
+                    # embed = discord.Embed(title="Role changed",
+                    #                       description="Before:\n{}\n\nAfter:\n{}".format(
+                    #                           ', '.join(str(e) for e in old_roles),
+                    #                           ', '.join(str(e) for e in new_roles)),
+                    #                       color=0xffff00)
+                    # embed.add_field(name="{}".format(after.display_name),
+                    #                 value="{}#{}".format(after.name, after.discriminator))
+                    # embed.set_footer(text="ID: {}".format(before.id))
+                    # await self.bot.send_message(channel, embed=embed)
                     old_roles = [r.name for r in before.roles if r.name != "@everyone"]
                     new_roles = [r.name for r in after.roles if r.name != "@everyone"]
-                    if len(old_roles) == 0:
-                        old_roles.append("None")
-                    if len(new_roles) == 0:
-                        new_roles.append("None")
+                    old_roles_length = len(old_roles)
+                    new_roles_length = len(new_roles)
+                    verb = None
+                    role = []
+
+                    if old_roles_length < new_roles_length:
+                        verb = 'added'
+                    elif old_roles_length > new_roles_length:
+                        verb = 'subtracted'
+
+                    def Diff(li1, li2):
+                        li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
+                        return li_dif
+
+                    role = Diff(old_roles, new_roles)
                     logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
+
                     channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="Role changed",
-                                          description="Before:\n{}\n\nAfter:\n{}".format(
-                                              ', '.join(str(e) for e in old_roles),
-                                              ', '.join(str(e) for e in new_roles)),
+                                          description="{} was {}.".format(role, verb),
                                           color=0xffff00)
                     embed.add_field(name="{}".format(after.display_name),
                                     value="{}#{}".format(after.name, after.discriminator))
