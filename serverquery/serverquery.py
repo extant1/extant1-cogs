@@ -52,8 +52,7 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.info()
             except:
-                await
-                self.bot.say("Could not query the server.")
+                await self.bot.say("Could not query the server.")
         else:
             return None
 
@@ -65,8 +64,7 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.players()
             except:
-                await
-                self.bot.say("Could not query the server.")
+                await self.bot.say("Could not query the server.")
         else:
             return None
 
