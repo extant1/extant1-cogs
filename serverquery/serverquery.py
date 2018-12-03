@@ -57,7 +57,7 @@ class ServerQuery:
         else:
             return None
 
-    async def query_players(self, ctx):
+    def query_players(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             try:
@@ -65,7 +65,7 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.players()
             except NoResponseError:
-                await self.bot.say("Could not query the server.")
+                self.bot.say("Could not query the server.")
         else:
             return None
 
