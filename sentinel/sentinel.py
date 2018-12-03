@@ -51,6 +51,7 @@ class Sentinel:
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Joined", description="\n{}".format(member.mention), color=0x00ff00)
+            embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
                             inline=True)
             embed.set_footer(text="ID: {}".format(member.id))
@@ -66,6 +67,7 @@ class Sentinel:
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Left", color=0xff8000)
+            embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
                             inline=True)
             embed.set_footer(text="ID: {}".format(member.id))
