@@ -160,7 +160,7 @@ class Sentinel:
                     channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="Role changed",
-                                          description="{} was {}.".format(role, verb),
+                                          description="{} was {}.".format(role[0], verb),
                                           color=0xffff00)
                     embed.add_field(name="{}".format(after.display_name),
                                     value="{}#{}".format(after.name, after.discriminator))
