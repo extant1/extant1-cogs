@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/bouncer/sentinel.py" beforeDir="false" afterPath="$PROJECT_DIR$/bouncer/sentinel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sentinel/sentinel.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentinel/sentinel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,22 +20,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="1" />
+          <entry key="json" value="2" />
+          <entry key="py" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="1" />
+          <entry key="JSON" value="2" />
+          <entry key="Python" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="1253" />
+          <entry key="py" value="1285" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="1253" />
+          <entry key="Python" value="1285" />
         </counts>
       </usages-collector>
     </session>
@@ -52,12 +54,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bouncer/sentinel.py">
+        <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="161" column="84" selection-start-line="161" selection-start-column="84" selection-end-line="161" selection-end-column="84" />
+            <state relative-caret-position="153">
+              <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -81,9 +95,9 @@
       <find>capita</find>
       <find>_create_settings</find>
       <find>ctx.message</find>
-      <find>_set_setting</find>
       <find>\n</find>
       <find>no server config</find>
+      <find>_set_setting</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -104,8 +118,9 @@
         <option value="$PROJECT_DIR$/gentry/info.json" />
         <option value="$PROJECT_DIR$/bouncer/info.json" />
         <option value="$PROJECT_DIR$/bouncer/test.py" />
-        <option value="$PROJECT_DIR$/serverquery/serverquery.py" />
         <option value="$PROJECT_DIR$/bouncer/sentinel.py" />
+        <option value="$PROJECT_DIR$/serverquery/serverquery.py" />
+        <option value="$PROJECT_DIR$/sentinel/sentinel.py" />
       </list>
     </option>
   </component>
@@ -149,17 +164,17 @@
             <path>
               <item name="extant1-cogs" type="b2602c69:ProjectViewProjectNode" />
               <item name="extant1-cogs" type="462c0819:PsiDirectoryNode" />
-              <item name="bouncer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="extant1-cogs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="extant1-cogs" type="462c0819:PsiDirectoryNode" />
               <item name="extgeneral" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="extant1-cogs" type="b2602c69:ProjectViewProjectNode" />
               <item name="extant1-cogs" type="462c0819:PsiDirectoryNode" />
               <item name="gentry" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="extant1-cogs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="extant1-cogs" type="462c0819:PsiDirectoryNode" />
+              <item name="sentinel" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="extant1-cogs" type="b2602c69:ProjectViewProjectNode" />
@@ -218,7 +233,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32912844" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -243,6 +258,16 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/serverquery/serverquery.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/serverquery/2serverquery.py" />
     <entry file="file://$PROJECT_DIR$/lifserverquery/config.py" />
@@ -263,20 +288,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py" />
     <entry file="file://$PROJECT_DIR$/bouncer/test.py" />
-    <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1381">
-          <caret line="99" column="21" selection-start-line="99" selection-start-column="21" selection-end-line="99" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bouncer/info.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gentry/info.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -284,10 +295,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bouncer/sentinel.py">
+    <entry file="file://$PROJECT_DIR$/sentinel/info.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="161" column="84" selection-start-line="161" selection-start-column="84" selection-end-line="161" selection-end-column="84" />
+        <state relative-caret-position="221">
+          <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

@@ -21,14 +21,14 @@ class Sentinel:
         self.config = dataIO.load_json(JSON_PATH)
 
     def _set_setting(self, ctx, setting, value):
-        settings = self._get_settings(ctx.server)
+        settings = self._get_settings(ctx)
         if not settings:
             settings = {"CHANNEL": None, "ENABLED": False}
         settings[setting] = value
         return self._create_settings(ctx, settings)
 
     def _create_settings(self, ctx, settings):
-        serverid = ctx.server.id
+        serverid = ctx.id
         if serverid not in self.config:
             self.config[serverid] = {}
         self.config[serverid] = settings
