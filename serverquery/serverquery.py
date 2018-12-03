@@ -44,21 +44,27 @@ class ServerQuery:
         else:
             return self.config[serverid]
 
-    def query_info(self, ctx):
+    async def query_info(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             server_address = (settings['ip'], settings['port'])
-            with valve.source.a2s.ServerQuerier(server_address) as server:
-                return server.info()
+            try:
+                with valve.source.a2s.ServerQuerier(server_address) as server:
+                    return server.info()
+            except:
+                return await self.bot.say("Could not query the server.")
         else:
             return None
 
-    def query_players(self, ctx):
+    async def query_players(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             server_address = (settings['ip'], settings['port'])
-            with valve.source.a2s.ServerQuerier(server_address) as server:
-                return server.players()
+            try:
+                with valve.source.a2s.ServerQuerier(server_address) as server:
+                    return server.players()
+            except:
+                return await self.bot.say("Could not query the server.")
         else:
             return None
 

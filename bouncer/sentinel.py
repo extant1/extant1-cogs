@@ -13,7 +13,7 @@ DATA_PATH = "data/bouncer/"
 JSON_PATH = DATA_PATH + "settings.json"
 
 
-class Bouncer:
+class Sentinel:
     """The bouncer watches who comes and goes and makes a note in a specified channel."""
 
     def __init__(self, bot):
@@ -146,7 +146,6 @@ class Bouncer:
         settings = self._get_settings(before.server)
         if settings is not None and settings['ENABLED']:
             if len(after.embeds) is not 0:
-                logger.info("embeds: {}".format(after.embeds))
                 return
             if after.call is MessageType.pins_add:
                 logger.info("messaged was pinned:  {}".format(after.content))
@@ -213,7 +212,7 @@ def setup(bot):
     global logger
     check_folders()
     check_files()
-    logger = logging.getLogger("bouncer")
+    logger = logging.getLogger("sentinel")
     if logger.level == 0:
         # Prevents the logger from being loaded again in case of module reload
         logger.setLevel(logging.INFO)
@@ -222,4 +221,4 @@ def setup(bot):
         handler.setFormatter(logging.Formatter(
             '%(asctime)s %(message)s', datefmt="[%d/%m/%Y %H:%M]"))
         logger.addHandler(handler)
-    bot.add_cog(Bouncer(bot))
+    bot.add_cog(Sentinel(bot))
