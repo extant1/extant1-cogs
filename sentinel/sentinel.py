@@ -37,10 +37,11 @@ class Sentinel:
     def _get_settings(self, ctx):
         serverid = ctx.id
         if serverid not in self.config:
-            self.config[serverid] = {}
-            settings = {"CHANNEL": None, "ENABLED": False, "CreatedBy": 'GetSettings'}
-            self._create_settings(ctx, settings)
-            dataIO.save_json(JSON_PATH, self.config)
+            return None
+            # self.config[serverid] = {}
+            # settings = {"CHANNEL": None, "ENABLED": False, "CreatedBy": 'GetSettings'}
+            # self._create_settings(ctx, settings)
+            # dataIO.save_json(JSON_PATH, self.config)
         return self.config[serverid]
 
     async def on_member_join(self, member):
@@ -206,7 +207,7 @@ class Sentinel:
     async def _channel(self, ctx, channel: str = None):
         """Set the channel the sentinel reports to."""
         if channel is not None:
-            self._set_setting(ctx.message, "CHANNEL", channel)
+            self._set_setting(ctx.message.server, "CHANNEL", channel)
             await self.bot.say("Setting sentinel channel to: " + chat_formatting.bold(channel))
         else:
             await self.bot.send_cmd_help(ctx)
@@ -216,7 +217,7 @@ class Sentinel:
     async def _enabled(self, ctx, option: bool):
         """Enable or disable the Bouncer."""
         if option is not None:
-            self._set_setting(ctx.message, "ENABLED", option)
+            self._set_setting(ctx.message.server, "ENABLED", option)
             await self.bot.say("The sentinel is enabled: " + chat_formatting.bold(option))
         else:
             await self.bot.send_cmd_help(ctx)
