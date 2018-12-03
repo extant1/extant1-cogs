@@ -44,7 +44,7 @@ class ServerQuery:
         else:
             return self.config[serverid]
 
-    def query_info(self, ctx):
+    async def query_info(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             try:
@@ -52,11 +52,11 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.info()
             except:
-                self.bot.say("Could not query the server.")
+                await self.bot.say("Could not query the server.")
         else:
             return None
 
-    def query_players(self, ctx):
+    async def query_players(self, ctx):
         settings = self._get_settings(ctx)
         if settings is not None:
             try:
@@ -64,7 +64,7 @@ class ServerQuery:
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.players()
             except:
-                self.bot.say("Could not query the server.")
+                await self.bot.say("Could not query the server.")
         else:
             return None
 
@@ -76,7 +76,6 @@ class ServerQuery:
     async def players(self, ctx):
         """Query the server for player count."""
         info = self.query_info(ctx)
-        print(info)
         if info is not None:
             if info['player_count'] is 0:
                 await self.bot.say("The server is empty.")
