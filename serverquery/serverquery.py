@@ -51,7 +51,7 @@ class ServerQuery:
                 server_address = (settings['ip'], settings['port'])
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.info()
-            except NoResponseError:
+            except:
                 self.bot.say("Could not query the server.")
         else:
             return None
@@ -63,7 +63,7 @@ class ServerQuery:
                 server_address = (settings['ip'], settings['port'])
                 with valve.source.a2s.ServerQuerier(server_address) as server:
                     return server.players()
-            except NoResponseError:
+            except:
                 self.bot.say("Could not query the server.")
         else:
             return None
