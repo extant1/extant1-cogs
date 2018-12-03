@@ -97,7 +97,7 @@ class Sentinel:
             channel = discord.utils.get(server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
-            embed.set_thumbnail(url=member.avatar_url)
+            embed.set_thumbnail(url=user.avatar_url)
             embed.add_field(name=user.display_name, value="{}#{}".format(user.name, user.discriminator), inline=True)
             embed.set_footer(text="ID: {}".format(user.id))
             await self.bot.send_message(channel, embed=embed)
@@ -115,7 +115,7 @@ class Sentinel:
                     embed = discord.Embed(title="User changed their name",
                                           description="{}".format(after.mention),
                                           color=0xffff00)
-                    embed.set_thumbnail(url=member.avatar_url)
+                    embed.set_thumbnail(url=after.avatar_url)
                     embed.add_field(name="Before",
                                     value="{}\n{}#{}".format(before.display_name, before.name, before.discriminator),
                                     inline=True)
@@ -149,7 +149,7 @@ class Sentinel:
                     embed = discord.Embed(title="Role changed",
                                           description="{} was {}.".format(role[0], verb),
                                           color=0xffff00)
-                    embed.set_thumbnail(url=member.avatar_url)
+                    embed.set_thumbnail(url=after.avatar_url)
                     embed.add_field(name="{}".format(after.display_name),
                                     value="{}#{}".format(after.name, after.discriminator))
                     embed.set_footer(text="ID: {}".format(before.id))
@@ -176,7 +176,7 @@ class Sentinel:
                                       description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
                                                                           after.content),
                                       color=0x8080ff)
-                embed.set_thumbnail(url=member.avatar_url)
+                embed.set_thumbnail(url=after.avatar_url)
                 embed.set_footer(text="ID: {}".format(after.author.id))
                 await self.bot.send_message(channel, embed=embed)
         else:
