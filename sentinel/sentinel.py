@@ -82,6 +82,7 @@ class Sentinel:
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Banned", color=0xffff00)
+            embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
                             inline=True)
             embed.set_footer(text="ID: {}".format(member.id))
@@ -96,6 +97,7 @@ class Sentinel:
             channel = discord.utils.get(server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
+            embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=user.display_name, value="{}#{}".format(user.name, user.discriminator), inline=True)
             embed.set_footer(text="ID: {}".format(user.id))
             await self.bot.send_message(channel, embed=embed)
@@ -113,6 +115,7 @@ class Sentinel:
                     embed = discord.Embed(title="User changed their name",
                                           description="{}".format(after.mention),
                                           color=0xffff00)
+                    embed.set_thumbnail(url=member.avatar_url)
                     embed.add_field(name="Before",
                                     value="{}\n{}#{}".format(before.display_name, before.name, before.discriminator),
                                     inline=True)
@@ -122,24 +125,6 @@ class Sentinel:
                     embed.set_footer(text="ID: {}".format(before.id))
                     await self.bot.send_message(channel, embed=embed)
                 if before.roles != after.roles:
-                    # old_roles = [r.name for r in before.roles if r.name != "@everyone"]
-                    # new_roles = [r.name for r in after.roles if r.name != "@everyone"]
-                    # if len(old_roles) == 0:
-                    #     old_roles.append("None")
-                    # if len(new_roles) == 0:
-                    #     new_roles.append("None")
-                    # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
-                    # channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
-                    #                             type=ChannelType.text)
-                    # embed = discord.Embed(title="Role changed",
-                    #                       description="Before:\n{}\n\nAfter:\n{}".format(
-                    #                           ', '.join(str(e) for e in old_roles),
-                    #                           ', '.join(str(e) for e in new_roles)),
-                    #                       color=0xffff00)
-                    # embed.add_field(name="{}".format(after.display_name),
-                    #                 value="{}#{}".format(after.name, after.discriminator))
-                    # embed.set_footer(text="ID: {}".format(before.id))
-                    # await self.bot.send_message(channel, embed=embed)
                     old_roles = [r.name for r in before.roles if r.name != "@everyone"]
                     new_roles = [r.name for r in after.roles if r.name != "@everyone"]
                     old_roles_length = len(old_roles)
@@ -164,6 +149,7 @@ class Sentinel:
                     embed = discord.Embed(title="Role changed",
                                           description="{} was {}.".format(role[0], verb),
                                           color=0xffff00)
+                    embed.set_thumbnail(url=member.avatar_url)
                     embed.add_field(name="{}".format(after.display_name),
                                     value="{}#{}".format(after.name, after.discriminator))
                     embed.set_footer(text="ID: {}".format(before.id))
@@ -190,6 +176,7 @@ class Sentinel:
                                   description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
                                                                       after.content),
                                   color=0x8080ff)
+            embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text="ID: {}".format(after.author.id))
             await self.bot.send_message(channel, embed=embed)
             # else:
