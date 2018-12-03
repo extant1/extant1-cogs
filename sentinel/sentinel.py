@@ -167,20 +167,18 @@ class Sentinel:
             if after.call is MessageType.pins_add:
                 logger.info("messaged was pinned:  {}".format(after.content))
                 return
-            # if after.call is MessageType.default:
-            logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
-                                                                  after.content))
-            channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
-                                        type=ChannelType.text)
-            embed = discord.Embed(title="Message edited",
-                                  description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
-                                                                      after.content),
-                                  color=0x8080ff)
-            embed.set_thumbnail(url=member.avatar_url)
-            embed.set_footer(text="ID: {}".format(after.author.id))
-            await self.bot.send_message(channel, embed=embed)
-            # else:
-            #     return
+            if after.author.id != self.bot.user.id:
+                logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
+                                                                      after.content))
+                channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
+                                            type=ChannelType.text)
+                embed = discord.Embed(title="Message edited",
+                                      description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
+                                                                          after.content),
+                                      color=0x8080ff)
+                embed.set_thumbnail(url=member.avatar_url)
+                embed.set_footer(text="ID: {}".format(after.author.id))
+                await self.bot.send_message(channel, embed=embed)
         else:
             return
 
