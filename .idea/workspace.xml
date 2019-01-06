@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="string -&gt; list">
+    <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="check if array is empty">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sentinel/sentinel.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentinel/sentinel.py" afterDir="false" />
     </list>
@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
-              <caret line="219" column="51" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
+            <state relative-caret-position="580">
+              <caret line="220" column="33" selection-start-line="220" selection-start-column="33" selection-end-line="220" selection-end-column="33" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -76,9 +76,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="748" />
-    <option name="y" value="3" />
+    <option name="y" value="4" />
     <option name="width" value="1117" />
-    <option name="height" value="1006" />
+    <option name="height" value="1005" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -169,7 +169,7 @@
       <updated>1532389151978</updated>
       <workItem from="1546741816091" duration="13000" />
       <workItem from="1546742432098" duration="45000" />
-      <workItem from="1546801520191" duration="4063000" />
+      <workItem from="1546801520191" duration="4351000" />
     </task>
     <task id="LOCAL-00001" summary="-Added git ignore&#10;-Add ignored roles option">
       <created>1546802576996</created>
@@ -199,14 +199,28 @@
       <option name="project" value="LOCAL" />
       <updated>1546806296646</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update help">
+      <created>1546806558094</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1546806558094</updated>
+    </task>
+    <task id="LOCAL-00006" summary="check if array is empty">
+      <created>1546806772761</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1546806772761</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4121000" />
+    <option name="totallyTimeSpent" value="4409000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="748" y="3" width="1117" height="1006" extended-state="0" />
+    <frame x="748" y="4" width="1117" height="1005" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22043519" />
@@ -240,7 +254,9 @@
     <MESSAGE value="-split with space" />
     <MESSAGE value="debug" />
     <MESSAGE value="string -&gt; list" />
-    <option name="LAST_COMMIT_MESSAGE" value="string -&gt; list" />
+    <MESSAGE value="update help" />
+    <MESSAGE value="check if array is empty" />
+    <option name="LAST_COMMIT_MESSAGE" value="check if array is empty" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -306,8 +322,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="219" column="51" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
+        <state relative-caret-position="580">
+          <caret line="220" column="33" selection-start-line="220" selection-start-column="33" selection-end-line="220" selection-end-column="33" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
