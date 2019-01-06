@@ -186,7 +186,7 @@ class Sentinel:
         else:
             return
 
-    @checks.admin()
+        @checks.admin()
     @commands.group(name="sentinel", invoke_without_command=False, pass_context=True, no_pm=True)
     async def _bouncer(self, ctx):
         """Change the sentinel settings"""
@@ -215,7 +215,7 @@ class Sentinel:
 
     @checks.admin()
     @_bouncer.command(name="ignored", pass_context=True, no_pm=True)
-    async def _channel(self, ctx, ignored: str = None):
+    async def _ignored(self, ctx, ignored: str = None):
         """Set a list of roles to ignore using a comma separated list.\n Example:  First, Second, The Third, Fourth"""
         if ignored is not None:
             roles_ignored = ignored.split(",")

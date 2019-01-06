@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/extant1-cogs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/extant1-cogs.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sentinel/sentinel.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentinel/sentinel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="988">
-              <caret line="159" selection-start-line="159" selection-end-line="159" />
+            <state relative-caret-position="631">
+              <caret line="217" column="22" selection-start-line="217" selection-start-column="22" selection-end-line="217" selection-end-column="22" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -137,7 +135,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -170,7 +168,7 @@
       <updated>1532389151978</updated>
       <workItem from="1546741816091" duration="13000" />
       <workItem from="1546742432098" duration="45000" />
-      <workItem from="1546801520191" duration="1055000" />
+      <workItem from="1546801520191" duration="2813000" />
     </task>
     <task id="LOCAL-00001" summary="-Added git ignore&#10;-Add ignored roles option">
       <created>1546802576996</created>
@@ -183,7 +181,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1113000" />
+    <option name="totallyTimeSpent" value="2871000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="748" y="3" width="1117" height="1006" extended-state="0" />
@@ -283,8 +281,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="159" selection-start-line="159" selection-end-line="159" />
+        <state relative-caret-position="631">
+          <caret line="217" column="22" selection-start-line="217" selection-start-column="22" selection-end-line="217" selection-end-column="22" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
