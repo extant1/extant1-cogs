@@ -186,7 +186,7 @@ class Sentinel:
         else:
             return
 
-        @checks.admin()
+    @checks.admin()
     @commands.group(name="sentinel", invoke_without_command=False, pass_context=True, no_pm=True)
     async def _bouncer(self, ctx):
         """Change the sentinel settings"""
