@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="">
+    <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="-split with space">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sentinel/sentinel.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentinel/sentinel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="188" column="4" selection-start-line="188" selection-start-column="4" selection-end-line="188" selection-end-column="4" />
+            <state relative-caret-position="580">
+              <caret line="223" column="31" selection-start-line="223" selection-start-column="31" selection-end-line="223" selection-end-column="31" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -168,7 +169,7 @@
       <updated>1532389151978</updated>
       <workItem from="1546741816091" duration="13000" />
       <workItem from="1546742432098" duration="45000" />
-      <workItem from="1546801520191" duration="2961000" />
+      <workItem from="1546801520191" duration="3403000" />
     </task>
     <task id="LOCAL-00001" summary="-Added git ignore&#10;-Add ignored roles option">
       <created>1546802576996</created>
@@ -177,11 +178,18 @@
       <option name="project" value="LOCAL" />
       <updated>1546802576996</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="-split with space">
+      <created>1546805787402</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1546805787402</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3019000" />
+    <option name="totallyTimeSpent" value="3461000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="748" y="3" width="1117" height="1006" extended-state="0" />
@@ -215,7 +223,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-Added git ignore&#10;-Add ignored roles option" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Added git ignore&#10;-Add ignored roles option" />
+    <MESSAGE value="-split with space" />
+    <option name="LAST_COMMIT_MESSAGE" value="-split with space" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -281,8 +290,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="188" column="4" selection-start-line="188" selection-start-column="4" selection-end-line="188" selection-end-column="4" />
+        <state relative-caret-position="580">
+          <caret line="223" column="31" selection-start-line="223" selection-start-column="31" selection-end-line="223" selection-end-column="31" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

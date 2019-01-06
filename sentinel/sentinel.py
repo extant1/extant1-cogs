@@ -219,7 +219,9 @@ class Sentinel:
         """Set a list of roles to ignore using a comma separated (with trailing space) list.\n
         Example:  First, Second, The Third, Fourth"""
         if ignored is not None:
+            print(ignored)
             roles_ignored = ignored.split(", ")
+            print(roles_ignored)
             self._set_setting(ctx.message.server, "IGNORED", roles_ignored)
             await self.bot.say("Ignored roles are: " + chat_formatting.bold(roles_ignored))
         else:
