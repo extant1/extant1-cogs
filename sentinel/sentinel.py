@@ -142,18 +142,22 @@ class Sentinel:
                         return li_dif
 
                     role = Diff(old_roles, new_roles)
-                    logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
 
-                    channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
-                                                type=ChannelType.text)
-                    embed = discord.Embed(title="Role changed",
-                                          description="{} was {}.".format(role[0], verb),
-                                          color=0xffff00)
-                    embed.set_thumbnail(url=after.avatar_url)
-                    embed.add_field(name="{}".format(after.display_name),
-                                    value="{}#{}".format(after.name, after.discriminator))
-                    embed.set_footer(text="ID: {}".format(before.id))
-                    await self.bot.send_message(channel, embed=embed)
+                    if role in settings['IGNORED']:
+                        return
+                    else:
+                        logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
+
+                        channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
+                                                    type=ChannelType.text)
+                        embed = discord.Embed(title="Role changed",
+                                              description="{} was {}.".format(role[0], verb),
+                                              color=0xffff00)
+                        embed.set_thumbnail(url=after.avatar_url)
+                        embed.add_field(name="{}".format(after.display_name),
+                                        value="{}#{}".format(after.name, after.discriminator))
+                        embed.set_footer(text="ID: {}".format(before.id))
+                        await self.bot.send_message(channel, embed=embed)
             else:
                 return
         else:
@@ -206,6 +210,17 @@ class Sentinel:
         if option is not None:
             self._set_setting(ctx.message.server, "ENABLED", option)
             await self.bot.say("The sentinel is enabled: " + chat_formatting.bold(option))
+        else:
+            await self.bot.send_cmd_help(ctx)
+
+    @checks.admin()
+    @_bouncer.command(name="ignored", pass_context=True, no_pm=True)
+    async def _channel(self, ctx, ignored: str = None):
+        """Set a list of roles to ignore using a comma separated list.\n Example:  First, Second, The Third, Fourth"""
+        if ignored is not None:
+            roles_ignored = ignored.split(",")
+            self._set_setting(ctx.message.server, "IGNORED", roles_ignored)
+            await self.bot.say("Ignored roles are: " + chat_formatting.bold(roles_ignored))
         else:
             await self.bot.send_cmd_help(ctx)
 
