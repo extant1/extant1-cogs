@@ -215,15 +215,13 @@ class Sentinel:
 
     @checks.admin()
     @_bouncer.command(name="ignored", pass_context=True, no_pm=True)
-    async def _ignored(self, ctx, ignored: str = None):
+    async def _ignored(self, ctx, *ignored):
         """Set a list of roles to ignore using a comma separated (with trailing space) list.\n
         Example:  First, Second, The Third, Fourth"""
         if ignored is not None:
             print(ignored)
-            roles_ignored = ignored.split(", ")
-            print(roles_ignored)
-            self._set_setting(ctx.message.server, "IGNORED", roles_ignored)
-            await self.bot.say("Ignored roles are: " + chat_formatting.bold(roles_ignored))
+            self._set_setting(ctx.message.server, "IGNORED", ignored)
+            await self.bot.say("Ignored roles are: " + chat_formatting.bold(ignored))
         else:
             await self.bot.send_cmd_help(ctx)
 
