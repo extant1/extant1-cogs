@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f27cbe4-e06e-4c9e-820a-40827c9b71a2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/sentinel/sentinel.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentinel/sentinel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/extant1-cogs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/extant1-cogs.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,68 +12,15 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="589810533">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="json" value="2" />
-          <entry key="py" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="JSON" value="2" />
-          <entry key="Python" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="py" value="1614" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="Python" value="1614" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gentry/info.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="22" lean-forward="true" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="169" column="18" selection-start-line="169" selection-start-column="18" selection-end-line="169" selection-end-column="18" />
+            <state relative-caret-position="988">
+              <caret line="159" selection-start-line="159" selection-end-line="159" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -121,18 +70,14 @@
         <option value="$PROJECT_DIR$/bouncer/test.py" />
         <option value="$PROJECT_DIR$/bouncer/sentinel.py" />
         <option value="$PROJECT_DIR$/serverquery/serverquery.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/sentinel/sentinel.py" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="810" />
+    <option name="x" value="748" />
+    <option name="y" value="3" />
     <option name="width" value="1117" />
     <option name="height" value="1006" />
   </component>
@@ -192,7 +137,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -223,14 +168,28 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1532389151978</updated>
+      <workItem from="1546741816091" duration="13000" />
+      <workItem from="1546742432098" duration="45000" />
+      <workItem from="1546801520191" duration="1055000" />
     </task>
+    <task id="LOCAL-00001" summary="-Added git ignore&#10;-Add ignored roles option">
+      <created>1546802576996</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1546802576996</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1113000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="810" y="0" width="1117" height="1006" extended-state="0" />
+    <frame x="748" y="3" width="1117" height="1006" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20151372" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22043519" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -256,8 +215,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="-Added git ignore&#10;-Add ignored roles option" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Added git ignore&#10;-Add ignored roles option" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -289,13 +249,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bouncer/bouncer.py" />
     <entry file="file://$PROJECT_DIR$/bouncer/test.py" />
-    <entry file="file://$PROJECT_DIR$/gentry/info.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="22" lean-forward="true" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sentinel/info.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -308,18 +261,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/serverquery/serverquery.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+        <state relative-caret-position="561">
+          <caret line="42" column="23" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gentry/info.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-918" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sentinel/sentinel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="169" column="18" selection-start-line="169" selection-start-column="18" selection-end-line="169" selection-end-column="18" />
+        <state relative-caret-position="988">
+          <caret line="159" selection-start-line="159" selection-end-line="159" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
