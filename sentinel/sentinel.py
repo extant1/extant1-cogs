@@ -54,6 +54,7 @@ class Sentinel:
             embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
                             inline=True)
+            embed.add_field(name="Account Created:", value="{}".format(member.created_at))
             embed.set_footer(text="ID: {}".format(member.id))
             await self.bot.send_message(channel, embed=embed)
         else:
