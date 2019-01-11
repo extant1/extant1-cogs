@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime, timedelta
 
 import discord
 from discord.enums import ChannelType, MessageType
@@ -50,7 +51,13 @@ class Sentinel:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
-            embed = discord.Embed(title="Member Joined", description="\n{}".format(member.mention), color=0x00ff00)
+            if (datetime.utcnow() - member.created_at) > timedelta(7):
+                message = ""
+            elif (datetime.utcnow() - member.created_at) < timedelta(3):
+                message = "\nWARNING!!!  ACCOUNT IS LESS THAN THREE DAYS OLD."
+            elif (datetime.utcnow() - member.created_at) < timedelta(1):
+                message = "\nWARNING!!!  ACCOUNT IS LESS THAN ONE DAY OLD."
+            embed = discord.Embed(title="Member Joined", description="\n{}{}".format(member.mention, message), color=0x00ff00)
             embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
                             inline=True)
