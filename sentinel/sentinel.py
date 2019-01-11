@@ -51,12 +51,12 @@ class Sentinel:
             logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
-            if (datetime.utcnow() - member.created_at) > timedelta(7):
-                message = ""
+            if (datetime.utcnow() - member.created_at) < timedelta(1):
+                message = "\nWARNING!!!  ACCOUNT IS LESS THAN ONE DAY OLD."
             elif (datetime.utcnow() - member.created_at) < timedelta(3):
                 message = "\nWARNING!!!  ACCOUNT IS LESS THAN THREE DAYS OLD."
-            elif (datetime.utcnow() - member.created_at) < timedelta(1):
-                message = "\nWARNING!!!  ACCOUNT IS LESS THAN ONE DAY OLD."
+            elif (datetime.utcnow() - member.created_at) > timedelta(3):
+                message = ""
             embed = discord.Embed(title="Member Joined", description="\n{}{}".format(member.mention, message), color=0x00ff00)
             embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
