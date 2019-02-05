@@ -37,10 +37,10 @@ class ExtGeneral:
             await self.bot.say("The combat patch is coming out right meow!")
         else:
             await self.bot.say(
-                "The combat patch will be released in {} days, {} hours, {} minutes, and {} seconds.").format(days,
-                                                                                                              hours,
-                                                                                                              minutes,
-                                                                                                              seconds)
+                "The combat patch will be released in {} days, {} hours, {} minutes, and {} seconds.".format(days,
+                                                                                                             hours,
+                                                                                                             minutes,
+                                                                                                             seconds))
 
 
 def setup(bot):
