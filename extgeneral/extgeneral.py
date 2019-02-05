@@ -1,3 +1,5 @@
+import random
+
 import discord
 from discord.ext import commands
 
@@ -23,6 +25,22 @@ class ExtGeneral:
         else:
             name = ctx.message.author.display_name
             await self.bot.say(name + " ノ( ゜-゜ノ)")
+
+    @commands.command(pass_context=True)
+    async def predictcombatpatch(self, ctx):
+        """When will the combat patch be released?"""
+        days = random.randint(0, 365)
+        hours = random.randint(0, 24)
+        minutes = random.randint(0, 60)
+        seconds = random.randint(0, 60)
+        if days == 0 and hours == 0 and minutes == 0 and seconds == 0:
+            await self.bot.say("The combat patch is coming out right meow!")
+        else:
+            await self.bot.say(
+                "The combat patch will be released in {} days, {} hours, {} minutes, and {} seconds.").format(days,
+                                                                                                              hours,
+                                                                                                              minutes,
+                                                                                                              seconds)
 
 
 def setup(bot):
