@@ -41,6 +41,23 @@ class ExtGeneral:
                                                                                                              hours,
                                                                                                              minutes,
                                                                                                              seconds))
+            
+
+    @commands.command(pass_context=True)
+    async def predicttoren(self, ctx):
+        """When will Toren play lif again?"""
+        days = random.randint(0, 365)
+        hours = random.randint(0, 24)
+        minutes = random.randint(0, 60)
+        seconds = random.randint(0, 60)
+        if days == 0 and hours == 0 and minutes == 0 and seconds == 0:
+            await self.bot.say("Toren is connecting right meow!")
+        else:
+            await self.bot.say(
+                "Toren will play life is feudal in {} days, {} hours, {} minutes, and {} seconds.".format(days,
+                                                                                                             hours,
+                                                                                                             minutes,
+                                                                                                             seconds))
 
 
 def setup(bot):
