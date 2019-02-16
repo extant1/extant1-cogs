@@ -72,7 +72,7 @@ class ServerQuery:
     def remove_microseconds(delta):
         return delta - datetime.timedelta(microseconds=delta.microseconds)
 
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(pass_context=True, no_pm=True, aliases=["p"])
     async def players(self, ctx):
         """Query the server for player count."""
         info = self.query_info(ctx)
