@@ -84,6 +84,18 @@ class ServerQuery:
         else:
             await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
+    @commands.command(pass_context=True, no_pm=True, aliases=["s"])
+    async def server(self, ctx):
+        """Reeeeeeeeeeeee."""
+        info = self.query_info(ctx)
+        if info is not None:
+            if info['player_count'] is 0:
+                await self.bot.say("There are no players inside me.")
+            else:
+                await self.bot.say("There are currently **{player_count}/{max_players}** players inside me.".format(**info))
+        else:
+            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+
     @commands.command(pass_context=True, no_pm=True)
     async def ip(self, ctx):
         """Display the server IP."""
