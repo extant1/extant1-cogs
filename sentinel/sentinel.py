@@ -224,7 +224,7 @@ class Sentinel:
     @_bouncer.command(name="ignored", pass_context=True, no_pm=True)
     async def _ignored(self, ctx, *ignored):
         """Set a list of roles to ignore. Use space as a separator and quotes (") around roles with spaces.\n
-        Example:  First, \"A Second\", \"The Third\", Fourth"""
+        Example: [p]sentinel ignored First \"A Second\" \"The Third\" Fourth"""
         if len(ignored) is not 0:
             self._set_setting(ctx.message.server, "IGNORED", ignored)
             await self.bot.say("Ignored roles are: " + chat_formatting.bold(ignored))
