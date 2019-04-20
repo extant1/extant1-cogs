@@ -36,10 +36,10 @@ class Sentinel:
         dataIO.save_json(JSON_PATH, self.config)
 
     def _get_settings(self, ctx):
-        print("-------")
-        print(ctx.id)
-        print("-------")
-        serverid = ctx.id
+        if ctx.id is None:
+            serverid = None
+        else:
+            serverid = ctx.id
         if serverid not in self.config:
             return None
             # self.config[serverid] = {}
