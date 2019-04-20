@@ -148,13 +148,16 @@ class Sentinel:
                     elif old_roles_length > new_roles_length:
                         verb = 'removed'
 
-                    def Diff(li1, li2):
-                        li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
-                        return li_dif
+                    # def Diff(li1, li2):
+                    #     li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
+                    #     return li_dif
+                    #
+                    # role = Diff(old_roles, new_roles)
 
-                    role = Diff(old_roles, new_roles)
+                    role = set(old_roles).difference(new_roles)
+                    print(role)
 
-                    if role[0] in settings['IGNORED']:
+                    if role in settings['IGNORED']:
                         return
                     else:
                         logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
