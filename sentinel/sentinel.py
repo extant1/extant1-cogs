@@ -150,7 +150,7 @@ class Sentinel:
                         verb = 'removed'
                         role = list(set(old_roles).difference(new_roles))
 
-                    print(role[0])
+                    print(settings['IGNORED'])
 
                     if role in settings['IGNORED']:
                         return
