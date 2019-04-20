@@ -37,7 +37,7 @@ class Sentinel:
 
     def _get_settings(self, ctx):
         print("-------")
-        print(ctx)
+        print(ctx.id)
         print("-------")
         serverid = ctx.id
         if serverid not in self.config:
@@ -49,9 +49,6 @@ class Sentinel:
         return self.config[serverid]
 
     async def on_member_join(self, member):
-        print("======")
-        print(member.server)
-        print("======")
         settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
             logger.info("{} joined the server.".format(member.display_name))
