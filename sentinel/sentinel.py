@@ -145,10 +145,10 @@ class Sentinel:
 
                     if old_roles_length < new_roles_length:
                         verb = 'added'
-                        role = set(new_roles).difference(old_roles)
+                        role = list(set(new_roles).difference(old_roles))
                     elif old_roles_length > new_roles_length:
                         verb = 'removed'
-                        role = set(old_roles).difference(new_roles)
+                        role = list(set(old_roles).difference(new_roles))
 
                     print(role[0])
 
