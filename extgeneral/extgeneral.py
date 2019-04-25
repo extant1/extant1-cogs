@@ -41,7 +41,6 @@ class ExtGeneral:
                                                                                                              hours,
                                                                                                              minutes,
                                                                                                              seconds))
-            
 
     @commands.command(pass_context=True)
     async def predicttoren(self, ctx):

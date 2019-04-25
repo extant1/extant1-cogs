@@ -1,0 +1,11 @@
+{
+    "AUTHOR" : "Whiskey Maple",
+    "DESCRIPTION" : "Karaoke queue management.",
+    "INSTALL_MSG" : "Congrats, it installed.",
+    "NAME" : "Karaoke",
+    "SHORT" : "Karaoke queue management",
+    "TAGS" : [
+        "karaoke",
+        "queue"
+    ]
+}
