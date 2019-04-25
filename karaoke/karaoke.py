@@ -86,10 +86,13 @@ class Karaoke:
         await self.bot.say("The queue has been rewound.")
 
     @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
-    async def _done(self, ctx, user: discord.Member = None):
-        if user:
+    async def _done(self, ctx):
+        user = ctx.message.author
+        if user.display_name == self.queue[0]:
             self.queue.rotate(-1)
             await self.bot.say("I have advanced the queue " + bold(user.display_name))
+        else:
+            await self.bot.say("It's " + bold(self.queue[0] + "'s turn."))
 
     # needs karaoke role permission
     @_karaoke.command(name="reset", pass_context=True, no_pm=True)
