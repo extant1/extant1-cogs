@@ -18,13 +18,13 @@ class Karaoke:
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["s"])
-    async def list(self):
+    @_karaoke.command(name="list", pass_context=True, no_pm=True)
+    async def _list(self):
         await self.bot.say(", ".join(list(self.queue)))
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["a"])
-    async def add(self, ctx, user: discord.Member = None):
+    @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
+    async def _add(self, ctx, user: discord.Member = None):
         if user:
             self.queue.append(user.display_name)
         else:
@@ -32,15 +32,15 @@ class Karaoke:
             self.queue.append(user.display_name)
         await self.bot.say(user.display_name + " added to the queue.")
 
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["j"])
-    async def join(self, ctx):
+    @_karaoke.command(name="join", pass_context=True, no_pm=True, aliases=["j"])
+    async def _join(self, ctx):
         user = ctx.message.author
         self.queue.append(user.display_name)
         await self.bot.say(user.display_name + " added to the queue.")
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["r"])
-    async def remove(self, ctx, user: discord.Member = None):
+    @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
+    async def _remove(self, ctx, user: discord.Member = None):
         if user:
             self.queue.remove(user.display_name)
         else:
@@ -48,34 +48,34 @@ class Karaoke:
             self.queue.remove(user.display_name)
         await self.bot.say(user.display_name + " removed from the queue.")
 
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["l"])
-    async def leave(self, ctx):
+    @_karaoke.command(name="leave", pass_context=True, no_pm=True, aliases=["l"])
+    async def _leave(self, ctx):
         user = ctx.message.author
         self.queue.remove(user.display_name)
         await self.bot.say(user.display_name + " removed from the queue.")
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["skip", "n"])
-    async def next(self, ctx, user: discord.Member = None):
+    @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
+    async def _next(self, ctx, user: discord.Member = None):
         pass
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["b"])
-    async def back(self, ctx, user: discord.Member = None):
+    @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b"])
+    async def _back(self, ctx, user: discord.Member = None):
         pass
 
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["d", "finished"])
-    async def done(self, ctx, user: discord.Member = None):
-        pass
-
-    # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True)
-    async def reset(self, ctx):
+    @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
+    async def _done(self, ctx, user: discord.Member = None):
         pass
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True)
-    async def shuffle(self, ctx):
+    @_karaoke.command(name="reset", pass_context=True, no_pm=True)
+    async def _reset(self, ctx):
+        pass
+
+    # needs karaoke role permission
+    @_karaoke.command(name="shuffle", pass_context=True, no_pm=True)
+    async def _shuffle(self, ctx):
         pass
 
     # @commands.command(pass_context=True)
