@@ -16,7 +16,14 @@ class Karaoke:
     @commands.group(name="karaoke", invoke_without_command=False, pass_context=True, no_pm=True, aliases=["k"])
     async def _karaoke(self, ctx):
         if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
+            if len(list(self.queue)) is not 0:
+                await self.bot.say(", ".join(list(self.queue)))
+            else:
+                await self.bot.say("The queue is empty.")
+
+    @_karaoke.command(name="help", pass_context=True, no_pm=True)
+    async def _help(self, ctx):
+        await self.bot.send_cmd_help(ctx)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
