@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 
 from .utils import checks
+from .utils.chat_formatting import question, italics, bold, box
 
 
 class Karaoke:
@@ -23,7 +24,8 @@ class Karaoke:
 
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
-        await self.bot.send_cmd_help()
+        await self.bot.send_cmd_help(ctx)
+        await self.bot.send(question("Test?"))
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
@@ -39,14 +41,14 @@ class Karaoke:
             user = ctx.message.author
         if user.display_name not in self.queue:
             self.queue.append(user.display_name)
-            await self.bot.say(user.display_name + " added to the queue.")
+            await self.bot.say(bold(user.display_name) + " added to the queue.")
 
     @_karaoke.command(name="join", pass_context=True, no_pm=True, aliases=["j"])
     async def _join(self, ctx):
         user = ctx.message.author
         if user.display_name not in self.queue:
             self.queue.append(user.display_name)
-            await self.bot.say(user.display_name + " added to the queue.")
+            await self.bot.say(bold(user.display_name) + " added to the queue.")
 
     # needs karaoke role permission
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
@@ -55,14 +57,14 @@ class Karaoke:
             user = ctx.message.author
         if user.display_name in self.queue:
             self.queue.remove(user.display_name)
-            await self.bot.say(user.display_name + " removed from the queue.")
+            await self.bot.say(bold(user.display_name) + " removed from the queue.")
 
     @_karaoke.command(name="leave", pass_context=True, no_pm=True, aliases=["l"])
     async def _leave(self, ctx):
         user = ctx.message.author
         if user.display_name in self.queue:
             self.queue.remove(user.display_name)
-            await self.bot.say(user.display_name + " removed from the queue.")
+            await self.bot.say(bold(user.display_name) + " removed from the queue.")
         else:
             await self.bot.say("You are not in queue.")
 
