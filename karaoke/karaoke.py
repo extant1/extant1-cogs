@@ -74,7 +74,7 @@ class Karaoke:
         pass
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["s"])
+    @_karaoke.command(pass_context=True, no_pm=True)
     async def shuffle(self, ctx):
         pass
 
