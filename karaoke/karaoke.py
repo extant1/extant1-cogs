@@ -77,7 +77,8 @@ class Karaoke:
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
         self.queue.rotate(-1)
-        await self.bot.say("It's now " + bold(self.queue[0]) + "'s turn!")
+        await self.bot.say(
+            "It's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
 
     # needs karaoke role permission
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
@@ -91,7 +92,8 @@ class Karaoke:
         if user.display_name == self.queue[0]:
             self.queue.rotate(-1)
             await self.bot.say(
-                "Nice job " + bold(user.display_name) + "!  It's now " + bold(self.queue[0]) + "'s turn!")
+                "Nice job " + bold(user.display_name) + "!  It's now " + bold(
+                    self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
         else:
             await self.bot.say("It's " + bold(self.queue[0]) + "'s turn so you can't advance the queue!")
 
