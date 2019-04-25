@@ -18,13 +18,21 @@ class Karaoke:
     async def _karaoke(self, ctx):
         if ctx.invoked_subcommand is None:
             if len(list(self.queue)) is not 0:
-                await self.bot.say(", ".join(list(self.queue)))
+                embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
+                embed.set_author(name="Current:  " + self.queue[0])
+                if len(list(self.queue)) > 2:
+                    embed.set_footer(text="Queue: " + ", ".join(list(self.queue[2:])))
+                await self.bot.say(embed=embed)
             else:
                 await self.bot.say("The queue is empty.")
 
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
-        await self.bot.send_cmd_help(ctx)
+        embed = discord.Embed(title="Karaoke Commands")
+        embed.add_field(name="join | j", value="Join the Queue.", inline=False)
+        embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
+        embed.add_field(name="done | d | finished", value="End your turn to advance the queue.", inline=False)
+        await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
@@ -33,7 +41,7 @@ class Karaoke:
         else:
             await self.bot.say("The queue is empty.")
 
-    # needs karaoke role permission
+    # todo:  needs karaoke role permission, check if a user is online
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
         if user is None:
