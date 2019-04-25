@@ -25,7 +25,6 @@ class Karaoke:
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
         await self.bot.send_cmd_help(ctx)
-        await self.bot.say(question("Test?"))
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
@@ -76,13 +75,15 @@ class Karaoke:
 
     # needs karaoke role permission
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
-    async def _next(self, ctx, user: discord.Member = None):
-        pass
+    async def _next(self, ctx):
+        self.queue.rotate(-1)
+        self.bot.say("The queue has advanced.")
 
     # needs karaoke role permission
-    @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b"])
-    async def _back(self, ctx, user: discord.Member = None):
-        pass
+    @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
+    async def _back(self, ctx):
+        self.queue.rotate(1)
+        self.bot.say("The queue has been rewound.")
 
     @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
     async def _done(self, ctx, user: discord.Member = None):
