@@ -31,7 +31,7 @@ class Karaoke:
         embed = discord.Embed(title="Karaoke Commands")
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
-        embed.add_field(name="done | d | finished", value="End your turn to advance the queue.", inline=False)
+        embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
         await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
@@ -85,25 +85,34 @@ class Karaoke:
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
         self.queue.rotate(-1)
-        await self.bot.say(
-            "It's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
+        # await self.bot.say(
+        #     "It's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
+        embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
+        embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
+        await self.bot.say(embed=embed)
 
     # needs karaoke role permission
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
     async def _back(self, ctx):
         self.queue.rotate(1)
-        await self.bot.say(
-            "The queue has been rewound.\nIt's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(
-                self.queue[1]) + ", you're up next!")
+        # await self.bot.say(
+        #     "The queue has been rewound.\nIt's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(
+        #         self.queue[1]) + ", you're up next!")
+        embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
+        embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
+        await self.bot.say(embed=embed)
 
     @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
     async def _done(self, ctx):
         user = ctx.message.author
         if user.display_name == self.queue[0]:
             self.queue.rotate(-1)
-            await self.bot.say(
-                "Nice job " + bold(user.display_name) + "!\nIt's now " + bold(
-                    self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
+            # await self.bot.say(
+            #     "Nice job " + bold(user.display_name) + "!\nIt's now " + bold(
+            #         self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
+            embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
+            embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
+            await self.bot.say(embed=embed)
         else:
             await self.bot.say("It's " + bold(self.queue[0]) + "'s turn so you can't advance the queue!")
 
