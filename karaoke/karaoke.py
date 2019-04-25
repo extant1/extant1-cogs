@@ -25,7 +25,7 @@ class Karaoke:
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
         await self.bot.send_cmd_help(ctx)
-        await self.bot.send(question("Test?"))
+        await self.bot.say(question("Test?"))
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
