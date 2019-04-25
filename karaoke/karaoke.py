@@ -86,6 +86,11 @@ class Karaoke:
     # async def active(self, ctx, user: discord.Member = None):
     #     pass
 
+    @checks.admin()
+    @_karaoke.command(pass_context=True, no_pm=True)
+    async def role(self, ctx):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Karaoke(bot))
