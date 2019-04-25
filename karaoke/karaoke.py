@@ -69,7 +69,7 @@ class Karaoke:
         pass
 
     # needs karaoke role permission
-    @_karaoke.command(pass_context=True, no_pm=True, aliases=["r"])
+    @_karaoke.command(pass_context=True, no_pm=True)
     async def reset(self, ctx):
         pass
 
