@@ -21,7 +21,7 @@ class Karaoke:
                 embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
                 embed.set_author(name="Current:  " + self.queue[0])
                 if len(list(self.queue)) > 2:
-                    embed.set_footer(text="Queue: " + ", ".join(list(self.queue[2:])))
+                    embed.set_footer(text="Queue: " + ", ".join(list(self.queue)[2:]))
                 await self.bot.say(embed=embed)
             else:
                 await self.bot.say("The queue is empty.")
