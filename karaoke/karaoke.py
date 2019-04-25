@@ -23,7 +23,6 @@ class Karaoke:
         await self.bot.say(", ".join(list(self.queue)))
 
     # needs karaoke role permission
-    @checks.role_or_permissions(check="karaoke")
     @_karaoke.command(pass_context=True, no_pm=True, aliases=["a"])
     async def add(self, ctx, user: discord.Member = None):
         if user:
@@ -40,7 +39,6 @@ class Karaoke:
         await self.bot.say(user.display_name + " added to the queue.")
 
     # needs karaoke role permission
-    @checks.role_or_permissions(check="karaoke")
     @_karaoke.command(pass_context=True, no_pm=True, aliases=["r"])
     async def remove(self, ctx, user: discord.Member = None):
         if user:
