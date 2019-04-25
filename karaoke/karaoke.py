@@ -92,7 +92,7 @@ class Karaoke:
             self.queue.rotate(-1)
             await self.bot.say("I have advanced the queue " + bold(user.display_name))
         else:
-            await self.bot.say("It's " + bold(self.queue[0] + "'s turn."))
+            await self.bot.say("It's " + bold(self.queue[0]) + "'s turn so you can't advance the queue!")
 
     # needs karaoke role permission
     @_karaoke.command(name="reset", pass_context=True, no_pm=True)
