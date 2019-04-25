@@ -77,27 +77,31 @@ class Karaoke:
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
         self.queue.rotate(-1)
-        self.bot.say("The queue has advanced.")
+        await self.bot.say("The queue has advanced.")
 
     # needs karaoke role permission
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
     async def _back(self, ctx):
         self.queue.rotate(1)
-        self.bot.say("The queue has been rewound.")
+        await self.bot.say("The queue has been rewound.")
 
     @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
     async def _done(self, ctx, user: discord.Member = None):
-        pass
+        if user:
+            self.queue.rotate(-1)
+            await self.bot.say("I have advanced the queue " + bold(user.display_name))
 
     # needs karaoke role permission
     @_karaoke.command(name="reset", pass_context=True, no_pm=True)
     async def _reset(self, ctx):
-        pass
+        if len(list(self.queue)) is not 0:
+            self.queue.clear()
+            await self.bot.say("The queue is now clear.")
 
     # needs karaoke role permission
-    @_karaoke.command(name="shuffle", pass_context=True, no_pm=True)
-    async def _shuffle(self, ctx):
-        pass
+    # @_karaoke.command(name="shuffle", pass_context=True, no_pm=True)
+    # async def _shuffle(self, ctx):
+    #     pass
 
     # @commands.command(pass_context=True)
     # async def inactive(self, ctx, user: discord.Member = None):
