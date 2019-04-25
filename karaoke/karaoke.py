@@ -42,6 +42,8 @@ class Karaoke:
         if user.display_name not in self.queue:
             self.queue.append(user.display_name)
             await self.bot.say(bold(user.display_name) + " added to the queue.")
+        else:
+            await self.bot.say(bold(user.display_name) + " already in queue.")
 
     @_karaoke.command(name="join", pass_context=True, no_pm=True, aliases=["j"])
     async def _join(self, ctx):
@@ -49,6 +51,8 @@ class Karaoke:
         if user.display_name not in self.queue:
             self.queue.append(user.display_name)
             await self.bot.say(bold(user.display_name) + " added to the queue.")
+        else:
+            await self.bot.say(bold(user.display_name) + " already in queue.")
 
     # needs karaoke role permission
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
@@ -58,6 +62,8 @@ class Karaoke:
         if user.display_name in self.queue:
             self.queue.remove(user.display_name)
             await self.bot.say(bold(user.display_name) + " removed from the queue.")
+        else:
+            await self.bot.say(bold(user.display_name) + " not in queue.")
 
     @_karaoke.command(name="leave", pass_context=True, no_pm=True, aliases=["l"])
     async def _leave(self, ctx):
