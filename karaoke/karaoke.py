@@ -20,39 +20,44 @@ class Karaoke:
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
-        await self.bot.say(", ".join(list(self.queue)))
+        if len(list(self.queue)) is not 0:
+            await self.bot.say(", ".join(list(self.queue)))
+        else:
+            await self.bot.say("The queue is empty.")
 
     # needs karaoke role permission
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
-        if user:
-            self.queue.append(user.display_name)
-        else:
+        if user is None:
             user = ctx.message.author
+        if user.display_name not in self.queue:
             self.queue.append(user.display_name)
-        await self.bot.say(user.display_name + " added to the queue.")
+            await self.bot.say(user.display_name + " added to the queue.")
 
     @_karaoke.command(name="join", pass_context=True, no_pm=True, aliases=["j"])
     async def _join(self, ctx):
         user = ctx.message.author
-        self.queue.append(user.display_name)
-        await self.bot.say(user.display_name + " added to the queue.")
+        if user.display_name not in self.queue:
+            self.queue.append(user.display_name)
+            await self.bot.say(user.display_name + " added to the queue.")
 
     # needs karaoke role permission
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
     async def _remove(self, ctx, user: discord.Member = None):
-        if user:
-            self.queue.remove(user.display_name)
-        else:
+        if user is None:
             user = ctx.message.author
+        if user.display_name in self.queue:
             self.queue.remove(user.display_name)
-        await self.bot.say(user.display_name + " removed from the queue.")
+            await self.bot.say(user.display_name + " removed from the queue.")
 
     @_karaoke.command(name="leave", pass_context=True, no_pm=True, aliases=["l"])
     async def _leave(self, ctx):
         user = ctx.message.author
-        self.queue.remove(user.display_name)
-        await self.bot.say(user.display_name + " removed from the queue.")
+        if user.display_name in self.queue:
+            self.queue.remove(user.display_name)
+            await self.bot.say(user.display_name + " removed from the queue.")
+        else:
+            await self.bot.say("You are not in queue.")
 
     # needs karaoke role permission
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
