@@ -3,7 +3,6 @@ import os
 
 import discord
 from discord.ext import commands
-from discord.ext.commands import has_role
 
 from .utils import checks
 from .utils.dataIO import dataIO
@@ -31,6 +30,15 @@ class Karaoke:
     def update_settings(self, server, settings):
         self.settings[server.id] = settings
         self.save()
+
+    @staticmethod
+    def has_role(ctx, role):
+        msg = ctx.message
+        ch = msg.channel
+        if ch.is_private:
+            return False
+        role = discord.utils.get(msg.author.roles, name=role)
+        return role is not None
 
     @commands.group(name="karaoke", invoke_without_command=False, pass_context=True, no_pm=True, aliases=["k"])
     async def _karaoke(self, ctx):
