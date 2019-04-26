@@ -46,27 +46,36 @@ class Karaoke:
 
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
-        # settings = self.get_settings(ctx.message.server)
+        settings = self.get_settings(ctx.message.server)
 
         embed = discord.Embed(title="Karaoke Commands")
+        embed.add_field(name="list", value="Show the queue, same as 'karaoke or k' without a command.", inline=False)
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
-        if checks.role_or_permissions(ctx, self.settings['role']):
+        if checks.role_or_permissions(ctx, settings['role']):
             embed.add_field(name="add | a", value="Add an @user to the queue.", inline=False)
+            embed.add_field(name="remove | r", value="Remove an @user from the queue.", inline=False)
+            embed.add_field(name="next | skip | n", value="Advance the queue to the next person.", inline=False)
+            embed.add_field(name="back | rewind | b", value="Rewinds the queue to the previous person.", inline=False)
+            embed.add_field(name="clear | reset", value="Empty the queue of all users.", inline=False)
         await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
     async def _list(self):
         if len(list(self.queue)) is not 0:
-            await self.bot.say(", ".join(list(self.queue)))
+            embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
+            embed.set_author(name="Current:  " + self.queue[0])
+            if len(list(self.queue)) > 2:
+                embed.set_footer(text="Queue: " + ", ".join(list(self.queue)[2:]))
+            await self.bot.say(embed=embed)
         else:
             await self.bot.say("The queue is empty.")
-
     # todo:  needs karaoke role permission, check if a user is online
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
-        if checks.role_or_permissions(ctx, self.settings['role']):
+        settings = self.get_settings(ctx.message.server)
+        if checks.role_or_permissions(ctx, settings['role']):
             if user is None:
                 user = ctx.message.author
             if user.display_name not in self.queue:
@@ -87,13 +96,15 @@ class Karaoke:
     # needs karaoke role permission
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
     async def _remove(self, ctx, user: discord.Member = None):
-        if user is None:
-            user = ctx.message.author
-        if user.display_name in self.queue:
-            self.queue.remove(user.display_name)
-            await self.bot.say(bold(user.display_name) + " removed from the queue.")
-        else:
-            await self.bot.say(bold(user.display_name) + " not in queue.")
+        settings = self.get_settings(ctx.message.server)
+        if checks.role_or_permissions(ctx, settings['role']):
+            if user is None:
+                user = ctx.message.author
+            if user.display_name in self.queue:
+                self.queue.remove(user.display_name)
+                await self.bot.say(bold(user.display_name) + " removed from the queue.")
+            else:
+                await self.bot.say(bold(user.display_name) + " not in queue.")
 
     @_karaoke.command(name="leave", pass_context=True, no_pm=True, aliases=["l"])
     async def _leave(self, ctx):
@@ -107,23 +118,22 @@ class Karaoke:
     # needs karaoke role permission
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
-        self.queue.rotate(-1)
-        # await self.bot.say(
-        #     "It's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
-        embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
-        embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
-        await self.bot.say(embed=embed)
+        settings = self.get_settings(ctx.message.server)
+        if checks.role_or_permissions(ctx, settings['role']):
+            self.queue.rotate(-1)
+            embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
+            embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
+            await self.bot.say(embed=embed)
 
     # needs karaoke role permission
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
     async def _back(self, ctx):
-        self.queue.rotate(1)
-        # await self.bot.say(
-        #     "The queue has been rewound.\nIt's now " + bold(self.queue[0]) + "'s turn!\nGet ready " + bold(
-        #         self.queue[1]) + ", you're up next!")
-        embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
-        embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
-        await self.bot.say(embed=embed)
+        settings = self.get_settings(ctx.message.server)
+        if checks.role_or_permissions(ctx, settings['role']):
+            self.queue.rotate(1)
+            embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
+            embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
+            await self.bot.say(embed=embed)
 
     @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
     async def _done(self, ctx):
@@ -141,12 +151,14 @@ class Karaoke:
             await self.bot.say("It's " + bold(self.queue[0]) + "'s turn so you can't advance the queue!")
 
     # needs karaoke role permission
-    @_karaoke.command(name="reset", pass_context=True, no_pm=True)
+    @_karaoke.command(name="reset", pass_context=True, no_pm=True, aliases=["clear"])
     async def _reset(self, ctx):
         """Empty the karaoke queue."""
-        if len(list(self.queue)) is not 0:
-            self.queue.clear()
-            await self.bot.say("The queue is now clear.")
+        settings = self.get_settings(ctx.message.server)
+        if checks.role_or_permissions(ctx, settings['role']):
+            if len(list(self.queue)) is not 0:
+                self.queue.clear()
+                await self.bot.say("The queue is now clear.")
 
     # needs karaoke role permission
     # @_karaoke.command(name="shuffle", pass_context=True, no_pm=True)
