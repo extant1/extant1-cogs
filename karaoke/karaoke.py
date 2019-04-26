@@ -54,7 +54,7 @@ class Karaoke:
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
-        if self.get_settings['role'] in user.roles:
+        if settings['role'] in user.roles:
             embed.add_field(name="add | a", value="Add an @user to the queue.", inline=False)
         await self.bot.say(embed=embed)
 
