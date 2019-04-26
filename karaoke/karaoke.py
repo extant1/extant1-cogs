@@ -8,7 +8,6 @@ from .utils import checks
 from .utils.dataIO import dataIO
 from .utils.chat_formatting import question, italics, bold, box
 
-
 DATA_PATH = 'data/karaoke/'
 JSON_PATH = DATA_PATH + 'config.json'
 
@@ -59,6 +58,11 @@ class Karaoke:
             embed.add_field(name="next | skip | n", value="Advance the queue to the next person.", inline=False)
             embed.add_field(name="back | rewind | b", value="Rewinds the queue to the previous person.", inline=False)
             embed.add_field(name="clear | reset", value="Empty the queue of all users.", inline=False)
+        if checks.admin():
+            embed.add_field(name="role",
+                            value="Set the karaoke manager role, use double quotes to wrap roles with spaces. " +
+                                  "Example:  [p]k role \"karaoke overlords\"",
+                            inline=False)
         await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
@@ -71,6 +75,7 @@ class Karaoke:
             await self.bot.say(embed=embed)
         else:
             await self.bot.say("The queue is empty.")
+
     # todo:  needs karaoke role permission, check if a user is online
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
