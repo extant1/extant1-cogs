@@ -1,10 +1,15 @@
 from collections import deque
+import os
 
 import discord
 from discord.ext import commands
 
 from .utils import checks
+from .utils.dataIO import dataIO
 from .utils.chat_formatting import question, italics, bold, box
+
+
+JSON_PATH = "data/karaoke/config.json"
 
 
 class Karaoke:
@@ -12,7 +17,19 @@ class Karaoke:
 
     def __init__(self, bot):
         self.bot = bot
+        self.settings = dataIO.load_json(JSON_PATH)
         self.queue = deque()
+
+    def save(self):
+        dataIO.save_json(JSON_PATH, self.settings)
+
+    def get_settings(self, server):
+        sid = server.id
+        return self.settings.get(sid, {})
+
+    def update_settings(self, server, settings):
+        self.settings[server.id] = settings
+        self.save()
 
     @commands.group(name="karaoke", invoke_without_command=False, pass_context=True, no_pm=True, aliases=["k"])
     async def _karaoke(self, ctx):
@@ -143,4 +160,8 @@ class Karaoke:
 
 
 def setup(bot):
+    if not dataIO.is_valid_json(JSON_PATH):
+        print("Creating %s..." % JSON_PATH)
+        dataIO.save_json(JSON_PATH, {})
+
     bot.add_cog(Karaoke(bot))
