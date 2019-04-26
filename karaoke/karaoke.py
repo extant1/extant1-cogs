@@ -61,7 +61,7 @@ class Karaoke:
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
-        if has_role(settings['role']):
+        if self.has_role(settings['role']):
             embed.add_field(name="add | a", value="MANAGER ONLY:\nAdd an @user to the queue.", inline=False)
             embed.add_field(name="remove | r", value="MANAGER ONLY:\nRemove an @user from the queue.", inline=False)
             embed.add_field(name="next | skip | n", value="MANAGER ONLY:\nAdvance the queue to the next person.", inline=False)
