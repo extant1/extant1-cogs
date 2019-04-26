@@ -53,15 +53,15 @@ class Karaoke:
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
         if checks.role_or_permissions(ctx, settings['role']):
-            embed.add_field(name="add | a", value="MANAGER ONLY: Add an @user to the queue.", inline=False)
-            embed.add_field(name="remove | r", value="MANAGER ONLY: Remove an @user from the queue.", inline=False)
-            embed.add_field(name="next | skip | n", value="MANAGER ONLY: Advance the queue to the next person.", inline=False)
-            embed.add_field(name="back | rewind | b", value="MANAGER ONLY: Rewinds the queue to the previous person.", inline=False)
-            embed.add_field(name="clear | reset", value="MANAGER ONLY: Empty the queue of all users.", inline=False)
+            embed.add_field(name="add | a", value="MANAGER ONLY:\nAdd an @user to the queue.", inline=False)
+            embed.add_field(name="remove | r", value="MANAGER ONLY:\nRemove an @user from the queue.", inline=False)
+            embed.add_field(name="next | skip | n", value="MANAGER ONLY:\nAdvance the queue to the next person.", inline=False)
+            embed.add_field(name="back | rewind | b", value="MANAGER ONLY:\nRewinds the queue to the previous person.", inline=False)
+            embed.add_field(name="clear | reset", value="MANAGER ONLY:\nEmpty the queue of all users.", inline=False)
         if checks.admin():
             embed.add_field(name="role",
-                            value="ADMIN ONLY: Set the karaoke manager role, use quotes to wrap roles with " +
-                                  "spaces. Example:  [p]k role \"karaoke overlords\"",
+                            value="ADMIN ONLY:\nSet the karaoke manager role, use quotes to wrap roles with " +
+                                  "spaces.\nExample:  [p]k role \"karaoke overlords\"",
                             inline=False)
         await self.bot.say(embed=embed)
 
