@@ -156,8 +156,11 @@ class Karaoke:
 
     @checks.admin()
     @_karaoke.command(pass_context=True, no_pm=True)
-    async def role(self, ctx):
-        pass
+    async def role(self, ctx, role: str = None):
+        server = ctx.message.server
+        settings = self.get_settings(server)
+        settings['role'] = role
+        self.update_settings(server, settings)
 
 
 def check_folders():
