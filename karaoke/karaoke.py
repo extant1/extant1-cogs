@@ -181,7 +181,7 @@ class Karaoke:
         """Test command"""
         settings = self.get_settings(ctx.message.server)
         if self.has_role(ctx, settings['role']):
-            await self.bot.say(self.has_role(ctx, settings['role']))
+            await self.bot.say(checks.admin())
 
     # needs karaoke role permission
     # @_karaoke.command(name="shuffle", pass_context=True, no_pm=True)
