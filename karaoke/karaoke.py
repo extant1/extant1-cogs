@@ -46,10 +46,14 @@ class Karaoke:
 
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
+        user = ctx.message.author
+
         embed = discord.Embed(title="Karaoke Commands")
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
+        if self.get_settings['role'] in user.roles:
+            embed.add_field(name="add | a", value="Add an @user to the queue.", inline=False)
         await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
@@ -122,6 +126,7 @@ class Karaoke:
 
     @_karaoke.command(name="done", pass_context=True, no_pm=True, aliases=["d", "finished"])
     async def _done(self, ctx):
+        """Allows the current singer to complete their turn."""
         user = ctx.message.author
         if user.display_name == self.queue[0]:
             self.queue.rotate(-1)
@@ -137,6 +142,7 @@ class Karaoke:
     # needs karaoke role permission
     @_karaoke.command(name="reset", pass_context=True, no_pm=True)
     async def _reset(self, ctx):
+        """Empty the karaoke queue."""
         if len(list(self.queue)) is not 0:
             self.queue.clear()
             await self.bot.say("The queue is now clear.")
@@ -157,10 +163,13 @@ class Karaoke:
     @checks.admin()
     @_karaoke.command(pass_context=True, no_pm=True)
     async def role(self, ctx, role: str = None):
-        server = ctx.message.server
-        settings = self.get_settings(server)
-        settings['role'] = role
-        self.update_settings(server, settings)
+        """Set the karaoke manager role for the server."""
+        if role is not None:
+            server = ctx.message.server
+            settings = self.get_settings(server)
+            settings['role'] = role
+            self.update_settings(server, settings)
+            await self.bot.say("The karaoke manager role is set as: " + role)
 
 
 def check_folders():
