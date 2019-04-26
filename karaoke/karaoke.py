@@ -81,7 +81,7 @@ class Karaoke:
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
         settings = self.get_settings(ctx.message.server)
-        if has_role(ctx, settings['role']):
+        if has_role(settings['role']):
             if user is None:
                 user = ctx.message.author
             if user.display_name not in self.queue:
@@ -103,7 +103,7 @@ class Karaoke:
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
     async def _remove(self, ctx, user: discord.Member = None):
         settings = self.get_settings(ctx.message.server)
-        if has_role(ctx, settings['role']):
+        if has_role(settings['role']):
             if user is None:
                 user = ctx.message.author
             if user.display_name in self.queue:
@@ -125,7 +125,7 @@ class Karaoke:
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
         settings = self.get_settings(ctx.message.server)
-        if has_role(ctx, settings['role']):
+        if has_role(settings['role']):
             self.queue.rotate(-1)
             embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
             embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
@@ -135,7 +135,7 @@ class Karaoke:
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
     async def _back(self, ctx):
         settings = self.get_settings(ctx.message.server)
-        if has_role(ctx, settings['role']):
+        if has_role(settings['role']):
             self.queue.rotate(1)
             embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
             embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
@@ -161,7 +161,7 @@ class Karaoke:
     async def _reset(self, ctx):
         """Empty the karaoke queue."""
         settings = self.get_settings(ctx.message.server)
-        if has_role(ctx, settings['role']):
+        if has_role(settings['role']):
             if len(list(self.queue)) is not 0:
                 self.queue.clear()
                 await self.bot.say("The queue is now clear.")
