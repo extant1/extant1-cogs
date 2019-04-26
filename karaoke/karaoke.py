@@ -47,13 +47,14 @@ class Karaoke:
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
         user = ctx.message.author
-
+        print(user.roles)
+        print(self.get_settings['role'])
         embed = discord.Embed(title="Karaoke Commands")
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
-        if self.get_settings['role'] in user.roles:
-            embed.add_field(name="add | a", value="Add an @user to the queue.", inline=False)
+        # if self.get_settings['role'] in user.roles:
+        #     embed.add_field(name="add | a", value="Add an @user to the queue.", inline=False)
         await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
