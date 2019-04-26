@@ -67,7 +67,7 @@ class Karaoke:
             embed.add_field(name="next | skip | n", value="MANAGER ONLY:\nAdvance the queue to the next person.", inline=False)
             embed.add_field(name="back | rewind | b", value="MANAGER ONLY:\nRewinds the queue to the previous person.", inline=False)
             embed.add_field(name="clear | reset", value="MANAGER ONLY:\nEmpty the queue of all users.", inline=False)
-        if checks.admin():
+        if checks.admin_or_permissions():
             embed.add_field(name="role",
                             value="ADMIN ONLY:\nSet the karaoke manager role, use quotes to wrap roles with " +
                                   "spaces.\nExample:  [p]k role \"karaoke overlords\"",
