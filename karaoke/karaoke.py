@@ -166,6 +166,15 @@ class Karaoke:
                 self.queue.clear()
                 await self.bot.say("The queue is now clear.")
 
+        # needs karaoke role permission
+
+    @_karaoke.command(name="test", pass_context=True, no_pm=True)
+    async def _test(self, ctx):
+        """Test command"""
+        settings = self.get_settings(ctx.message.server)
+        if has_role(settings['role']):
+            await self.bot.say(has_role(settings['role']))
+
     # needs karaoke role permission
     # @_karaoke.command(name="shuffle", pass_context=True, no_pm=True)
     # async def _shuffle(self, ctx):
