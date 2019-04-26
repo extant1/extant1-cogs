@@ -3,6 +3,7 @@ import os
 
 import discord
 from discord.ext import commands
+from discord.ext.commands import has_role
 
 from .utils import checks
 from .utils.dataIO import dataIO
@@ -52,7 +53,7 @@ class Karaoke:
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if has_role(settings['role']):
             embed.add_field(name="add | a", value="MANAGER ONLY:\nAdd an @user to the queue.", inline=False)
             embed.add_field(name="remove | r", value="MANAGER ONLY:\nRemove an @user from the queue.", inline=False)
             embed.add_field(name="next | skip | n", value="MANAGER ONLY:\nAdvance the queue to the next person.", inline=False)
@@ -80,7 +81,7 @@ class Karaoke:
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
         settings = self.get_settings(ctx.message.server)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if has_role(ctx, settings['role']):
             if user is None:
                 user = ctx.message.author
             if user.display_name not in self.queue:
@@ -102,7 +103,7 @@ class Karaoke:
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
     async def _remove(self, ctx, user: discord.Member = None):
         settings = self.get_settings(ctx.message.server)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if has_role(ctx, settings['role']):
             if user is None:
                 user = ctx.message.author
             if user.display_name in self.queue:
@@ -124,7 +125,7 @@ class Karaoke:
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
         settings = self.get_settings(ctx.message.server)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if has_role(ctx, settings['role']):
             self.queue.rotate(-1)
             embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
             embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
@@ -134,7 +135,7 @@ class Karaoke:
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
     async def _back(self, ctx):
         settings = self.get_settings(ctx.message.server)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if has_role(ctx, settings['role']):
             self.queue.rotate(1)
             embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
             embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
@@ -160,7 +161,7 @@ class Karaoke:
     async def _reset(self, ctx):
         """Empty the karaoke queue."""
         settings = self.get_settings(ctx.message.server)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if has_role(ctx, settings['role']):
             if len(list(self.queue)) is not 0:
                 self.queue.clear()
                 await self.bot.say("The queue is now clear.")
