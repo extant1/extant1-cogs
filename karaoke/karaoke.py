@@ -46,15 +46,14 @@ class Karaoke:
 
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
-        settings = self.get_settings(ctx.message.server)
+        # settings = self.get_settings(ctx.message.server)
 
         embed = discord.Embed(title="Karaoke Commands")
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
-        if checks.role_or_permissions(ctx, settings['role']):
+        if checks.role_or_permissions(ctx, self.settings['role']):
             embed.add_field(name="add | a", value="Add an @user to the queue.", inline=False)
-            await self.bot.say("role was in there")
         await self.bot.say(embed=embed)
 
     @_karaoke.command(name="list", pass_context=True, no_pm=True)
@@ -67,13 +66,14 @@ class Karaoke:
     # todo:  needs karaoke role permission, check if a user is online
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
-        if user is None:
-            user = ctx.message.author
-        if user.display_name not in self.queue:
-            self.queue.append(user.display_name)
-            await self.bot.say(bold(user.display_name) + " added to the queue.")
-        else:
-            await self.bot.say(bold(user.display_name) + " already in queue.")
+        if checks.role_or_permissions(ctx, self.settings['role']):
+            if user is None:
+                user = ctx.message.author
+            if user.display_name not in self.queue:
+                self.queue.append(user.display_name)
+                await self.bot.say(bold(user.display_name) + " added to the queue.")
+            else:
+                await self.bot.say(bold(user.display_name) + " already in queue.")
 
     @_karaoke.command(name="join", pass_context=True, no_pm=True, aliases=["j"])
     async def _join(self, ctx):
