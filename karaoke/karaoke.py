@@ -9,7 +9,8 @@ from .utils.dataIO import dataIO
 from .utils.chat_formatting import question, italics, bold, box
 
 
-JSON_PATH = "data/karaoke/config.json"
+DATA_PATH = 'data/karaoke/'
+JSON_PATH = DATA_PATH + 'config.json'
 
 
 class Karaoke:
@@ -159,9 +160,21 @@ class Karaoke:
         pass
 
 
-def setup(bot):
+def check_folders():
+    if os.path.exists("data/karaoke/"):
+        os.rename("data/karaoke/", DATA_PATH)
+    if not os.path.exists(DATA_PATH):
+        print("Creating data/karaoke folder...")
+        os.mkdir(DATA_PATH)
+
+
+def check_files():
     if not dataIO.is_valid_json(JSON_PATH):
-        print("Creating %s..." % JSON_PATH)
+        print("Creating duelist.json...")
         dataIO.save_json(JSON_PATH, {})
 
+
+def setup(bot):
+    check_folders()
+    check_files()
     bot.add_cog(Karaoke(bot))
