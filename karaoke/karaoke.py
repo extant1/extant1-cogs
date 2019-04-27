@@ -45,10 +45,10 @@ class Karaoke:
         if ctx.invoked_subcommand is None:
             if len(list(self.queue)) is not 0:
                 if len(list(self.queue)) == 1:
+                    embed = discord.Embed(title="Current:  " + self.queue[0], color=0x31df2d)
+                else:
                     embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
                     embed.set_author(name="Current:  " + self.queue[0])
-                else:
-                    embed = discord.Embed(title="Current:  " + self.queue[0], color=0x31df2d)
                 if len(list(self.queue)) > 2:
                     embed.set_footer(text="Queue: " + ", ".join(list(self.queue)[2:]))
                 await self.bot.say(embed=embed)
