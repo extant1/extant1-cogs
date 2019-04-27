@@ -44,8 +44,11 @@ class Karaoke:
     async def _karaoke(self, ctx):
         if ctx.invoked_subcommand is None:
             if len(list(self.queue)) is not 0:
-                embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
-                embed.set_author(name="Current:  " + self.queue[0])
+                if len(list(self.queue)) > 1:
+                    embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
+                    embed.set_author(name="Current:  " + self.queue[0])
+                else:
+                    embed = discord.Embed(title="Current:  " + self.queue[0], color=0x31df2d)
                 if len(list(self.queue)) > 2:
                     embed.set_footer(text="Queue: " + ", ".join(list(self.queue)[2:]))
                 await self.bot.say(embed=embed)
@@ -57,33 +60,23 @@ class Karaoke:
         settings = self.get_settings(ctx.message.server)
 
         embed = discord.Embed(title="Karaoke Commands")
-        embed.add_field(name="list", value="Show the queue, same as 'karaoke or k' without a command.", inline=False)
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
         embed.add_field(name="done | finished | d", value="End your turn to advance the queue.", inline=False)
         if self.has_role(ctx, settings['role']):
             embed.add_field(name="add | a", value="MANAGER ONLY:\nAdd an @user to the queue.", inline=False)
             embed.add_field(name="remove | r", value="MANAGER ONLY:\nRemove an @user from the queue.", inline=False)
-            embed.add_field(name="next | skip | n", value="MANAGER ONLY:\nAdvance the queue to the next person.", inline=False)
-            embed.add_field(name="back | rewind | b", value="MANAGER ONLY:\nRewinds the queue to the previous person.", inline=False)
+            embed.add_field(name="next | skip | n", value="MANAGER ONLY:\nAdvance the queue to the next person.",
+                            inline=False)
+            embed.add_field(name="back | rewind | b", value="MANAGER ONLY:\nRewinds the queue to the previous person.",
+                            inline=False)
             embed.add_field(name="clear | reset", value="MANAGER ONLY:\nEmpty the queue of all users.", inline=False)
-        # if checks.admin():
-        #     embed.add_field(name="role",
-        #                     value="ADMIN ONLY:\nSet the karaoke manager role, use quotes to wrap roles with " +
-        #                           "spaces.\nExample:  [p]k role \"karaoke overlords\"",
-        #                    inline=False)
+        if checks.admin():
+            embed.add_field(name="role",
+                            value="ADMIN ONLY:\nSet the karaoke manager role, use quotes to wrap roles with " +
+                                  "spaces.\nExample:  [p]k role \"karaoke overlords\"",
+                            inline=False)
         await self.bot.say(embed=embed)
-
-    @_karaoke.command(name="list", pass_context=True, no_pm=True)
-    async def _list(self):
-        if len(list(self.queue)) is not 0:
-            embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
-            embed.set_author(name="Current:  " + self.queue[0])
-            if len(list(self.queue)) > 2:
-                embed.set_footer(text="Queue: " + ", ".join(list(self.queue)[2:]))
-            await self.bot.say(embed=embed)
-        else:
-            await self.bot.say("The queue is empty.")
 
     # todo:  check if a user is online
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
