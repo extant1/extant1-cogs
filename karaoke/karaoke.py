@@ -44,7 +44,7 @@ class Karaoke:
     async def _karaoke(self, ctx):
         if ctx.invoked_subcommand is None:
             if len(list(self.queue)) is not 0:
-                if len(list(self.queue)) > 1:
+                if len(list(self.queue)) == 1:
                     embed = discord.Embed(title="Up Next:  " + self.queue[1], color=0x31df2d)
                     embed.set_author(name="Current:  " + self.queue[0])
                 else:
