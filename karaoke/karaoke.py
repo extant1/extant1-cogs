@@ -1,20 +1,21 @@
 from collections import deque
 import os
 
+# discord.py
 import discord
 from discord.ext import commands
 
+# redbot wrappers
 from .utils import checks
 from .utils.dataIO import dataIO
-from .utils.chat_formatting import question, italics, bold, box
+from .utils.chat_formatting import bold
 
 DATA_PATH = 'data/karaoke/'
 JSON_PATH = DATA_PATH + 'config.json'
 
 
 class Karaoke:
-    """Karaoke queue commands."""
-
+    """Karaoke queue."""
     def __init__(self, bot):
         self.bot = bot
         self.settings = dataIO.load_json(JSON_PATH)
