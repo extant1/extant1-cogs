@@ -33,6 +33,7 @@ class Karaoke:
 
     @staticmethod
     def has_role(ctx, role):
+        """"Function to check a users role within a command."""
         msg = ctx.message
         ch = msg.channel
         if ch.is_private:
@@ -42,6 +43,7 @@ class Karaoke:
 
     @commands.group(name="karaoke", invoke_without_command=False, pass_context=True, no_pm=True, aliases=["k"])
     async def _karaoke(self, ctx):
+        """Show current queue."""
         if ctx.invoked_subcommand is None:
             if len(list(self.queue)) is not 0:
                 if len(list(self.queue)) == 1:
@@ -57,8 +59,8 @@ class Karaoke:
 
     @_karaoke.command(name="help", pass_context=True, no_pm=True)
     async def _help(self, ctx):
+        """"Display commands."""
         settings = self.get_settings(ctx.message.server)
-
         embed = discord.Embed(title="Karaoke Commands")
         embed.add_field(name="join | j", value="Join the Queue.", inline=False)
         embed.add_field(name="leave | l", value="Leave the queue.", inline=False)
@@ -71,16 +73,18 @@ class Karaoke:
             embed.add_field(name="back | rewind | b", value="MANAGER ONLY:\nRewinds the queue to the previous person.",
                             inline=False)
             embed.add_field(name="clear | reset", value="MANAGER ONLY:\nEmpty the queue of all users.", inline=False)
-        if checks.admin():
-            embed.add_field(name="role",
-                            value="ADMIN ONLY:\nSet the karaoke manager role, use quotes to wrap roles with " +
-                                  "spaces.\nExample:  [p]k role \"karaoke overlords\"",
-                            inline=False)
+        # checks.admin is a decorator and won't work here
+        # if checks.admin():
+        #     embed.add_field(name="role",
+        #                     value="ADMIN ONLY:\nSet the karaoke manager role, use quotes to wrap roles with " +
+        #                           "spaces.\nExample:  [p]k role \"karaoke overlords\"",
+        #                     inline=False)
         await self.bot.say(embed=embed)
 
-    # todo:  check if a user is online
+    # todo:  add check if a user is online
     @_karaoke.command(name="add", pass_context=True, no_pm=True, aliases=["a"])
     async def _add(self, ctx, user: discord.Member = None):
+        """A @user can be added to the queue.  Requires privileged role."""
         settings = self.get_settings(ctx.message.server)
         if self.has_role(ctx, settings['role']):
             if user is None:
@@ -93,6 +97,7 @@ class Karaoke:
 
     @_karaoke.command(name="join", pass_context=True, no_pm=True, aliases=["j"])
     async def _join(self, ctx):
+        """User can join the queue."""
         user = ctx.message.author
         if user.display_name not in self.queue:
             self.queue.append(user.display_name)
@@ -102,6 +107,7 @@ class Karaoke:
 
     @_karaoke.command(name="remove", pass_context=True, no_pm=True, aliases=["r"])
     async def _remove(self, ctx, user: discord.Member = None):
+        """A @user can be removed from the queue.  Requires privileged role."""
         settings = self.get_settings(ctx.message.server)
         if self.has_role(ctx, settings['role']):
             if user is None:
@@ -114,6 +120,7 @@ class Karaoke:
 
     @_karaoke.command(name="leave", pass_context=True, no_pm=True, aliases=["l"])
     async def _leave(self, ctx):
+        """User can leave the queue."""
         user = ctx.message.author
         if user.display_name in self.queue:
             self.queue.remove(user.display_name)
@@ -123,6 +130,7 @@ class Karaoke:
 
     @_karaoke.command(name="next", pass_context=True, no_pm=True, aliases=["skip", "n"])
     async def _next(self, ctx):
+        """Advance the queue.  Requires privileged role."""
         settings = self.get_settings(ctx.message.server)
         if self.has_role(ctx, settings['role']):
             self.queue.rotate(-1)
@@ -132,6 +140,7 @@ class Karaoke:
 
     @_karaoke.command(name="back", pass_context=True, no_pm=True, aliases=["b", "rewind"])
     async def _back(self, ctx):
+        """Rewind the queue.  Requires privileged role."""
         settings = self.get_settings(ctx.message.server)
         if self.has_role(ctx, settings['role']):
             self.queue.rotate(1)
@@ -156,7 +165,7 @@ class Karaoke:
 
     @_karaoke.command(name="reset", pass_context=True, no_pm=True, aliases=["clear"])
     async def _reset(self, ctx):
-        """Empty the karaoke queue."""
+        """Empty the karaoke queue.  Requires privileged role."""
         settings = self.get_settings(ctx.message.server)
         if self.has_role(ctx, settings['role']):
             if len(list(self.queue)) is not 0:
