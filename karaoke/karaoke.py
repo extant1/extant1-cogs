@@ -155,9 +155,6 @@ class Karaoke:
         user = ctx.message.author
         if user.display_name == self.queue[0]:
             self.queue.rotate(-1)
-            # await self.bot.say(
-            #     "Nice job " + bold(user.display_name) + "!\nIt's now " + bold(
-            #         self.queue[0]) + "'s turn!\nGet ready " + bold(self.queue[1]) + ", you're up next!")
             embed = discord.Embed(title="Get ready " + self.queue[1] + ", you're up next!", color=0x31df2d)
             embed.set_author(name="It's now " + self.queue[0] + "'s turn!")
             await self.bot.say(embed=embed)
