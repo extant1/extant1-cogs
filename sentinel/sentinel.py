@@ -170,28 +170,28 @@ class Sentinel:
         else:
             return
 
-    async def on_message_edit(self, before, after):
-        settings = self._get_settings(before.server)
-        if settings is not None and settings['ENABLED']:
-            if len(after.embeds) is not 0:
-                return
-            if after.call is MessageType.pins_add:
-                logger.info("messaged was pinned:  {}".format(after.content))
-                return
-            if not after.author.bot:
-                logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
-                                                                      after.content))
-                channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
-                                            type=ChannelType.text)
-                embed = discord.Embed(title="Message edited",
-                                      description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
-                                                                          after.content),
-                                      color=0x8080ff)
-                embed.set_thumbnail(url=after.author.avatar_url)
-                embed.set_footer(text="ID: {}".format(after.author.id))
-                await self.bot.send_message(channel, embed=embed)
-        else:
-            return
+    #async def on_message_edit(self, before, after):
+        #settings = self._get_settings(before.server)
+        #if settings is not None and settings['ENABLED']:
+            #if len(after.embeds) is not 0:
+                #return
+            #if after.call is MessageType.pins_add:
+                #logger.info("messaged was pinned:  {}".format(after.content))
+                #return
+            #if not after.author.bot:
+                #logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
+                                                                      #after.content))
+                #channel = discord.utils.get(before.server.channels, name=str(settings['CHANNEL']),
+                                            #type=ChannelType.text)
+                #embed = discord.Embed(title="Message edited",
+                                      #description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
+                                                                          #after.content),
+                                      #color=0x8080ff)
+                #embed.set_thumbnail(url=after.author.avatar_url)
+                #embed.set_footer(text="ID: {}".format(after.author.id))
+                #await self.bot.send_message(channel, embed=embed)
+        #else:
+            #return
 
     @checks.admin()
     @commands.group(name="sentinel", invoke_without_command=False, pass_context=True, no_pm=True)
