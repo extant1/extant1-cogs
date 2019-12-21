@@ -58,6 +58,11 @@ class ExtGeneral:
                                                                                                              minutes,
                                                                                                              seconds))
 
+    @commands.command(pass_context=True)
+    async def seentitus(self, ctx):
+        """Titus?"""
+        await self.bot.say("I've never seen Titus.")
+
 
 def setup(bot):
     bot.add_cog(ExtGeneral(bot))
