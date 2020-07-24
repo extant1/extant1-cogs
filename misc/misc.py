@@ -1,10 +1,10 @@
 import random
 
 import discord
-from discord.ext import commands
+from redbot.core import commands
 
 
-class ExtGeneral:
+class Misc(commands.Cog):
     """General commands."""
 
     def __init__(self, bot):
@@ -62,7 +62,3 @@ class ExtGeneral:
     async def seentitus(self, ctx):
         """Titus?"""
         await self.bot.say("I've never seen Titus.")
-
-
-def setup(bot):
-    bot.add_cog(ExtGeneral(bot))

@@ -1,48 +1,26 @@
-import os
 import datetime
-from .utils.dataIO import dataIO
-from .utils import checks
-from .utils import chat_formatting
-
-import discord
-from discord.ext import commands
 
 import valve.source.a2s
+import discord
 
-DATA_PATH = "data/serverquery/"
-JSON_PATH = DATA_PATH + "config.json"
-
-
-# LOG_PATH = DATA_PATH + "serverquery.log"
+from redbot.core import Config, commands, checks
+from redbot.core.utils.chat_formatting import bold
 
 
-class ServerQuery:
+class ServerQuery(commands.Cog):
     """Server information and query tool for life is feudal server."""
 
     def __init__(self, bot):
         self.bot = bot
-        self.config = dataIO.load_json(JSON_PATH)
-
-    def _set_setting(self, ctx, setting, value):
-        settings = self._get_settings(ctx)
-        if not settings:
-            settings = {"ip": None, "port": None, "discord_gm_role": None, "port_modifier": None}
-        settings[setting] = value
-        return self._create_settings(ctx, settings)
-
-    def _create_settings(self, ctx, settings):
-        serverid = ctx.message.server.id
-        if serverid not in self.config:
-            self.config[serverid] = {}
-        self.config[serverid] = settings
-        dataIO.save_json(JSON_PATH, self.config)
-
-    def _get_settings(self, ctx):
-        serverid = ctx.message.server.id
-        if serverid not in self.config:
-            return None
-        else:
-            return self.config[serverid]
+        self.config = Config.get_conf(self, identifier=91928524318855168)
+        default_guild = {
+            "gm_role": None,
+            "game": None,
+            "ip": None,
+            "game_port": None,
+            "query_port": None
+        }
+        self.config.register_guild(**default_guild)
 
     def query_info(self, ctx):
         settings = self._get_settings(ctx)
@@ -107,7 +85,7 @@ class ServerQuery:
             port = (int(settings['port']) - int(settings['port_modifier']))
             if self.query_info(ctx) is not None:
                 await self.bot.say(
-                    "The server ip is: " + chat_formatting.bold(settings['ip']) + ":" + chat_formatting.bold(str(port)))
+                    "The server ip is: " + bold(settings['ip']) + ":" + bold(str(port)))
             else:
                 await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
 
@@ -168,7 +146,7 @@ class ServerQuery:
         """Set the server query ip."""
         if ip is not None:
             self._set_setting(ctx, "ip", ip)
-            await self.bot.say("Setting server query ip to: " + chat_formatting.bold(ip))
+            await self.bot.say("Setting server query ip to: " + bold(ip))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -178,7 +156,7 @@ class ServerQuery:
         """Set the server query port."""
         if port is not None:
             self._set_setting(ctx, "port", port)
-            await self.bot.say("Setting server query port to: " + chat_formatting.bold(str(port)))
+            await self.bot.say("Setting server query port to: " + bold(str(port)))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -188,7 +166,7 @@ class ServerQuery:
         """Set the server query port modifier to the value needed to subtract to get the game server join port."""
         if modifier is not None:
             self._set_setting(ctx, "port_modifier", modifier)
-            await self.bot.say("Setting server query port modifier to: " + chat_formatting.bold(str(modifier)))
+            await self.bot.say("Setting server query port modifier to: " + bold(str(modifier)))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -198,7 +176,7 @@ class ServerQuery:
         """Set the server query discord GM role."""
         if role is not None:
             self._set_setting(ctx, "discord_gm_role", role)
-            await self.bot.say("Setting server query GM role to: " + chat_formatting.bold(role))
+            await self.bot.say("Setting server query GM role to: " + bold(role))
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -208,11 +186,11 @@ class ServerQuery:
         """Set the server query game."""
         if game is not None:
             self._set_setting(ctx, "game", game)
-            await self.bot.say("Setting server query game to: " + chat_formatting.bold(game))
+            await self.bot.say("Setting server query game to: " + bold(game))
         else:
             info = self.query_info(ctx)
             self._set_setting(ctx, "game", info['folder'])
-            await self.bot.say("Setting server query game to: " + chat_formatting.bold(info['folder']))
+            await self.bot.say("Setting server query game to: " + bold(info['folder']))
 
     @checks.admin()
     @commands.group(name="querydebug", invoke_without_command=False, no_pm=True, pass_context=True)
@@ -248,23 +226,3 @@ class ServerQuery:
             await self.bot.say("```json\n" + debug_info + "```")
         else:
             await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
-
-
-def check_folders():
-    if os.path.exists("data/serverquery/"):
-        os.rename("data/serverquery/", DATA_PATH)
-    if not os.path.exists(DATA_PATH):
-        print("Creating data/serverquery folder...")
-        os.mkdir(DATA_PATH)
-
-
-def check_files():
-    if not dataIO.is_valid_json(JSON_PATH):
-        print("Creating config.json...")
-        dataIO.save_json(JSON_PATH, {})
-
-
-def setup(bot):
-    check_folders()
-    check_files()
-    bot.add_cog(ServerQuery(bot))

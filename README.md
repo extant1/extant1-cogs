@@ -1,2 +1,2 @@
 # extant1-cogs
-My redbot cogs.
+My RedBot cogs.
