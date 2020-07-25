@@ -1,16 +1,17 @@
 {
-    "AUTHOR" : "Whiskey Maple",
-    "DESCRIPTION" : "The sentinel watches and makes notes in a specified channel.",
-    "INSTALL_MSG" : "Successful installation.",
-    "NAME" : "Sentinel",
-    "SHORT" : "Watches and makes notes.",
-    "TAGS" : [
-        "join",
-        "leave",
-        "edit",
-        "banned",
-        "events",
-        "name change",
-        "logs"
-    ]
+  "AUTHOR": "Whiskey",
+  "DESCRIPTION": "Log discord activity like joining, leaving, name changes, role changes, bans, etc. to a specific channel.",
+  "INSTALL_MSG": "Successful installation.",
+  "NAME": "Sentinel",
+  "SHORT": "Log discord activity to a channel",
+  "TAGS": [
+    "events",
+    "activity",
+    "join",
+    "leave",
+    "edit",
+    "banned",
+    "name change",
+    "logs"
+  ]
 }

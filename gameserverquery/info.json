@@ -1,0 +1,16 @@
+{
+    "AUTHOR" : "Whiskey",
+    "DESCRIPTION" : "Query Steam Source or GoldSrc servers from discord with RedBot.",
+    "INSTALL_MSG" : "Install complete, be sure you have python-a2s installed from pip.",
+    "NAME" : "GameServerQuery",
+    "REQUIREMENTS" : [
+        "python-a2s"
+    ],
+    "SHORT" : "Game Server Query for RedBot",
+    "TAGS" : [
+        "game",
+        "server",
+        "query",
+        "a2s"
+    ]
+}

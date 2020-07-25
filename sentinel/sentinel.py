@@ -16,14 +16,22 @@ class Sentinel(commands.Cog):
         default_guild = {
             "channel": None,
             "enabled": False,
-            "ignored": []
+            "settings": {
+                "join": True,
+                "leave": True,
+                "edit": False,
+                "ban": True,
+                "unban": True,
+                "role_change": True
+            },
+            "ignored_roles": []
         }
         self.config.register_guild(**default_guild)
 
     async def on_member_join(self, member):
         settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
-            logger.info("{} joined the server.".format(member.display_name))
+            # logger.info("{} joined the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             if (datetime.utcnow() - member.created_at) < timedelta(1):
@@ -40,13 +48,13 @@ class Sentinel(commands.Cog):
             embed.set_footer(text="ID: {}".format(member.id))
             await self.bot.send_message(channel, embed=embed)
         else:
-            logger.info("None?")
+            # logger.info("None?")
             return
 
     async def on_member_remove(self, member):
         settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
-            logger.info("{} left the server.".format(member.display_name))
+            # logger.info("{} left the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Left", color=0xff8000)
@@ -61,7 +69,7 @@ class Sentinel(commands.Cog):
     async def on_member_ban(self, member):
         settings = self._get_settings(member.server)
         if settings is not None and settings['ENABLED'] is not False:
-            logger.info("{} was banned from the server.".format(member.display_name))
+            # logger.info("{} was banned from the server.".format(member.display_name))
             channel = discord.utils.get(member.server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Banned", color=0xffff00)
@@ -76,7 +84,7 @@ class Sentinel(commands.Cog):
     async def on_member_unban(self, server, user):
         settings = self._get_settings(server)
         if settings is not None and settings['ENABLED'] is not False:
-            logger.info("{} was unbanned from the server.".format(user.display_name))
+            # logger.info("{} was unbanned from the server.".format(user.display_name))
             channel = discord.utils.get(server.channels, name=str(settings['CHANNEL']),
                                         type=ChannelType.text)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
@@ -92,7 +100,7 @@ class Sentinel(commands.Cog):
         if settings is not None:
             if settings['ENABLED']:
                 if before.display_name != after.display_name or before.name != after.name:
-                    logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
+                    # logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
                     channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
                                                 type=ChannelType.text)
                     embed = discord.Embed(title="User changed their name",
@@ -125,7 +133,7 @@ class Sentinel(commands.Cog):
                     if role[0] in settings['IGNORED']:
                         return
                     else:
-                        logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
+                        # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
 
                         channel = discord.utils.get(after.server.channels, name=str(settings['CHANNEL']),
                                                     type=ChannelType.text)

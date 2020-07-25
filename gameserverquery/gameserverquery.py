@@ -1,13 +1,14 @@
 import datetime
+import socket
 
-import valve.source.a2s
+import a2s
 import discord
 
 from redbot.core import Config, commands, checks
 from redbot.core.utils.chat_formatting import bold
 
 
-class ServerQuery(commands.Cog):
+class GameServerQuery(commands.Cog):
     """Server information and query tool for life is feudal server."""
 
     def __init__(self, bot):
@@ -22,28 +23,34 @@ class ServerQuery(commands.Cog):
         }
         self.config.register_guild(**default_guild)
 
+    @staticmethod
     def query_info(self, ctx):
-        settings = self._get_settings(ctx)
-        if settings is not None:
+        ip = await self.config.guild(ctx.guild).ip()
+        port = await self.config.guild(ctx.guild).port()
+        if ip and port:
             try:
-                server_address = (settings['ip'], settings['port'])
-                with valve.source.a2s.ServerQuerier(server_address) as server:
-                    return server.info()
-            except:
-                pass
+                return a2s.info((ip, port), 2)
+            except socket.timeout:
+                ctx.send("Connection timed out to server.")
+            except socket.gaierror:
+                ctx.send("Invalid host address.")
         else:
+            ctx.send("IP and Port must be set.")
             return None
 
+    @staticmethod
     def query_players(self, ctx):
-        settings = self._get_settings(ctx)
-        if settings is not None:
+        ip = await self.config.guild(ctx.guild).ip()
+        port = await self.config.guild(ctx.guild).port()
+        if ip and port:
             try:
-                server_address = (settings['ip'], settings['port'])
-                with valve.source.a2s.ServerQuerier(server_address) as server:
-                    return server.players()
-            except:
-                pass
+                return a2s.players((ip, port), 2)
+            except socket.timeout:
+                ctx.send("Connection timed out to server.")
+            except socket.gaierror:
+                ctx.send("Invalid host address.")
         else:
+            ctx.send("IP and Port must be set.")
             return None
 
     @staticmethod
@@ -152,31 +159,21 @@ class ServerQuery(commands.Cog):
 
     @checks.admin()
     @_server.command(name="port", pass_context=True, no_pm=True)
-    async def _port(self, ctx, port: int = None):
+    async def _port(self, ctx, game_port: int = None):
         """Set the server query port."""
-        if port is not None:
-            self._set_setting(ctx, "port", port)
-            await self.bot.say("Setting server query port to: " + bold(str(port)))
-        else:
-            await self.bot.send_cmd_help(ctx)
-
-    @checks.admin()
-    @_server.command(name="modifier", pass_context=True, no_pm=True)
-    async def _port_modifier(self, ctx, modifier: int = None):
-        """Set the server query port modifier to the value needed to subtract to get the game server join port."""
-        if modifier is not None:
-            self._set_setting(ctx, "port_modifier", modifier)
-            await self.bot.say("Setting server query port modifier to: " + bold(str(modifier)))
+        if game_port is not None:
+            await self.config.guild(ctx.guild).game_port.set(game_port)
+            await ctx.send("GameServerQuery game port is set to " + bold(game_port) + ".")
         else:
             await self.bot.send_cmd_help(ctx)
 
     @checks.admin()
     @_server.command(name="role", pass_context=True, no_pm=True)
-    async def _role(self, ctx, role: str = None):
+    async def _role(self, ctx, gm_role: str = None):
         """Set the server query discord GM role."""
-        if role is not None:
-            self._set_setting(ctx, "discord_gm_role", role)
-            await self.bot.say("Setting server query GM role to: " + bold(role))
+        if gm_role is not None:
+            await self.config.guild(ctx.guild).gm_role.set(gm_role)
+            await ctx.send("GameServerQuery GM role is set to " + bold(gm_role) + ".")
         else:
             await self.bot.send_cmd_help(ctx)
 
@@ -185,44 +182,44 @@ class ServerQuery(commands.Cog):
     async def _game(self, ctx, game: str = None):
         """Set the server query game."""
         if game is not None:
-            self._set_setting(ctx, "game", game)
-            await self.bot.say("Setting server query game to: " + bold(game))
+            await self.config.guild(ctx.guild).game.set(game)
+            await ctx.send("GameServerQuery game is set to " + bold(game) + ".")
         else:
             info = self.query_info(ctx)
-            self._set_setting(ctx, "game", info['folder'])
-            await self.bot.say("Setting server query game to: " + bold(info['folder']))
+            await self.config.guild(ctx.guild).game.set(info.folder)
+            await ctx.send("GameServerQuery used query info and set game to " + bold(game) + ".")
 
-    @checks.admin()
-    @commands.group(name="querydebug", invoke_without_command=False, no_pm=True, pass_context=True)
-    async def _querydebug(self, ctx):
-        """Server Query debug info."""
-        if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
-
-    @checks.admin()
-    @_querydebug.command(name="info", pass_context=True, no_pm=True)
-    async def _info(self, ctx):
-        """Server Query debug info query."""
-        info = self.query_info(ctx)
-        debug_info = ""
-
-        if info is not None:
-            for x, y in info.items():
-                debug_info += '{} = {}\n'.format(x, y)
-            await self.bot.say("```py\n" + debug_info + "```")
-        else:
-            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
-
-    @checks.admin()
-    @_querydebug.command(name="player", pass_context=True, no_pm=True)
-    async def _player(self, ctx):
-        """Server Query debug player query."""
-        players = self.query_players(ctx)
-        debug_info = ""
-
-        if len(players['players']) is not 0:
-            for x in players['players']:
-                debug_info += '{}\n'.format(x.values)
-            await self.bot.say("```json\n" + debug_info + "```")
-        else:
-            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+    # @checks.admin()
+    # @commands.group(name="querydebug", invoke_without_command=False, no_pm=True, pass_context=True)
+    # async def _querydebug(self, ctx):
+    #     """Server Query debug info."""
+    #     if ctx.invoked_subcommand is None:
+    #         await self.bot.send_cmd_help(ctx)
+    #
+    # @checks.admin()
+    # @_querydebug.command(name="info", pass_context=True, no_pm=True)
+    # async def _info(self, ctx):
+    #     """Server Query debug info query."""
+    #     info = self.query_info(ctx)
+    #     debug_info = ""
+    #
+    #     if info is not None:
+    #         for x, y in info.items():
+    #             debug_info += '{} = {}\n'.format(x, y)
+    #         await self.bot.say("```py\n" + debug_info + "```")
+    #     else:
+    #         await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+    #
+    # @checks.admin()
+    # @_querydebug.command(name="player", pass_context=True, no_pm=True)
+    # async def _player(self, ctx):
+    #     """Server Query debug player query."""
+    #     players = self.query_players(ctx)
+    #     debug_info = ""
+    #
+    #     if len(players['players']) is not 0:
+    #         for x in players['players']:
+    #             debug_info += '{}\n'.format(x.values)
+    #         await self.bot.say("```json\n" + debug_info + "```")
+    #     else:
+    #         await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
