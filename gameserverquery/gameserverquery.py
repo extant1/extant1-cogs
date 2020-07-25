@@ -24,33 +24,33 @@ class GameServerQuery(commands.Cog):
         self.config.register_guild(**default_guild)
 
     @staticmethod
-    def query_info(self, ctx):
+    async def query_info(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
         port = await self.config.guild(ctx.guild).port()
         if ip and port:
             try:
-                return a2s.info((ip, port), 2)
+                return await a2s.info((ip, port), 2)
             except socket.timeout:
-                ctx.send("Connection timed out to server.")
+                await ctx.send("Connection timed out to server.")
             except socket.gaierror:
-                ctx.send("Invalid host address.")
+                await ctx.send("Invalid host address.")
         else:
-            ctx.send("IP and Port must be set.")
+            await ctx.send("IP and Port must be set.")
             return None
 
     @staticmethod
-    def query_players(self, ctx):
+    async def query_players(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
         port = await self.config.guild(ctx.guild).port()
         if ip and port:
             try:
-                return a2s.players((ip, port), 2)
+                return await a2s.players((ip, port), 2)
             except socket.timeout:
-                ctx.send("Connection timed out to server.")
+                await ctx.send("Connection timed out to server.")
             except socket.gaierror:
-                ctx.send("Invalid host address.")
+                await ctx.send("Invalid host address.")
         else:
-            ctx.send("IP and Port must be set.")
+            await ctx.send("IP and Port must be set.")
             return None
 
     @staticmethod
