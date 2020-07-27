@@ -10,7 +10,7 @@ class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def unflip(self, ctx, user: discord.Member = None):
         """Unflip yourself or another user."""
         if user != None:
@@ -21,12 +21,12 @@ class Misc(commands.Cog):
             tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
             table = str.maketrans(char, tran)
             name = user.display_name
-            await self.bot.say(msg + name + " ノ( ゜-゜ノ)")
+            await ctx.send(msg + name + " ノ( ゜-゜ノ)")
         else:
             name = ctx.message.author.display_name
-            await self.bot.say(name + " ノ( ゜-゜ノ)")
+            await ctx.send(name + " ノ( ゜-゜ノ)")
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def predictcombatpatch(self, ctx):
         """When will the combat patch be released?"""
         days = random.randint(0, 365)
@@ -34,15 +34,15 @@ class Misc(commands.Cog):
         minutes = random.randint(0, 60)
         seconds = random.randint(0, 60)
         if days == 0 and hours == 0 and minutes == 0 and seconds == 0:
-            await self.bot.say("The combat patch is coming out right meow!")
+            await ctx.send("The combat patch is coming out right meow!")
         else:
-            await self.bot.say(
+            await ctx.send(
                 "The combat patch will be released in {} days, {} hours, {} minutes, and {} seconds.".format(days,
                                                                                                              hours,
                                                                                                              minutes,
                                                                                                              seconds))
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def predicttoren(self, ctx):
         """When will Toren play lif again?"""
         days = random.randint(0, 365)
@@ -50,15 +50,15 @@ class Misc(commands.Cog):
         minutes = random.randint(0, 60)
         seconds = random.randint(0, 60)
         if days == 0 and hours == 0 and minutes == 0 and seconds == 0:
-            await self.bot.say("Toren is connecting right meow!")
+            await ctx.send("Toren is connecting right meow!")
         else:
-            await self.bot.say(
+            await ctx.send(
                 "Toren will play life is feudal in {} days, {} hours, {} minutes, and {} seconds.".format(days,
                                                                                                              hours,
                                                                                                              minutes,
                                                                                                              seconds))
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def seentitus(self, ctx):
-        """Titus?"""
-        await self.bot.say("I've never seen Titus.")
+        """Who is Titus?"""
+        await ctx.send("I've never seen Titus.")

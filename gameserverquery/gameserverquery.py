@@ -57,69 +57,69 @@ class GameServerQuery(commands.Cog):
     def remove_microseconds(delta):
         return delta - datetime.timedelta(microseconds=delta.microseconds)
 
-    @commands.command(pass_context=True, no_pm=True, aliases=["p"])
+    @commands.command(no_pm=True, aliases=["p"])
     async def players(self, ctx):
         """Query the server for player count."""
         info = self.query_info(ctx)
         if info is not None:
             if info['player_count'] is 0:
-                await self.bot.say("The server is empty.")
+                await ctx.send("The server is empty.")
             else:
-                await self.bot.say("There are currently **{player_count}/{max_players}** players.".format(**info))
+                await ctx.send("There are currently **{player_count}/{max_players}** players.".format(**info))
         else:
-            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
 
-    @commands.command(pass_context=True, no_pm=True, aliases=["s"])
+    @commands.command(no_pm=True, aliases=["s"])
     async def server(self, ctx):
         """Reeeeeeeeeeeee."""
         info = self.query_info(ctx)
         if info is not None:
             if info['player_count'] is 0:
-                await self.bot.say("There are no players inside me.")
+                await ctx.send("There are no players inside me.")
             else:
-                await self.bot.say("There are currently **{player_count}/{max_players}** players inside me.".format(**info))
+                await ctx.send("There are currently **{player_count}/{max_players}** players inside me.".format(**info))
         else:
-            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
 
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(no_pm=True)
     async def ip(self, ctx):
         """Display the server IP."""
         settings = self._get_settings(ctx)
         if settings['port_modifier'] is None:
-            await self.bot.say(
+            await ctx.send(
                 "Can't determine game join port without port modifier, please use !gameserver modifier to set.")
         else:
             port = (int(settings['port']) - int(settings['port_modifier']))
             if self.query_info(ctx) is not None:
-                await self.bot.say(
+                await ctx.send(
                     "The server ip is: " + bold(settings['ip']) + ":" + bold(str(port)))
             else:
-                await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+                await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
 
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(no_pm=True)
     async def mission(self, ctx):
         """Display the current mission."""
         info = self.query_info(ctx)
         if info is not None:
             if info['game'] is not None or "lifyo":
-                await self.bot.say("The server is running **{game}** on **{map}**.".format(**info))
+                await ctx.send("The server is running **{game}** on **{map}**.".format(**info))
             else:
                 return
         else:
-            await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
 
-    @commands.command(name="who", pass_context=True, no_pm=True)
+    @commands.command(name="who", no_pm=True)
     async def who(self, ctx):
         """Display players in the server if available."""
         settings = self._get_settings(ctx)
         if settings['game'] is 'lifyo':
-            await self.bot.say("This game does not support player queries.")
+            await ctx.send("This game does not support player queries.")
         elif settings['game'] is None:
-            await self.bot.say("No one is currently in the server.")
+            await ctx.send("No one is currently in the server.")
         else:
             info = self.query_info(ctx)
             if info['player_count'] is 0:
-                await self.bot.say("The server empty.")
+                await ctx.send("The server empty.")
             else:
                 players = self.query_players(ctx)
                 embed = discord.Embed(title="There are currently {player_count}/{max_players} players.".format(
@@ -128,10 +128,10 @@ class GameServerQuery(commands.Cog):
                 for player in players['players']:
                     embed.add_field(name=player.values['name'], value=str(
                         self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
-                await self.bot.say(embed=embed)
+                await ctx.send(embed=embed)
 
     @checks.admin()
-    @commands.group(name="gameserver", invoke_without_command=False, pass_context=True, no_pm=True)
+    @commands.group(name="gameserver", invoke_without_command=False, no_pm=True)
     async def _server(self, ctx):
         """Change the server settings"""
         if ctx.invoked_subcommand is None:
@@ -144,41 +144,56 @@ class GameServerQuery(commands.Cog):
             embed.add_field(name="GM Role", value=settings['discord_gm_role'], inline=True)
             embed.add_field(name="Port modifier", value="-" + str(settings['port_modifier']) + " (" + str(
                 (settings['port'] - settings['port_modifier'])) + ")", inline=True)
-            await self.bot.say(embed=embed)
-            await self.bot.send_cmd_help(ctx)
+            await ctx.send(embed=embed)
+            await ctx.send_help(ctx)
 
     @checks.admin()
-    @_server.command(name="ip", pass_context=True, no_pm=True)
+    @commands.guild_only()
+    @_server.command(name="ip")
     async def _ip(self, ctx, ip: str = None):
         """Set the server query ip."""
         if ip is not None:
             self._set_setting(ctx, "ip", ip)
-            await self.bot.say("Setting server query ip to: " + bold(ip))
+            await ctx.send("Setting server query ip to: " + bold(ip))
         else:
-            await self.bot.send_cmd_help(ctx)
+            await ctx.send_help(ctx)
 
     @checks.admin()
-    @_server.command(name="port", pass_context=True, no_pm=True)
-    async def _port(self, ctx, game_port: int = None):
+    @commands.guild_only()
+    @_server.command(name="gameport")
+    async def _game_port(self, ctx, game_port: int = None):
         """Set the server query port."""
         if game_port is not None:
             await self.config.guild(ctx.guild).game_port.set(game_port)
             await ctx.send("GameServerQuery game port is set to " + bold(game_port) + ".")
         else:
-            await self.bot.send_cmd_help(ctx)
+            await ctx.send_help(ctx)
 
     @checks.admin()
-    @_server.command(name="role", pass_context=True, no_pm=True)
+    @commands.guild_only()
+    @_server.command(name="queryport")
+    async def _query_port(self, ctx, query_port: int = None):
+        """Set the server query port."""
+        if query_port is not None:
+            await self.config.guild(ctx.guild).query_port.set(query_port)
+            await ctx.send("GameServerQuery query port is set to " + bold(query_port) + ".")
+        else:
+            await ctx.send_help(ctx)
+
+    @checks.admin()
+    @commands.guild_only()
+    @_server.command(name="role")
     async def _role(self, ctx, gm_role: str = None):
         """Set the server query discord GM role."""
         if gm_role is not None:
             await self.config.guild(ctx.guild).gm_role.set(gm_role)
             await ctx.send("GameServerQuery GM role is set to " + bold(gm_role) + ".")
         else:
-            await self.bot.send_cmd_help(ctx)
+            await ctx.send_help(ctx)
 
     @checks.admin()
-    @_server.command(name="game", pass_context=True, no_pm=True)
+    @commands.guild_only()
+    @_server.command(name="game")
     async def _game(self, ctx, game: str = None):
         """Set the server query game."""
         if game is not None:
@@ -189,37 +204,40 @@ class GameServerQuery(commands.Cog):
             await self.config.guild(ctx.guild).game.set(info.folder)
             await ctx.send("GameServerQuery used query info and set game to " + bold(game) + ".")
 
-    # @checks.admin()
-    # @commands.group(name="querydebug", invoke_without_command=False, no_pm=True, pass_context=True)
-    # async def _querydebug(self, ctx):
-    #     """Server Query debug info."""
-    #     if ctx.invoked_subcommand is None:
-    #         await self.bot.send_cmd_help(ctx)
-    #
-    # @checks.admin()
-    # @_querydebug.command(name="info", pass_context=True, no_pm=True)
-    # async def _info(self, ctx):
-    #     """Server Query debug info query."""
-    #     info = self.query_info(ctx)
-    #     debug_info = ""
-    #
-    #     if info is not None:
-    #         for x, y in info.items():
-    #             debug_info += '{} = {}\n'.format(x, y)
-    #         await self.bot.say("```py\n" + debug_info + "```")
-    #     else:
-    #         await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
-    #
-    # @checks.admin()
-    # @_querydebug.command(name="player", pass_context=True, no_pm=True)
-    # async def _player(self, ctx):
-    #     """Server Query debug player query."""
-    #     players = self.query_players(ctx)
-    #     debug_info = ""
-    #
-    #     if len(players['players']) is not 0:
-    #         for x in players['players']:
-    #             debug_info += '{}\n'.format(x.values)
-    #         await self.bot.say("```json\n" + debug_info + "```")
-    #     else:
-    #         await self.bot.say("There is either no server config or it is invalid and the server could not be reached.")
+    @checks.admin()
+    @commands.guild_only()
+    @commands.group(name="querydebug", invoke_without_command=False)
+    async def _querydebug(self, ctx):
+        """Server Query debug info."""
+        if ctx.invoked_subcommand is None:
+            await ctx.send_help(ctx)
+
+    @checks.admin()
+    @commands.guild_only()
+    @_querydebug.command(name="info")
+    async def _info(self, ctx):
+        """Server Query debug info query."""
+        info = self.query_info(ctx)
+        debug_info = ""
+
+        if info is not None:
+            for x, y in info.items():
+                debug_info += '{} = {}\n'.format(x, y)
+            await ctx.send("```py\n" + debug_info + "```")
+        else:
+            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
+
+    @checks.admin()
+    @commands.guild_only()
+    @_querydebug.command(name="player")
+    async def _player(self, ctx):
+        """Server Query debug player query."""
+        players = self.query_players(ctx)
+        debug_info = ""
+
+        if len(players['players']) is not 0:
+            for x in players['players']:
+                debug_info += '{}\n'.format(x.values)
+            await ctx.send("```json\n" + debug_info + "```")
+        else:
+            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
