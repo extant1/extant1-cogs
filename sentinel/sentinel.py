@@ -195,9 +195,9 @@ class Sentinel(commands.Cog):
         enable = not enable
         await self.config.guild(ctx.guild).enable.set(enable)
         if enable:
-            await ctx.send("Sentinel is enabled.")
+            await ctx.send("Sentinel is **enabled**.")
         else:
-            await ctx.send("Sentinel is disabled.")
+            await ctx.send("Sentinel is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -208,9 +208,9 @@ class Sentinel(commands.Cog):
         toggle_join = not toggle_join
         await self.config.guild(ctx.guild).toggle_join.set(toggle_join)
         if toggle_join:
-            await ctx.send("Sentinel logging join is enabled.")
+            await ctx.send("Sentinel logging join is **enabled**.")
         else:
-            await ctx.send("Sentinel logging join is disabled.")
+            await ctx.send("Sentinel logging join is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -221,9 +221,9 @@ class Sentinel(commands.Cog):
         toggle_leave = not toggle_leave
         await self.config.guild(ctx.guild).toggle_leave.set(toggle_leave)
         if toggle_leave:
-            await ctx.send("Sentinel logging leave is enabled.")
+            await ctx.send("Sentinel logging leave is **enabled**.")
         else:
-            await ctx.send("Sentinel logging leave is disabled.")
+            await ctx.send("Sentinel logging leave is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -234,9 +234,9 @@ class Sentinel(commands.Cog):
         toggle_edit = not toggle_edit
         await self.config.guild(ctx.guild).toggle_edit.set(toggle_edit)
         if toggle_edit:
-            await ctx.send("Sentinel logging edit is enabled.")
+            await ctx.send("Sentinel logging edit is **enabled**.")
         else:
-            await ctx.send("Sentinel logging edit is disabled.")
+            await ctx.send("Sentinel logging edit is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -247,9 +247,9 @@ class Sentinel(commands.Cog):
         toggle_ban = not toggle_ban
         await self.config.guild(ctx.guild).toggle_ban.set(toggle_ban)
         if toggle_ban:
-            await ctx.send("Sentinel logging bans is enabled.")
+            await ctx.send("Sentinel logging bans is **enabled**.")
         else:
-            await ctx.send("Sentinel logging bans is disabled.")
+            await ctx.send("Sentinel logging bans is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -260,9 +260,9 @@ class Sentinel(commands.Cog):
         toggle_unban = not toggle_unban
         await self.config.guild(ctx.guild).toggle_unban.set(toggle_unban)
         if toggle_unban:
-            await ctx.send("Sentinel logging unbanning is enabled.")
+            await ctx.send("Sentinel logging unbanning is **enabled**.")
         else:
-            await ctx.send("Sentinel logging unbanning is disabled.")
+            await ctx.send("Sentinel logging unbanning is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -273,9 +273,9 @@ class Sentinel(commands.Cog):
         toggle_role_change = not toggle_role_change
         await self.config.guild(ctx.guild).toggle_role_change.set(toggle_role_change)
         if toggle_role_change:
-            await ctx.send("Sentinel logging role changes is enabled.")
+            await ctx.send("Sentinel logging role changes is **enabled**.")
         else:
-            await ctx.send("Sentinel logging role changes is disabled.")
+            await ctx.send("Sentinel logging role changes is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
@@ -286,9 +286,9 @@ class Sentinel(commands.Cog):
         toggle_name_change = not toggle_name_change
         await self.config.guild(ctx.guild).toggle_name_change.set(toggle_name_change)
         if toggle_name_change:
-            await ctx.send("Sentinel logging name changes is enabled.")
+            await ctx.send("Sentinel logging name changes is **enabled**.")
         else:
-            await ctx.send("Sentinel logging name changes is disabled.")
+            await ctx.send("Sentinel logging name changes is **disabled**.")
 
     @checks.admin()
     @commands.guild_only()
