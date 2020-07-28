@@ -28,15 +28,15 @@ class Sentinel(commands.Cog):
         }
         self.config.register_guild(**default_guild)
 
-    async def on_member_join(self, member):
+    @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member):
+        guild = member.guild
         enabled = await self.config.guild(member.guild).enabled()
         toggle_join = await self.config.guild(member.guild).toggle_join()
         if enabled and toggle_join:
             # logger.info("{} joined the server.".format(member.display_name))
-            channel_name = await self.config.guild(member.guild).channel()
-            channel = discord.utils.get(member.guild.channels, name=channel_name,
-                                        type=ChannelType.text)
-            # channel = discord.utils.find(lambda c: c.name == channel_name, member.guild.channels)
+            channel_name = await self.config.guild(guild).channel()
+            channel = guild.get_channel(channel_name)
             if (datetime.utcnow() - member.created_at) < timedelta(1):
                 message = "\nWARNING!!!  ACCOUNT IS LESS THAN ONE DAY OLD."
             elif (datetime.utcnow() - member.created_at) < timedelta(7):
@@ -54,15 +54,15 @@ class Sentinel(commands.Cog):
         else:
             return
 
-    async def on_member_remove(self, member):
+    @commands.Cog.listener()
+    async def on_member_remove(self, member: discord.Member):
+        guild = member.guild
         enabled = await self.config.guild(member.guild).enabled()
         toggle_leave = await self.config.guild(member.guild).toggle_leave()
         if enabled and toggle_leave:
             # logger.info("{} left the server.".format(member.display_name))
-            channel_name = await self.config.guild(member.guild).channel()
-            # channel = discord.utils.find(lambda c: c.name == channel_name, member.guild.channels)
-            channel = discord.utils.get(member.guild.channels, name=channel_name,
-                                        type=ChannelType.text)
+            channel_name = await self.config.guild(guild).channel()
+            channel = guild.get_channel(channel_name)
             embed = discord.Embed(title="Member Left", color=0xff8000)
             embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
@@ -72,15 +72,14 @@ class Sentinel(commands.Cog):
         else:
             return
 
-    async def on_member_ban(self, guild, member):
+    @commands.Cog.listener()
+    async def on_member_ban(self, guild: discord.Guild, member: discord.Member):
         enabled = await self.config.guild(member.guild).enabled()
         toggle_ban = await self.config.guild(member.guild).toggle_ban()
         if enabled and toggle_ban:
             # logger.info("{} was banned from the server.".format(member.display_name))
-            channel_name = await self.config.guild(member.guild).channel()
-            # channel = discord.utils.find(lambda c: c.name == channel_name, guild.channels)
-            channel = discord.utils.get(guild.channels, name=channel_name,
-                                        type=ChannelType.text)
+            channel_name = await self.config.guild(guild).channel()
+            channel = guild.get_channel(channel_name)
             embed = discord.Embed(title="Member Banned", color=0xffff00)
             embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
@@ -90,15 +89,14 @@ class Sentinel(commands.Cog):
         else:
             return
 
-    async def on_member_unban(self, guild, member):
+    @commands.Cog.listener()
+    async def on_member_unban(self, guild: discord.Guild, member: discord.Member):
         enabled = await self.config.guild(member.guild).enabled()
         toggle_unban = await self.config.guild(member.guild).toggle_unban()
         if enabled and toggle_unban:
             # logger.info("{} was unbanned from the server.".format(user.display_name))
-            channel_name = await self.config.guild(member.guild).channel()
-            # channel = discord.utils.find(lambda c: c.name == channel_name, guild.channels)
-            channel = discord.utils.get(guild.channels, name=channel_name,
-                                        type=ChannelType.text)
+            channel_name = await self.config.guild(guild).channel()
+            channel = guild.get_channel(channel_name)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
             embed.set_thumbnail(url=member.avatar_url)
             embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
@@ -108,18 +106,17 @@ class Sentinel(commands.Cog):
         else:
             return
 
-    async def on_member_update(self, before, after):
+    @commands.Cog.listener()
+    async def on_member_update(self, before: discord.Member, after: discord.Member):
+        guild = after.guild
+        channel_name = await self.config.guild(after.guild).channel()
+        channel = guild.get_channel(channel_name)
         enabled = await self.config.guild(before.guild).enabled()
         toggle_name_change = await self.config.guild(before.guild).toggle_unban()
         toggle_role_change = await self.config.guild(before.guild).toggle_unban()
         ignored_roles = await self.config.guild(before.guild).ignored_roles()
         if enabled and toggle_name_change and before.display_name != after.display_name or before.name != after.name:
-            print("name")
             # logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
-            channel_name = await self.config.guild(after.guild).channel()
-            # channel = discord.utils.find(lambda c: c.name == channel_name, after.guild.channels)
-            channel = discord.utils.get(after.guild.channels, name=channel_name,
-                                        type=ChannelType.text)
             embed = discord.Embed(title="User changed their name",
                                   description="{}".format(after.mention),
                                   color=0xffff00)
@@ -131,10 +128,9 @@ class Sentinel(commands.Cog):
                             value="{}\n{}#{}".format(after.display_name, after.name, after.discriminator),
                             inline=True)
             embed.set_footer(text="ID: {}".format(before.id))
-            await after.send(embed=embed)
+            await channel.send(embed=embed)
 
         if enabled and toggle_role_change and before.roles != after.roles:
-            print("roles")
             old_roles = [r.name for r in before.roles if r.name != "@everyone"]
             new_roles = [r.name for r in after.roles if r.name != "@everyone"]
             old_roles_length = len(old_roles)
@@ -152,11 +148,7 @@ class Sentinel(commands.Cog):
             if role[0] in ignored_roles:
                 return
             else:
-                logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
-                channel_name = await self.config.guild(after.guild).channel()
-                # channel = discord.utils.find(lambda c: c.name == channel_name, after.guild.channels)
-                channel = discord.utils.get(after.guild.channels, name=channel_name,
-                                            type=ChannelType.text)
+                # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
                 embed = discord.Embed(title="Role changed",
                                       description="{} was {}.".format(role[0], verb),
                                       color=0xffff00)
@@ -164,10 +156,12 @@ class Sentinel(commands.Cog):
                 embed.add_field(name="{}".format(after.display_name),
                                 value="{}#{}".format(after.name, after.discriminator))
                 embed.set_footer(text="ID: {}".format(before.id))
-                await after.send(embed=embed)
+                await channel.send(embed=embed)
 
-    async def on_message_edit(self, before, after):
-        enabled = await self.config.guild(before.guild).enabled()
+    @commands.Cog.listener()
+    async def on_message_edit(self, before: discord.Member, after: discord.Member):
+        guild = after.guild
+        enabled = await self.config.guild(guild).enabled()
         toggle_edit = await self.config.guild(before.guild).toggle_edit()
         if enabled and toggle_edit:
             if len(after.embeds) is not 0:
@@ -179,9 +173,7 @@ class Sentinel(commands.Cog):
                 # logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
                 #                                                       after.content))
                 channel_name = await self.config.guild(after.guild).channel()
-                # channel = discord.utils.find(lambda c: c.name == channel_name, after.guild.channels)
-                channel = discord.utils.get(after.guild.channels, name=channel_name,
-                                            type=ChannelType.text)
+                channel = guild.get_channel(channel_name)
                 embed = discord.Embed(title="Message edited",
                                       description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
                                                                           after.content),
