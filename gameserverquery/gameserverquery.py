@@ -24,7 +24,6 @@ class GameServerQuery(commands.Cog):
         }
         self.config.register_guild(**default_guild)
 
-    @staticmethod
     async def query_info(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
         port = await self.config.guild(ctx.guild).port()
@@ -41,7 +40,6 @@ class GameServerQuery(commands.Cog):
             await ctx.send("IP and Port must be set.")
             return None
 
-    @staticmethod
     async def query_players(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
         port = await self.config.guild(ctx.guild).port()
