@@ -338,6 +338,7 @@ class Sentinel(commands.Cog):
         Example: [p]sentinel ignored First \"A Second\" \"The Third\" Fourth"""
         if len(ignored) != 0:
             await self.config.guild(ctx.guild).ignored_roles.set(ignored)
+            ignored = ' '.join(ignored)
             await ctx.send("Sentinel is ignoring roles " + bold(ignored) + ".")
         else:
             await ctx.send_help()
