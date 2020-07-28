@@ -219,8 +219,9 @@ class Sentinel(commands.Cog):
     @_sentinel.command(name="channel")
     async def _channel(self, ctx, channel: str = None):
         """Set the channel the sentinel logs messages to."""
-        if channel:
-            await self.config.guild(ctx.guild).channel.set(channel)
+        if channel is not None:
+            channel_object = discord.utils.get(ctx.channels, name=channel, type=ChannelType.text)
+            await self.config.guild(ctx.guild).channel.set(channel_object.id)
             await ctx.send("Sentinel is using channel " + bold(channel) + " for logging.")
         else:
             await ctx.send_help()
