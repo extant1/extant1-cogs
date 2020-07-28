@@ -69,7 +69,7 @@ class GameServerQuery(commands.Cog):
             if info['player_count'] is 0:
                 await ctx.send("The server is empty.")
             else:
-                await ctx.send("There are currently **{player_count}/{max_players}** players.".format(**info))
+                await ctx.send("There are currently **{0}/{1}** players.".format(info.player_count, info.max_players))
         else:
             await ctx.send("Server could not be reached.")
 
@@ -92,8 +92,8 @@ class GameServerQuery(commands.Cog):
         """Display the current mission."""
         info = self.query_info(ctx)
         if info:
-            if info['game'] is not None or "lifyo":
-                await ctx.send("The server is running **{game}** on **{map}**.".format(**info))
+            if info.folder is not None or "lifyo":
+                await ctx.send("The server is running **{0}** on **{1}**.".format(info.game, info.map_name))
             else:
                 await ctx.send("There is no mission available for this game.")
         else:
@@ -228,11 +228,11 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="info")
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
-        info = self.query_info()
+        info = self.query_info(ctx)
         debug_info = ""
 
-        if info is not None:
-            for x, y in info.items():
+        if info:
+            for x, y in info:
                 debug_info += '{} = {}\n'.format(x, y)
             await ctx.send("```py\n" + debug_info + "```")
         else:
@@ -246,9 +246,9 @@ class GameServerQuery(commands.Cog):
         players = self.query_players(ctx)
         debug_info = ""
 
-        if len(players['players']) is not 0:
-            for x in players['players']:
-                debug_info += '{}\n'.format(x.values)
+        if len(players) != 0:
+            for x in players:
+                debug_info += '{}\n'.format(x.name)
             await ctx.send("```json\n" + debug_info + "```")
         else:
             await ctx.send("Server could not be reached.")
