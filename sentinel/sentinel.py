@@ -174,6 +174,30 @@ class Sentinel(commands.Cog):
     @commands.group(name="sentinel", invoke_without_command=False)
     async def _sentinel(self, ctx):
         """Change sentinel settings"""
+        if ctx.invoked_subcommand is None:
+            enabled = await self.config.guild(ctx.guild).enabled()
+            channel = await self.config.guild(ctx.guild).channel()
+            toggle_join = await self.config.guild(ctx.guild).toggle_join()
+            toggle_leave = await self.config.guild(ctx.guild).toggle_leave()
+            toggle_edit = await self.config.guild(ctx.guild).toggle_edit()
+            toggle_ban = await self.config.guild(ctx.guild).toggle_ban()
+            toggle_unban = await self.config.guild(ctx.guild).toggle_unban()
+            toggle_role_change = await self.config.guild(ctx.guild).toggle_role_change()
+            toggle_name_change = await self.config.guild(ctx.guild).toggle_name_change()
+            ignored_roles = await self.config.guild(ctx.guild).ignored_roles()
+            embed = discord.Embed(title="GameServerQuery settings",
+                                  description="Current settings for the GameServerQuery.", color=0x1675a3)
+            embed.add_field(name="Enabled", value=enabled, inline=True)
+            embed.add_field(name="Channel", value=channel, inline=True)
+            embed.add_field(name="Toggle Join", value=toggle_join, inline=True)
+            embed.add_field(name="Toggle Leave", value=toggle_leave, inline=True)
+            embed.add_field(name="Toggle Edit", value=toggle_edit, inline=True)
+            embed.add_field(name="Toggle Ban", value=toggle_ban, inline=True)
+            embed.add_field(name="Toggle Unban", value=toggle_unban, inline=True)
+            embed.add_field(name="Toggle Role Change", value=toggle_role_change, inline=True)
+            embed.add_field(name="Toggle Name Change", value=toggle_name_change, inline=True)
+            embed.add_field(name="Ignored Roles", value=ignored_roles)
+            await ctx.send(embed=embed)
 
     @checks.admin()
     @commands.guild_only()
