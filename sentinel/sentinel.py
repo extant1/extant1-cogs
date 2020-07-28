@@ -1,3 +1,4 @@
+
 from datetime import datetime, timedelta
 
 import discord
@@ -130,7 +131,7 @@ class Sentinel(commands.Cog):
                             value="{}\n{}#{}".format(after.display_name, after.name, after.discriminator),
                             inline=True)
             embed.set_footer(text="ID: {}".format(before.id))
-            await channel.send(embed=embed)
+            await after.send(embed=embed)
 
         if enabled and toggle_role_change and before.roles != after.roles:
             print("roles")
@@ -151,7 +152,7 @@ class Sentinel(commands.Cog):
             if role[0] in ignored_roles:
                 return
             else:
-                # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
+                logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
                 channel_name = await self.config.guild(after.guild).channel()
                 # channel = discord.utils.find(lambda c: c.name == channel_name, after.guild.channels)
                 channel = discord.utils.get(after.guild.channels, name=channel_name,
@@ -163,7 +164,7 @@ class Sentinel(commands.Cog):
                 embed.add_field(name="{}".format(after.display_name),
                                 value="{}#{}".format(after.name, after.discriminator))
                 embed.set_footer(text="ID: {}".format(before.id))
-                await channel.send(embed=embed)
+                await after.send(embed=embed)
 
     async def on_message_edit(self, before, after):
         enabled = await self.config.guild(before.guild).enabled()
