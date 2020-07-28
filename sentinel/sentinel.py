@@ -146,172 +146,160 @@ class Sentinel(commands.Cog):
                 embed.set_footer(text="ID: {}".format(before.id))
                 await channel.send(embed=embed)
 
-
-async def on_message_edit(self, before, after):
-    enabled = await self.config.guild(before.guild).enabled()
-    toggle_edit = await self.config.guild(before.guild).toggle_edit()
-    if enabled and toggle_edit:
-        if len(after.embeds) is not 0:
+    async def on_message_edit(self, before, after):
+        enabled = await self.config.guild(before.guild).enabled()
+        toggle_edit = await self.config.guild(before.guild).toggle_edit()
+        if enabled and toggle_edit:
+            if len(after.embeds) is not 0:
+                return
+            if after.call is MessageType.pins_add:
+                # logger.info("messaged was pinned:  {}".format(after.content))
+                return
+            if not after.author.bot:
+                # logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
+                #                                                       after.content))
+                channel = self.bot.get_channel(await self.config.guild(before.guild).channel())
+                embed = discord.Embed(title="Message edited",
+                                      description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
+                                                                          after.content),
+                                      color=0x8080ff)
+                embed.set_thumbnail(url=after.author.avatar_url)
+                embed.set_footer(text="ID: {}".format(after.author.id))
+                await channel.send(embed=embed)
+        else:
             return
-        if after.call is MessageType.pins_add:
-            # logger.info("messaged was pinned:  {}".format(after.content))
-            return
-        if not after.author.bot:
-            # logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
-            #                                                       after.content))
-            channel = self.bot.get_channel(await self.config.guild(before.guild).channel())
-            embed = discord.Embed(title="Message edited",
-                                  description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
-                                                                      after.content),
-                                  color=0x8080ff)
-            embed.set_thumbnail(url=after.author.avatar_url)
-            embed.set_footer(text="ID: {}".format(after.author.id))
-            await channel.send(embed=embed)
-    else:
-        return
 
+    @checks.admin()
+    @commands.guild_only()
+    @commands.group(name="sentinel", invoke_without_command=False)
+    async def _sentinel(self, ctx):
+        """Change sentinel settings"""
+        if ctx.invoked_subcommand is None:
+            await ctx.send_help()
 
-@checks.admin()
-@commands.guild_only()
-@commands.group(name="sentinel", invoke_without_command=False)
-async def _sentinel(self, ctx):
-    """Change sentinel settings"""
-    if ctx.invoked_subcommand is None:
-        await ctx.send_help()
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="channel")
+    async def _channel(self, ctx, channel: str = None):
+        """Set the channel the sentinel logs messages to."""
+        if channel:
+            await self.config.guild(ctx.guild).channel.set(channel)
+            await ctx.send("Sentinel is using channel " + bold(channel) + " for logging.")
+        else:
+            await ctx.send_help()
 
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="toggleenable")
+    async def _toggleenable(self, ctx):
+        """Toggle sentinel on or off."""
+        enable = await self.config.guild(ctx.guild).enable()
+        enable = not enable
+        await self.config.guild(ctx.guild).enable.set(enable)
+        if enable:
+            await ctx.send("Sentinel is enabled.")
+        else:
+            await ctx.send("Sentinel is disabled.")
 
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="channel")
-async def _channel(self, ctx, channel: str = None):
-    """Set the channel the sentinel logs messages to."""
-    if channel:
-        await self.config.guild(ctx.guild).channel.set(channel)
-        await ctx.send("Sentinel is using channel " + bold(channel) + " for logging.")
-    else:
-        await ctx.send_help()
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="togglejoin")
+    async def _togglejoin(self, ctx):
+        """Toggle logging join messages."""
+        toggle_join = await self.config.guild(ctx.guild).toggle_join()
+        toggle_join = not toggle_join
+        await self.config.guild(ctx.guild).toggle_join.set(toggle_join)
+        if toggle_join:
+            await ctx.send("Sentinel logging join is enabled.")
+        else:
+            await ctx.send("Sentinel logging join is disabled.")
 
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="toggleleave")
+    async def _toggleleave(self, ctx):
+        """Toggle logging leave messages."""
+        toggle_leave = await self.config.guild(ctx.guild).toggle_leave()
+        toggle_leave = not toggle_leave
+        await self.config.guild(ctx.guild).toggle_leave.set(toggle_leave)
+        if toggle_leave:
+            await ctx.send("Sentinel logging leave is enabled.")
+        else:
+            await ctx.send("Sentinel logging leave is disabled.")
 
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="toggleenable")
-async def _toggleenable(self, ctx):
-    """Toggle sentinel on or off."""
-    enable = await self.config.guild(ctx.guild).enable()
-    enable = not enable
-    await self.config.guild(ctx.guild).enable.set(enable)
-    if enable:
-        await ctx.send("Sentinel is enabled.")
-    else:
-        await ctx.send("Sentinel is disabled.")
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="toggleedit")
+    async def _toggleedit(self, ctx):
+        """Toggle logging message edits."""
+        toggle_edit = await self.config.guild(ctx.guild).toggle_edit()
+        toggle_edit = not toggle_edit
+        await self.config.guild(ctx.guild).toggle_edit.set(toggle_edit)
+        if toggle_edit:
+            await ctx.send("Sentinel logging edit is enabled.")
+        else:
+            await ctx.send("Sentinel logging edit is disabled.")
 
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="toggleban")
+    async def _toggleban(self, ctx):
+        """Toggle logging bans."""
+        toggle_ban = await self.config.guild(ctx.guild).toggle_ban()
+        toggle_ban = not toggle_ban
+        await self.config.guild(ctx.guild).toggle_ban.set(toggle_ban)
+        if toggle_ban:
+            await ctx.send("Sentinel logging bans is enabled.")
+        else:
+            await ctx.send("Sentinel logging bans is disabled.")
 
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="togglejoin")
-async def _togglejoin(self, ctx):
-    """Toggle logging join messages."""
-    toggle_join = await self.config.guild(ctx.guild).toggle_join()
-    toggle_join = not toggle_join
-    await self.config.guild(ctx.guild).toggle_join.set(toggle_join)
-    if toggle_join:
-        await ctx.send("Sentinel logging join is enabled.")
-    else:
-        await ctx.send("Sentinel logging join is disabled.")
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="toggleunban")
+    async def _toggleunban(self, ctx):
+        """Toggle logging unbans."""
+        toggle_unban = await self.config.guild(ctx.guild).toggle_unban()
+        toggle_unban = not toggle_unban
+        await self.config.guild(ctx.guild).toggle_unban.set(toggle_unban)
+        if toggle_unban:
+            await ctx.send("Sentinel logging unbanning is enabled.")
+        else:
+            await ctx.send("Sentinel logging unbanning is disabled.")
 
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="togglerolechange")
+    async def _togglerolechange(self, ctx):
+        """Toggle logging role changes."""
+        toggle_role_change = await self.config.guild(ctx.guild).toggle_role_change()
+        toggle_role_change = not toggle_role_change
+        await self.config.guild(ctx.guild).toggle_role_change.set(toggle_role_change)
+        if toggle_role_change:
+            await ctx.send("Sentinel logging role changes is enabled.")
+        else:
+            await ctx.send("Sentinel logging role changes is disabled.")
 
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="toggleleave")
-async def _toggleleave(self, ctx):
-    """Toggle logging leave messages."""
-    toggle_leave = await self.config.guild(ctx.guild).toggle_leave()
-    toggle_leave = not toggle_leave
-    await self.config.guild(ctx.guild).toggle_leave.set(toggle_leave)
-    if toggle_leave:
-        await ctx.send("Sentinel logging leave is enabled.")
-    else:
-        await ctx.send("Sentinel logging leave is disabled.")
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="togglenamechange")
+    async def _togglenamechange(self, ctx):
+        """Toggle logging name changes."""
+        toggle_name_change = await self.config.guild(ctx.guild).toggle_name_change()
+        toggle_name_change = not toggle_name_change
+        await self.config.guild(ctx.guild).toggle_name_change.set(toggle_name_change)
+        if toggle_name_change:
+            await ctx.send("Sentinel logging name changes is enabled.")
+        else:
+            await ctx.send("Sentinel logging name changes is disabled.")
 
-
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="toggleedit")
-async def _toggleedit(self, ctx):
-    """Toggle logging message edits."""
-    toggle_edit = await self.config.guild(ctx.guild).toggle_edit()
-    toggle_edit = not toggle_edit
-    await self.config.guild(ctx.guild).toggle_edit.set(toggle_edit)
-    if toggle_edit:
-        await ctx.send("Sentinel logging edit is enabled.")
-    else:
-        await ctx.send("Sentinel logging edit is disabled.")
-
-
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="toggleban")
-async def _toggleban(self, ctx):
-    """Toggle logging bans."""
-    toggle_ban = await self.config.guild(ctx.guild).toggle_ban()
-    toggle_ban = not toggle_ban
-    await self.config.guild(ctx.guild).toggle_ban.set(toggle_ban)
-    if toggle_ban:
-        await ctx.send("Sentinel logging bans is enabled.")
-    else:
-        await ctx.send("Sentinel logging bans is disabled.")
-
-
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="toggleunban")
-async def _toggleunban(self, ctx):
-    """Toggle logging unbans."""
-    toggle_unban = await self.config.guild(ctx.guild).toggle_unban()
-    toggle_unban = not toggle_unban
-    await self.config.guild(ctx.guild).toggle_unban.set(toggle_unban)
-    if toggle_unban:
-        await ctx.send("Sentinel logging unbanning is enabled.")
-    else:
-        await ctx.send("Sentinel logging unbanning is disabled.")
-
-
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="togglerolechange")
-async def _togglerolechange(self, ctx):
-    """Toggle logging role changes."""
-    toggle_role_change = await self.config.guild(ctx.guild).toggle_role_change()
-    toggle_role_change = not toggle_role_change
-    await self.config.guild(ctx.guild).toggle_role_change.set(toggle_role_change)
-    if toggle_role_change:
-        await ctx.send("Sentinel logging role changes is enabled.")
-    else:
-        await ctx.send("Sentinel logging role changes is disabled.")
-
-
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="togglenamechange")
-async def _togglenamechange(self, ctx):
-    """Toggle logging name changes."""
-    toggle_name_change = await self.config.guild(ctx.guild).toggle_name_change()
-    toggle_name_change = not toggle_name_change
-    await self.config.guild(ctx.guild).toggle_name_change.set(toggle_name_change)
-    if toggle_name_change:
-        await ctx.send("Sentinel logging name changes is enabled.")
-    else:
-        await ctx.send("Sentinel logging name changes is disabled.")
-
-
-@checks.admin()
-@commands.guild_only()
-@_sentinel.command(name="ignored")
-async def _ignored(self, ctx, *ignored):
-    """Set a list of roles to ignore. Use space as a separator and quotes (") around roles with spaces.\n
-    Example: [p]sentinel ignored First \"A Second\" \"The Third\" Fourth"""
-    if len(ignored) != 0:
-        await self.config.guild(ctx.guild).ignored_roles.set(ignored)
-        await ctx.send("Sentinel is ignoring roles " + bold(ignored) + ".")
-    else:
-        await ctx.send_help()
+    @checks.admin()
+    @commands.guild_only()
+    @_sentinel.command(name="ignored")
+    async def _ignored(self, ctx, *ignored):
+        """Set a list of roles to ignore. Use space as a separator and quotes (") around roles with spaces.\n
+        Example: [p]sentinel ignored First \"A Second\" \"The Third\" Fourth"""
+        if len(ignored) != 0:
+            await self.config.guild(ctx.guild).ignored_roles.set(ignored)
+            await ctx.send("Sentinel is ignoring roles " + bold(ignored) + ".")
+        else:
+            await ctx.send_help()
