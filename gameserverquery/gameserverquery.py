@@ -81,10 +81,9 @@ class GameServerQuery(commands.Cog):
         port = await self.config.guild(ctx.guild).port()
 
         if ip and port:
-            if self.query_info(ctx) is not None:
-                await ctx.send("The server ip is " + bold(ip) + ":" + bold(port)) + "."
-            else:
-                await ctx.send("This information is not yet configured.")
+            await ctx.send("The server ip is " + bold(ip) + ":" + bold(port)) + "."
+        else:
+            await ctx.send("This information is not yet configured.")
 
     @commands.guild_only()
     @commands.command()
@@ -93,7 +92,7 @@ class GameServerQuery(commands.Cog):
         info = self.query_info(ctx)
         if info:
             if info.folder is not None or "lifyo":
-                await ctx.send("The server is running **{0}** on **{1}**.".format(info.game, info.map_name))
+                await ctx.send("The server is running **" + info.game + "** on ** " + info.map_name + " **.")
             else:
                 await ctx.send("There is no mission available for this game.")
         else:
@@ -111,16 +110,16 @@ class GameServerQuery(commands.Cog):
         else:
             # necessary?
             info = self.query_info(ctx)
-            if info['player_count'] is 0:
+            if info.player_count == 0:
                 await ctx.send("The server empty.")
             else:
                 players = self.query_players(ctx)
-                embed = discord.Embed(title="There are currently {player_count}/{max_players} players.".format(
-                    **info), description="Player list", color=0x1675a3)
-                embed.set_author(name=info['server_name'])
-                for player in players['players']:
-                    embed.add_field(name=player.values['name'], value=str(
-                        self.remove_microseconds(datetime.timedelta(seconds=player.values['duration']))), inline=True)
+                embed = discord.Embed(title="There are currently {0}/{1} players.".format(
+                    info.player_count, info.max_players), description="Player list", color=0x1675a3)
+                embed.set_author(name=info.server_name)
+                for player in players:
+                    embed.add_field(name=player.name, value=str(
+                        self.remove_microseconds(datetime.timedelta(seconds=player.duration))), inline=True)
                 await ctx.send(embed=embed)
 
     @checks.admin()
