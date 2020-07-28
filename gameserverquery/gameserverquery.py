@@ -15,6 +15,7 @@ class GameServerQuery(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=91928524318855168)
         default_guild = {
+            "enabled": False,
             "gm_role": None,
             "game": None,
             "ip": None,
@@ -32,8 +33,10 @@ class GameServerQuery(commands.Cog):
                 return await a2s.info((ip, port), 2)
             except socket.timeout:
                 await ctx.send("Connection timed out to server.")
+                return None
             except socket.gaierror:
                 await ctx.send("Invalid host address.")
+                return None
         else:
             await ctx.send("IP and Port must be set.")
             return None
@@ -47,8 +50,10 @@ class GameServerQuery(commands.Cog):
                 return await a2s.players((ip, port), 2)
             except socket.timeout:
                 await ctx.send("Connection timed out to server.")
+                return None
             except socket.gaierror:
                 await ctx.send("Invalid host address.")
+                return None
         else:
             await ctx.send("IP and Port must be set.")
             return None
@@ -57,66 +62,56 @@ class GameServerQuery(commands.Cog):
     def remove_microseconds(delta):
         return delta - datetime.timedelta(microseconds=delta.microseconds)
 
-    @commands.command(no_pm=True, aliases=["p"])
+    @commands.guild_only()
+    @commands.command(aliases=["p", "s"])
     async def players(self, ctx):
-        """Query the server for player count."""
+        """Query for player count."""
         info = self.query_info(ctx)
-        if info is not None:
+        if info:
             if info['player_count'] is 0:
                 await ctx.send("The server is empty.")
             else:
                 await ctx.send("There are currently **{player_count}/{max_players}** players.".format(**info))
         else:
-            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("Server could not be reached.")
 
-    @commands.command(no_pm=True, aliases=["s"])
-    async def server(self, ctx):
-        """Reeeeeeeeeeeee."""
-        info = self.query_info(ctx)
-        if info is not None:
-            if info['player_count'] is 0:
-                await ctx.send("There are no players inside me.")
-            else:
-                await ctx.send("There are currently **{player_count}/{max_players}** players inside me.".format(**info))
-        else:
-            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
-
-    @commands.command(no_pm=True)
+    @commands.guild_only()
+    @commands.command()
     async def ip(self, ctx):
-        """Display the server IP."""
-        settings = self._get_settings(ctx)
-        if settings['port_modifier'] is None:
-            await ctx.send(
-                "Can't determine game join port without port modifier, please use !gameserver modifier to set.")
-        else:
-            port = (int(settings['port']) - int(settings['port_modifier']))
-            if self.query_info(ctx) is not None:
-                await ctx.send(
-                    "The server ip is: " + bold(settings['ip']) + ":" + bold(str(port)))
-            else:
-                await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
+        """Display the server IP and port."""
+        ip = await self.config.guild(ctx.guild).ip()
+        port = await self.config.guild(ctx.guild).port()
 
-    @commands.command(no_pm=True)
+        if ip and port:
+            if self.query_info(ctx) is not None:
+                await ctx.send("The server ip is " + bold(ip) + ":" + bold(port)) + "."
+            else:
+                await ctx.send("This information is not yet configured.")
+
+    @commands.guild_only()
+    @commands.command()
     async def mission(self, ctx):
         """Display the current mission."""
         info = self.query_info(ctx)
-        if info is not None:
+        if info:
             if info['game'] is not None or "lifyo":
                 await ctx.send("The server is running **{game}** on **{map}**.".format(**info))
             else:
-                return
+                await ctx.send("There is no mission available for this game.")
         else:
-            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("Server could not be reached.")
 
-    @commands.command(name="who", no_pm=True)
+    @commands.guild_only()
+    @commands.command(name="who")
     async def who(self, ctx):
-        """Display players in the server if available."""
-        settings = self._get_settings(ctx)
-        if settings['game'] is 'lifyo':
+        """Display players in the server."""
+        ip = await self.config.guild(ctx.guild).ip()
+        port = await self.config.guild(ctx.guild).port()
+        game = await self.config.guild(ctx.guild).game()
+        if game is 'lifyo':
             await ctx.send("This game does not support player queries.")
-        elif settings['game'] is None:
-            await ctx.send("No one is currently in the server.")
         else:
+            # necessary?
             info = self.query_info(ctx)
             if info['player_count'] is 0:
                 await ctx.send("The server empty.")
@@ -131,71 +126,75 @@ class GameServerQuery(commands.Cog):
                 await ctx.send(embed=embed)
 
     @checks.admin()
-    @commands.group(name="gameserver", invoke_without_command=False, no_pm=True)
-    async def _server(self, ctx):
-        """Change the server settings"""
+    @commands.guild_only()
+    @commands.group(name="gameserverquery", alias="gsq", invoke_without_command=False)
+    async def _gsq(self, ctx):
+        """Change or view settings"""
         if ctx.invoked_subcommand is None:
-            settings = self._get_settings(ctx)
-            embed = discord.Embed(title="Gameserver Settings",
-                                  description="Current settings for the game server query.", color=0x1675a3)
-            embed.add_field(name="IP", value=settings['ip'], inline=True)
-            embed.add_field(name="Port", value=settings['port'], inline=True)
-            embed.add_field(name="Game", value=settings['game'], inline=True)
-            embed.add_field(name="GM Role", value=settings['discord_gm_role'], inline=True)
-            embed.add_field(name="Port modifier", value="-" + str(settings['port_modifier']) + " (" + str(
-                (settings['port'] - settings['port_modifier'])) + ")", inline=True)
+            ip = await self.config.guild(ctx.guild).ip()
+            game_port = await self.config.guild(ctx.guild).game_port()
+            query_port = await self.config.guild(ctx.guild).query_port()
+            game = await self.config.guild(ctx.guild).game()
+            gm_role = await self.config.guild(ctx.guild).gm_role()
+            embed = discord.Embed(title="GameServerQuery settings",
+                                  description="Current settings for the GameServerQuery.", color=0x1675a3)
+            embed.add_field(name="Game", value=game, inline=True)
+            embed.add_field(name="IP", value=ip, inline=True)
+            embed.add_field(name="Game Port", value=game_port, inline=True)
+            embed.add_field(name="Query Port", value=query_port, inline=True)
+            embed.add_field(name="GM Role", value=gm_role, inline=True)
             await ctx.send(embed=embed)
-            await ctx.send_help(ctx)
+            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
-    @_server.command(name="ip")
+    @_gsq.command(name="ip")
     async def _ip(self, ctx, ip: str = None):
-        """Set the server query ip."""
+        """Set the ip."""
         if ip is not None:
-            self._set_setting(ctx, "ip", ip)
-            await ctx.send("Setting server query ip to: " + bold(ip))
+            await self.config.guild(ctx.guild).ip.set(ip)
+            await ctx.send("GameServerQuery ip is set to " + bold(ip) + ".")
         else:
-            await ctx.send_help(ctx)
+            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
-    @_server.command(name="gameport")
+    @_gsq.command(name="gameport")
     async def _game_port(self, ctx, game_port: int = None):
-        """Set the server query port."""
+        """Set the game port."""
         if game_port is not None:
             await self.config.guild(ctx.guild).game_port.set(game_port)
             await ctx.send("GameServerQuery game port is set to " + bold(game_port) + ".")
         else:
-            await ctx.send_help(ctx)
+            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
-    @_server.command(name="queryport")
+    @_gsq.command(name="queryport")
     async def _query_port(self, ctx, query_port: int = None):
-        """Set the server query port."""
+        """Set the query port."""
         if query_port is not None:
             await self.config.guild(ctx.guild).query_port.set(query_port)
             await ctx.send("GameServerQuery query port is set to " + bold(query_port) + ".")
         else:
-            await ctx.send_help(ctx)
+            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
-    @_server.command(name="role")
+    @_gsq.command(name="role")
     async def _role(self, ctx, gm_role: str = None):
-        """Set the server query discord GM role."""
+        """Set the discord GM role."""
         if gm_role is not None:
             await self.config.guild(ctx.guild).gm_role.set(gm_role)
             await ctx.send("GameServerQuery GM role is set to " + bold(gm_role) + ".")
         else:
-            await ctx.send_help(ctx)
+            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
-    @_server.command(name="game")
+    @_gsq.command(name="game")
     async def _game(self, ctx, game: str = None):
-        """Set the server query game."""
+        """Set the game."""
         if game is not None:
             await self.config.guild(ctx.guild).game.set(game)
             await ctx.send("GameServerQuery game is set to " + bold(game) + ".")
@@ -206,18 +205,31 @@ class GameServerQuery(commands.Cog):
 
     @checks.admin()
     @commands.guild_only()
-    @commands.group(name="querydebug", invoke_without_command=False)
-    async def _querydebug(self, ctx):
-        """Server Query debug info."""
-        if ctx.invoked_subcommand is None:
-            await ctx.send_help(ctx)
+    @_gsq.command(name="toggleenable")
+    async def _enable(self, ctx):
+        """Enable or disable the GSQ."""
+        enabled = await self.config.guild(ctx.guild).enabled()
+        enabled = not enabled
+        if enabled:
+            await ctx.send("GameServerQuery is now enabled.")
+        else:
+            await ctx.send("GameServerQuery is now disabled.")
+        await self.config.guild(ctx.guild).enabled.set(enabled)
 
     @checks.admin()
     @commands.guild_only()
-    @_querydebug.command(name="info")
+    @commands.group(name="gsqdebug", invoke_without_command=False)
+    async def _gsqdebug(self, ctx):
+        """GameServerQuery debug"""
+        if ctx.invoked_subcommand is None:
+            await ctx.send_help()
+
+    @checks.admin()
+    @commands.guild_only()
+    @_gsqdebug.command(name="info")
     async def _info(self, ctx):
-        """Server Query debug info query."""
-        info = self.query_info(ctx)
+        """GameServerQuery debug info query."""
+        info = self.query_info()
         debug_info = ""
 
         if info is not None:
@@ -225,13 +237,13 @@ class GameServerQuery(commands.Cog):
                 debug_info += '{} = {}\n'.format(x, y)
             await ctx.send("```py\n" + debug_info + "```")
         else:
-            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("Server could not be reached.")
 
     @checks.admin()
     @commands.guild_only()
-    @_querydebug.command(name="player")
+    @_gsqdebug.command(name="player")
     async def _player(self, ctx):
-        """Server Query debug player query."""
+        """GameServerQuery debug player query."""
         players = self.query_players(ctx)
         debug_info = ""
 
@@ -240,4 +252,4 @@ class GameServerQuery(commands.Cog):
                 debug_info += '{}\n'.format(x.values)
             await ctx.send("```json\n" + debug_info + "```")
         else:
-            await ctx.send("There is either no server config or it is invalid and the server could not be reached.")
+            await ctx.send("Server could not be reached.")
