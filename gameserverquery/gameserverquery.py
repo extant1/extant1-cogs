@@ -131,6 +131,7 @@ class GameServerQuery(commands.Cog):
     async def _gsq(self, ctx):
         """Change or view settings"""
         if ctx.invoked_subcommand is None:
+            enabled = await self.config.guild(ctx.guild).enabled()
             ip = await self.config.guild(ctx.guild).ip()
             game_port = await self.config.guild(ctx.guild).game_port()
             query_port = await self.config.guild(ctx.guild).query_port()
@@ -138,13 +139,13 @@ class GameServerQuery(commands.Cog):
             gm_role = await self.config.guild(ctx.guild).gm_role()
             embed = discord.Embed(title="GameServerQuery settings",
                                   description="Current settings for the GameServerQuery.", color=0x1675a3)
+            embed.add_field(name="Enabled", value=enabled, inline=True)
             embed.add_field(name="Game", value=game, inline=True)
             embed.add_field(name="IP", value=ip, inline=True)
             embed.add_field(name="Game Port", value=game_port, inline=True)
             embed.add_field(name="Query Port", value=query_port, inline=True)
             embed.add_field(name="GM Role", value=gm_role, inline=True)
             await ctx.send(embed=embed)
-            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
@@ -160,7 +161,7 @@ class GameServerQuery(commands.Cog):
     @checks.admin()
     @commands.guild_only()
     @_gsq.command(name="gameport")
-    async def _game_port(self, ctx, game_port: int = None):
+    async def _game_port(self, ctx, game_port: str = None):
         """Set the game port."""
         if game_port is not None:
             await self.config.guild(ctx.guild).game_port.set(game_port)
@@ -171,7 +172,7 @@ class GameServerQuery(commands.Cog):
     @checks.admin()
     @commands.guild_only()
     @_gsq.command(name="queryport")
-    async def _query_port(self, ctx, query_port: int = None):
+    async def _query_port(self, ctx, query_port: str = None):
         """Set the query port."""
         if query_port is not None:
             await self.config.guild(ctx.guild).query_port.set(query_port)
