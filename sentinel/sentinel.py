@@ -174,8 +174,6 @@ class Sentinel(commands.Cog):
     @commands.group(name="sentinel", invoke_without_command=False)
     async def _sentinel(self, ctx):
         """Change sentinel settings"""
-        if ctx.invoked_subcommand is None:
-            await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
