@@ -115,6 +115,7 @@ class Sentinel(commands.Cog):
         toggle_role_change = await self.config.guild(before.guild).toggle_unban()
         ignored_roles = await self.config.guild(before.guild).ignored_roles()
         if enabled and toggle_name_change and before.display_name != after.display_name or before.name != after.name:
+            print("name")
             # logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
             channel_name = await self.config.guild(after.guild).channel()
             channel = discord.utils.find(lambda c: c.name == channel_name, after.guild.channels)
@@ -134,6 +135,7 @@ class Sentinel(commands.Cog):
             await channel.send(embed=embed)
 
         if enabled and toggle_role_change and before.roles != after.roles:
+            print("roles")
             old_roles = [r.name for r in before.roles if r.name != "@everyone"]
             new_roles = [r.name for r in after.roles if r.name != "@everyone"]
             old_roles_length = len(old_roles)
