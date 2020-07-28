@@ -226,7 +226,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="info")
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
-        info = (await self.query_info(ctx))
+        info = await self.query_info(ctx)
         debug_info = ""
 
         if info:
@@ -256,7 +256,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="what")
     async def _what(self, ctx):
         """GameServerQuery debug player query."""
-        info = (await self.query_info(ctx))
+        info = await self.query_info(ctx)
 
         if info:
             await ctx.send(info)
