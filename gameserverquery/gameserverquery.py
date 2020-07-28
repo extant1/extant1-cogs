@@ -29,7 +29,7 @@ class GameServerQuery(commands.Cog):
         port = await self.config.guild(ctx.guild).port()
         if ip and port:
             try:
-                return a2s.info((ip, port), 2)
+                return await a2s.info((ip, port), 2)
             except socket.timeout:
                 await ctx.send("Connection timed out to server.")
                 return None
@@ -64,7 +64,7 @@ class GameServerQuery(commands.Cog):
     @commands.command(aliases=["p", "s"])
     async def players(self, ctx):
         """Query for player count."""
-        info = await self.query_info(ctx)
+        info = self.query_info(ctx)
         if info:
             if info.player_count == 0:
                 await ctx.send("The server is empty.")
@@ -101,13 +101,10 @@ class GameServerQuery(commands.Cog):
     @commands.command(name="who")
     async def who(self, ctx):
         """Display players in the server."""
-        ip = await self.config.guild(ctx.guild).ip()
-        port = await self.config.guild(ctx.guild).port()
         game = await self.config.guild(ctx.guild).game()
         if game is 'lifyo':
             await ctx.send("This game does not support player queries.")
         else:
-            # necessary?
             info = self.query_info(ctx)
             if info.player_count == 0:
                 await ctx.send("The server empty.")
@@ -226,7 +223,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="info")
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
-        info = await self.query_info(ctx)
+        info = self.query_info(ctx)
         debug_info = ""
 
         if info:
@@ -250,13 +247,3 @@ class GameServerQuery(commands.Cog):
             await ctx.send("```json\n" + debug_info + "```")
         else:
             await ctx.send("Server could not be reached.")
-
-    @checks.admin()
-    @commands.guild_only()
-    @_gsqdebug.command(name="what")
-    async def _what(self, ctx):
-        """GameServerQuery debug player query."""
-        info = await self.query_info(ctx)
-
-        if info:
-            await ctx.send(info)
