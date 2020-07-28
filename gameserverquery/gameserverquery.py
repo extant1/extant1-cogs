@@ -29,7 +29,7 @@ class GameServerQuery(commands.Cog):
         port = await self.config.guild(ctx.guild).port()
         if ip and port:
             try:
-                return await a2s.info((ip, port), 2)
+                return a2s.info((ip, port), 2)
             except socket.timeout:
                 await ctx.send("Connection timed out to server.")
                 return None
