@@ -64,7 +64,7 @@ class GameServerQuery(commands.Cog):
     @commands.command(aliases=["p", "s"])
     async def players(self, ctx):
         """Query for player count."""
-        info = self.query_info(ctx)
+        info = await self.query_info(ctx)
         if info:
             if info.player_count == 0:
                 await ctx.send("The server is empty.")
@@ -88,7 +88,7 @@ class GameServerQuery(commands.Cog):
     @commands.command()
     async def mission(self, ctx):
         """Display the current mission."""
-        info = self.query_info(ctx)
+        info = await self.query_info(ctx)
         if info:
             if info.folder is not None or "lifyo":
                 await ctx.send("The server is running **" + info.game + "** on ** " + info.map_name + " **.")
@@ -105,11 +105,11 @@ class GameServerQuery(commands.Cog):
         if game is 'lifyo':
             await ctx.send("This game does not support player queries.")
         else:
-            info = self.query_info(ctx)
+            info = await self.query_info(ctx)
             if info.player_count == 0:
                 await ctx.send("The server empty.")
             else:
-                players = self.query_players(ctx)
+                players = await self.query_players(ctx)
                 embed = discord.Embed(title="There are currently {0}/{1} players.".format(
                     info.player_count, info.max_players), description="Player list", color=0x1675a3)
                 embed.set_author(name=info.server_name)
@@ -223,7 +223,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="info")
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
-        info = self.query_info(ctx)
+        info = await self.query_info(ctx)
         debug_info = ""
 
         if info:
@@ -238,7 +238,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="player")
     async def _player(self, ctx):
         """GameServerQuery debug player query."""
-        players = self.query_players(ctx)
+        players = await self.query_players(ctx)
         debug_info = ""
 
         if len(players) != 0:
