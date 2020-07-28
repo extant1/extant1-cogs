@@ -35,7 +35,7 @@ class Sentinel(commands.Cog):
             # channel = discord.utils.get(member.guild.channels,
             #                             name=str(await self.config.guild(member.guild).channel()),
             #                             type=ChannelType.text)
-            channel = discord.utils.find(lambda c: c.name == await self.config.guild(member.guild).channel(),
+            channel = discord.utils.find(lambda c: c.name == (await self.config.guild(member.guild).channel()),
                                          member.guild.channels)
             if (datetime.utcnow() - member.created_at) < timedelta(1):
                 message = "\nWARNING!!!  ACCOUNT IS LESS THAN ONE DAY OLD."
@@ -59,7 +59,7 @@ class Sentinel(commands.Cog):
         toggle_leave = await self.config.guild(member.guild).toggle_leave()
         if enabled and toggle_leave:
             # logger.info("{} left the server.".format(member.display_name))
-            channel = discord.utils.find(lambda c: c.name == await self.config.guild(member.guild).channel(),
+            channel = discord.utils.find(lambda c: c.name == (await self.config.guild(member.guild).channel()),
                                          member.guild.channels)
             # channel = discord.utils.get(member.guild.channels,
             #                             name=str(await self.config.guild(member.guild).channel()),
@@ -78,7 +78,7 @@ class Sentinel(commands.Cog):
         toggle_ban = await self.config.guild(member.guild).toggle_ban()
         if enabled and toggle_ban:
             # logger.info("{} was banned from the server.".format(member.display_name))
-            channel = discord.utils.find(lambda c: c.name == await self.config.guild(guild).channel(),
+            channel = discord.utils.find(lambda c: c.name == (await self.config.guild(guild).channel()),
                                          guild.channels)
             # channel = discord.utils.get(guild.channels, name=str(await self.config.guild(guild).channel()),
             #                             type=ChannelType.text)
@@ -96,7 +96,7 @@ class Sentinel(commands.Cog):
         toggle_unban = await self.config.guild(member.guild).toggle_unban()
         if enabled and toggle_unban:
             # logger.info("{} was unbanned from the server.".format(user.display_name))
-            channel = discord.utils.find(lambda c: c.name == await self.config.guild(guild).channel(),
+            channel = discord.utils.find(lambda c: c.name == (await self.config.guild(guild).channel()),
                                          guild.channels)
             # channel = discord.utils.get(guild.channels, name=str(await self.config.guild(guild).channel()),
             #                             type=ChannelType.text)
@@ -116,7 +116,7 @@ class Sentinel(commands.Cog):
         ignored_roles = await self.config.guild(before.guild).ignored_roles()
         if enabled and toggle_name_change and before.display_name != after.display_name or before.name != after.name:
             # logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
-            channel = discord.utils.find(lambda c: c.name == await self.config.guild(after.guild).channel(),
+            channel = discord.utils.find(lambda c: c.name == (await self.config.guild(after.guild).channel()),
                                          after.guild.channels)
             # channel = discord.utils.get(after.guild.channels, name=str(await self.config.guild(after.guild).channel()),
             #                             type=ChannelType.text)
@@ -152,7 +152,7 @@ class Sentinel(commands.Cog):
                 return
             else:
                 # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
-                channel = discord.utils.find(lambda c: c.name == await self.config.guild(after.guild).channel(),
+                channel = discord.utils.find(lambda c: c.name == (await self.config.guild(after.guild).channel()),
                                              after.guild.channels)
                 # channel = discord.utils.get(after.guild.channels,
                 #                             name=str(await self.config.guild(after.guild).channel()),
@@ -178,7 +178,7 @@ class Sentinel(commands.Cog):
             if not after.author.bot:
                 # logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
                 #                                                       after.content))
-                channel = discord.utils.find(lambda c: c.name == await self.config.guild(after.guild).channel(),
+                channel = discord.utils.find(lambda c: c.name == (await self.config.guild(after.guild).channel()),
                                              after.guild.channels)
                 # channel = discord.utils.get(after.guild.channels,
                 #                             name=str(await self.config.guild(after.guild).channel()),
