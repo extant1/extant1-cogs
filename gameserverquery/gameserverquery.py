@@ -120,7 +120,7 @@ class GameServerQuery(commands.Cog):
 
     @checks.admin()
     @commands.guild_only()
-    @commands.group(name="gameserverquery", alias="gsq", invoke_without_command=False)
+    @commands.group(name="gameserverquery", invoke_without_command=False)
     async def _gsq(self, ctx):
         """Change or view settings"""
         if ctx.invoked_subcommand is None:
@@ -212,15 +212,15 @@ class GameServerQuery(commands.Cog):
 
     @checks.admin()
     @commands.guild_only()
-    @commands.group(name="gsqdebug", invoke_without_command=False)
-    async def _gsqdebug(self, ctx):
+    @commands.group(name="gsqd", invoke_without_command=False)
+    async def _gsqd(self, ctx):
         """GameServerQuery debug"""
         if ctx.invoked_subcommand is None:
             await ctx.send_help()
 
     @checks.admin()
     @commands.guild_only()
-    @_gsqdebug.command(name="info")
+    @_gsqd.command(name="info")
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
         info = await self.query_info(ctx)
@@ -235,7 +235,7 @@ class GameServerQuery(commands.Cog):
 
     @checks.admin()
     @commands.guild_only()
-    @_gsqdebug.command(name="player")
+    @_gsqd.command(name="player")
     async def _player(self, ctx):
         """GameServerQuery debug player query."""
         players = await self.query_players(ctx)
@@ -243,7 +243,7 @@ class GameServerQuery(commands.Cog):
 
         if len(players) != 0:
             for x in players:
-                debug_info += '{}\n'.format(x.name)
+                debug_info += '{}\n{}, {}\n'.format(x.name, x.duration, x.score)
             await ctx.send("```json\n" + debug_info + "```")
         else:
-            await ctx.send("Server could not be reached.")
+            await ctx.send("Server is empty.")
