@@ -64,9 +64,9 @@ class GameServerQuery(commands.Cog):
     @commands.command(aliases=["p", "s"])
     async def players(self, ctx):
         """Query for player count."""
-        info = self.query_info(ctx)
+        info = await self.query_info(ctx)
         if info:
-            if info['player_count'] is 0:
+            if info.player_count == 0:
                 await ctx.send("The server is empty.")
             else:
                 await ctx.send("There are currently **{0}/{1}** players.".format(info.player_count, info.max_players))
@@ -79,7 +79,7 @@ class GameServerQuery(commands.Cog):
         """Display the server IP and port."""
         ip = await self.config.guild(ctx.guild).ip()
         game_port = await self.config.guild(ctx.guild).game_port()
-        if ip and port:
+        if ip and game_port:
             await ctx.send("The server ip is " + bold(ip) + ":" + bold(game_port)) + "."
         else:
             await ctx.send("This information is not yet configured.")
