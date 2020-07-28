@@ -80,7 +80,7 @@ class GameServerQuery(commands.Cog):
         ip = await self.config.guild(ctx.guild).ip()
         game_port = await self.config.guild(ctx.guild).game_port()
         if ip and game_port:
-            await ctx.send("The server ip is " + bold(ip) + ":" + bold(game_port)) + "."
+            await ctx.send("The server ip is " + bold(ip) + ":" + bold(game_port) + ".")
         else:
             await ctx.send("This information is not yet configured.")
 
@@ -226,7 +226,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="info")
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
-        info = self.query_info(ctx)
+        info = (await self.query_info(ctx))
         debug_info = ""
 
         if info:
@@ -256,7 +256,7 @@ class GameServerQuery(commands.Cog):
     @_gsqdebug.command(name="what")
     async def _what(self, ctx):
         """GameServerQuery debug player query."""
-        info = self.query_info(ctx)
+        info = (await self.query_info(ctx))
 
         if info:
             await ctx.send(info)
