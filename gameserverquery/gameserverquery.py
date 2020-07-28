@@ -78,10 +78,9 @@ class GameServerQuery(commands.Cog):
     async def ip(self, ctx):
         """Display the server IP and port."""
         ip = await self.config.guild(ctx.guild).ip()
-        port = await self.config.guild(ctx.guild).port()
-
+        game_port = await self.config.guild(ctx.guild).game_port()
         if ip and port:
-            await ctx.send("The server ip is " + bold(ip) + ":" + bold(port)) + "."
+            await ctx.send("The server ip is " + bold(ip) + ":" + bold(game_port)) + "."
         else:
             await ctx.send("This information is not yet configured.")
 
@@ -251,3 +250,13 @@ class GameServerQuery(commands.Cog):
             await ctx.send("```json\n" + debug_info + "```")
         else:
             await ctx.send("Server could not be reached.")
+
+    @checks.admin()
+    @commands.guild_only()
+    @_gsqdebug.command(name="what")
+    async def _what(self, ctx):
+        """GameServerQuery debug player query."""
+        info = self.query_info(ctx)
+
+        if info:
+            await ctx.send(info)
