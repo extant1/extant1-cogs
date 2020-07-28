@@ -194,6 +194,20 @@ async def _channel(self, ctx, channel: str = None):
 
 @checks.admin()
 @commands.guild_only()
+@_sentinel.command(name="toggleenable")
+async def _toggleenable(self, ctx):
+    """Toggle sentinel on or off."""
+    enable = await self.config.guild(ctx.guild).enable()
+    enable = not enable
+    await self.config.guild(ctx.guild).enable.set(enable)
+    if enable:
+        await ctx.send("Sentinel is enabled.")
+    else:
+        await ctx.send("Sentinel is disabled.")
+
+
+@checks.admin()
+@commands.guild_only()
 @_sentinel.command(name="togglejoin")
 async def _togglejoin(self, ctx):
     """Toggle logging join messages."""
