@@ -215,10 +215,10 @@ class Sentinel(commands.Cog):
     @_sentinel.command(name="toggleenable")
     async def _toggleenable(self, ctx):
         """Toggle sentinel on or off."""
-        enable = await self.config.guild(ctx.guild).enable()
-        enable = not enable
-        await self.config.guild(ctx.guild).enable.set(enable)
-        if enable:
+        enabled = await self.config.guild(ctx.guild).enabled()
+        enabled = not enabled
+        await self.config.guild(ctx.guild).enabled.set(enabled)
+        if enabled:
             await ctx.send("Sentinel is **enabled**.")
         else:
             await ctx.send("Sentinel is **disabled**.")
