@@ -1,6 +1,7 @@
 import random
 
 import discord
+from redbot.core import Config, commands, checks
 from redbot.core import commands
 
 
@@ -9,6 +10,7 @@ class Misc(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.config = Config.get_conf(self, identifier=91928524318855168)
 
     @commands.command()
     async def unflip(self, ctx, user: discord.Member = None):
