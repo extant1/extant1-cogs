@@ -20,6 +20,12 @@ class MapleWeb(commands.Cog):
         # make get request
         async with httpx.AsyncClient() as client:
             params = {'snowflake': snowflake}
-            response = await client.post(self.verify_url, params=params)
+            r = await client.post(self.verify_url, params=params)
         # return
-        response.json()
+        if r.status_code == 200:
+            if r.json()['status'] == 1:
+                await ctx.send("Your code is:  {}".format(r.json()['code']))
+                await ctx.send(
+                    "Visit the https://ardentmaples.com/settings/ and input the discord code to synchronize with the website.")
+            else:
+                await ctx.send("Something went wrong!")
