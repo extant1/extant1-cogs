@@ -21,7 +21,7 @@ class MapleWeb(commands.Cog):
         # make get request
         async with httpx.AsyncClient() as client:
             data = json.dumps({'snowflake': snowflake})
-            r = await client.post(self.verify_url, body=data)
+            r = await client.post(self.verify_url, data=data)
         # return
         if r.status_code == 200:
             if r.json()['status'] == 1:
