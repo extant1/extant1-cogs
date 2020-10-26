@@ -1,3 +1,4 @@
+import json
 import httpx
 
 from redbot.core import Config, commands
@@ -19,8 +20,8 @@ class MapleWeb(commands.Cog):
         snowflake = ctx.author.id
         # make get request
         async with httpx.AsyncClient() as client:
-            params = {'snowflake': snowflake}
-            r = await client.post(self.verify_url, params=params)
+            data = json.dumps({'snowflake': snowflake})
+            r = await client.post(self.verify_url, body=data)
         # return
         if r.status_code == 200:
             if r.json()['status'] == 1:
