@@ -28,5 +28,10 @@ class MapleWeb(commands.Cog):
                 await ctx.send("Your code is:  {}".format(r.json()['code']))
                 await ctx.send(
                     "Visit the https://ardentmaples.com/settings/ and input the discord code to synchronize with the website.")
+            elif r.json()['status'] == 2:
+                await ctx.send("A previous attempt was found!")
+                await ctx.send("Your code is:  {}".format(r.json()['code']))
+                await ctx.send(
+                    "Visit the https://ardentmaples.com/settings/ and input the discord code to synchronize with the website.")
             else:
                 await ctx.send("Something went wrong!")
