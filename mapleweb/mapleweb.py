@@ -10,7 +10,7 @@ class MapleWeb(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=91928524318855168)
-        self.verify_url = "https://ardentmaples.com/api/verify"
+        self.verify_url = "https://ardentmaples.com/api/discord/verify"
 
     @commands.command(aliases=["register", "witnessme"])
     async def verify(self, ctx):
