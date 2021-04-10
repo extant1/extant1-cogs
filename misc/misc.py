@@ -24,6 +24,7 @@ class Misc(commands.Cog):
                 user = ctx.author
                 msg = "Nice try. You think this is funny?\n How about *this* instead:\n\n"
                 if user.id == 272200608319275009:
+                    user = ctx.bot.user
                     msg = "Nice try. You think this is funny?\n How about *this* instead..wait.. what's happening.. auughh she's too powerful!:\n\n"
             char = "abcdefghijklmnopqrstuvwxyz"
             tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
