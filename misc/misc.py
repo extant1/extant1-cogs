@@ -1,4 +1,5 @@
 import random
+from random import choice
 
 import discord
 from redbot.core import Config, commands, checks
@@ -11,6 +12,28 @@ class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=91928524318855168)
+
+    @commands.command()
+    async def flip(self, ctx, user: discord.Member = None):
+        """Flip a coin... or a user.
+        Defaults to a coin.
+        """
+        if user is not None:
+            msg = ""
+            if user.id == ctx.bot.user.id:
+                user = ctx.author
+                msg = "Nice try. You think this is funny?\n How about *this* instead:\n\n"
+            char = "abcdefghijklmnopqrstuvwxyz"
+            tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
+            table = str.maketrans(char, tran)
+            name = user.display_name.translate(table)
+            char = char.upper()
+            tran = "∀qƆpƎℲפHIſʞ˥WNOԀQᴚS┴∩ΛMX⅄Z"
+            table = str.maketrans(char, tran)
+            name = name.translate(table)
+            await ctx.send(msg + "(╯°□°）╯︵ " + name[::-1])
+        else:
+            await ctx.send("*flips a coin and... " + choice(["HEADS!*", "TAILS!*"]))
 
     @commands.command()
     async def unflip(self, ctx, user: discord.Member = None):

@@ -224,11 +224,9 @@ class GameServerQuery(commands.Cog):
     async def _info(self, ctx):
         """GameServerQuery debug info query."""
         info = await self.query_info(ctx)
-        debug_info = ""
-
         if info:
-            for x, y in info:
-                debug_info += '{} = {}\n'.format(x, y)
+            debug_info = "".join('{} = {}\n'.format(x, y) for x, y in info)
+
             await ctx.send("```py\n" + debug_info + "```")
         else:
             await ctx.send("Server could not be reached.")
@@ -239,11 +237,12 @@ class GameServerQuery(commands.Cog):
     async def _player(self, ctx):
         """GameServerQuery debug player query."""
         players = await self.query_players(ctx)
-        debug_info = ""
-
         if len(players) != 0:
-            for x in players:
-                debug_info += '{}\n{}, {}\n'.format(x.name, x.duration, x.score)
+            debug_info = "".join(
+                '{}\n{}, {}\n'.format(x.name, x.duration, x.score) for x in players
+            )
+
+
             await ctx.send("```json\n" + debug_info + "```")
         else:
             await ctx.send("Server is empty.")

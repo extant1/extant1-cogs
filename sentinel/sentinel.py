@@ -147,16 +147,15 @@ class Sentinel(commands.Cog):
 
             if role[0] in ignored_roles:
                 return
-            else:
-                # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
-                embed = discord.Embed(title="Role changed",
-                                      description="{} was {}.".format(role[0], verb),
-                                      color=0xffff00)
-                embed.set_thumbnail(url=after.avatar_url)
-                embed.add_field(name="{}".format(after.display_name),
-                                value="{}#{}".format(after.name, after.discriminator))
-                embed.set_footer(text="ID: {}".format(before.id))
-                await channel.send(embed=embed)
+            # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
+            embed = discord.Embed(title="Role changed",
+                                  description="{} was {}.".format(role[0], verb),
+                                  color=0xffff00)
+            embed.set_thumbnail(url=after.avatar_url)
+            embed.add_field(name="{}".format(after.display_name),
+                            value="{}#{}".format(after.name, after.discriminator))
+            embed.set_footer(text="ID: {}".format(before.id))
+            await channel.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Member, after: discord.Member):
