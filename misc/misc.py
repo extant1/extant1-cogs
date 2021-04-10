@@ -23,6 +23,8 @@ class Misc(commands.Cog):
             if user.id == ctx.bot.user.id:
                 user = ctx.author
                 msg = "Nice try. You think this is funny?\n How about *this* instead:\n\n"
+                if user.id == 272200608319275009:
+                    msg = "Nice try. You think this is funny?\n How about *this* instead..wait.. what's happening.. auughh she's too powerful!:\n\n"
             char = "abcdefghijklmnopqrstuvwxyz"
             tran = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz"
             table = str.maketrans(char, tran)
