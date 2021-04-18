@@ -25,13 +25,10 @@ class MapleWeb(commands.Cog):
         # return
         if r.status_code == 200:
             if r.json()['status'] == 1:
-                await ctx.author.send("Your code is:  {}".format(r.json()['code']))
-                await ctx.author.send(
-                    "Visit the https://ardentmaples.com/settings/ and input the discord code to synchronize with the website.")
+                await ctx.author.send("Ensure that you are signed in then click the link to link your discord account.")
+                await ctx.author.send("https://ardentmaples.com/redeem/".format(r.json()['code']))
             elif r.json()['status'] == 2:
-                await ctx.author.send("A previous attempt was found!")
-                await ctx.author.send("Your code is:  {}".format(r.json()['code']))
-                await ctx.author.send(
-                    "Visit the https://ardentmaples.com/settings/ and input the discord code to synchronize with the website.")
+                await ctx.author.send("Ensure that you are signed in then click the link to link your discord account.")
+                await ctx.author.send("https://ardentmaples.com/redeem/".format(r.json()['code']))
             else:
                 await ctx.author.send("Something went wrong!")
