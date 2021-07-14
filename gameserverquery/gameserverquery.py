@@ -74,7 +74,7 @@ class GameServerQuery(commands.Cog):
         activity = discord.Activity(
             type=discord.ActivityType.watching,
             start=datetime.datetime,
-            name=f"Fight Club - {info.player_count} of {info.max_players}",
+            name=f"Fight Club: {info.player_count} of {info.max_players}",
             state="Fight Club",
             url="https://fightclub.ardentmaples.com",
             details="Join the salt!",
