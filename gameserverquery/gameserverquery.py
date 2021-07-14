@@ -72,7 +72,7 @@ class GameServerQuery(commands.Cog):
     async def server_poll(self):
         info = await self.query_server()
         activity = discord.Activity(
-            type=discord.ActivityType.custom,
+            type=discord.ActivityType.unknown,
             name="Fight Club",
             state="Fight Club",
             url="https://fightclub.ardentmaples.com",
