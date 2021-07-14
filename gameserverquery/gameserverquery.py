@@ -73,7 +73,9 @@ class GameServerQuery(commands.Cog):
         info = await self.query_server()
         activity = discord.Activity(
             type=discord.ActivityType.playing,
+            name="Fight Club",
             state="Fight Club",
+            url="https://fightclub.ardentmaples.com",
             details="Join the salt!",
             timestamps=5,
             party={'id': 'Fight Club',
