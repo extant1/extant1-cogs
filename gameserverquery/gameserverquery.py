@@ -117,7 +117,7 @@ class GameServerQuery(commands.Cog):
     async def who(self, ctx):
         """Display players in the server."""
         game = await self.config.guild(ctx.guild).game()
-        if game is 'lifyo':
+        if game == 'lifyo':
             await ctx.send("This game does not support player queries.")
         else:
             info = await self.query_info(ctx)
