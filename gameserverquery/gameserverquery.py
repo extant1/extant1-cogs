@@ -72,14 +72,14 @@ class GameServerQuery(commands.Cog):
     async def server_poll(self):
         info = await self.query_server()
         activity = discord.Activity(
-            type=discord.ActivityType.playing,
+            type=discord.ActivityType.watching,
             start=datetime.datetime,
-            name="Fight Club",
+            name=f"Fight Club - {info.player_count} of {info.max_players}",
             state="Fight Club",
             url="https://fightclub.ardentmaples.com",
             details="Join the salt!",
             party={'id': 'Fight Club',
-                   'size': [int(info.player_count), int(info.max_players)]},
+                   'size': [int(info.player_count), int(info.max_players)]}
         )
         if info.player_count == 0:
             await self.bot.change_presence(status=discord.Status.idle, activity=activity)
