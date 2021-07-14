@@ -77,7 +77,6 @@ class GameServerQuery(commands.Cog):
             state="Fight Club",
             url="https://fightclub.ardentmaples.com",
             details="Join the salt!",
-            timestamps=5,
             party={'id': 'Fight Club',
                    'size': [int(info.player_count), int(info.max_players)]},
         )
