@@ -72,10 +72,14 @@ class GameServerQuery(commands.Cog):
     async def server_poll(self):
         info = await self.query_server()
         if info.player_count == 0:
-            activity = discord.Activity(state="Fight Club")
+            activity = discord.Activity(
+                party={'id': 'Fight Club', 'size': [int(info.player_count), int(info.max_players)]},
+                state="Fight Club", details="Join the salt!", startTimestamp=1507665886)
             await self.bot.change_presence(status=discord.Status.idle, activity=activity)
         else:
-            activity = discord.Activity(state="Fight Club")
+            activity = discord.Activity(
+                party={'id': 'Fight Club', 'size': [int(info.player_count), int(info.max_players)]},
+                state="Fight Club", details="Join the salt!", startTimestamp=1507665886)
             await self.bot.change_presence(status=discord.Status.online, activity=activity)
 
     @commands.guild_only()
