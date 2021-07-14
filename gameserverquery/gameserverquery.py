@@ -72,7 +72,7 @@ class GameServerQuery(commands.Cog):
     async def server_poll(self):
         info = await self.query_server()
         activity = discord.Activity(party={'id': 'Fight Club', 'size': [info.player_count, info.max_players]},
-                                    emoji="sinner", url="http://fightclub.ardentmaples.com/", state="Fight Club")
+                                    state="Fight Club", details="Join the salt!")
         await self.bot.change_presence(status=discord.Status.idle, activity=activity)
 
     @commands.guild_only()
