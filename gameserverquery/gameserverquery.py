@@ -4,6 +4,7 @@ import socket
 import a2s
 import discord
 
+from discord.ext import tasks
 from redbot.core import Config, commands, checks
 from redbot.core.utils.chat_formatting import bold
 
@@ -23,6 +24,13 @@ class GameServerQuery(commands.Cog):
             "query_port": None
         }
         self.config.register_guild(**default_guild)
+        self.server_poll.start()
+
+    def cog_unload(self):
+        self.server_poll.cancel()
+
+    async def query_server(self):
+        return a2s.info(("64.94.95.122", int(28082)), 2)
 
     async def query_info(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
@@ -59,6 +67,13 @@ class GameServerQuery(commands.Cog):
     @staticmethod
     def remove_microseconds(delta):
         return delta - datetime.timedelta(microseconds=delta.microseconds)
+
+    @tasks.loop(seconds=30, reconnect=True)
+    async def server_poll(self):
+        info = await self.query_server()
+        activity = discord.Activity(party={'id': 'Fight Club', 'size': [info.player_count, info.max_players]},
+                                    emoji="sinner", url="http://fightclub.ardentmaples.com/", state="Fight Club")
+        await self.bot.change_presence(status=discord.Status.idle, activity=activity)
 
     @commands.guild_only()
     @commands.command(aliases=["p", "s"])
@@ -241,7 +256,6 @@ class GameServerQuery(commands.Cog):
             debug_info = "".join(
                 '{}\n{}, {}\n'.format(x.name, x.duration, x.score) for x in players
             )
-
 
             await ctx.send("```json\n" + debug_info + "```")
         else:
