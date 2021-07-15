@@ -90,14 +90,16 @@ class GameServerQuery(commands.Cog):
     @commands.command(aliases=["p", "s"])
     async def players(self, ctx):
         """Query for player count."""
-        info = await self.query_info(ctx)
-        if info:
-            if info.player_count == 0:
-                await ctx.send("The server is empty.")
-            else:
-                await ctx.send("There are currently **{0}/{1}** players.".format(info.player_count, info.max_players))
-        else:
-            await ctx.send("Server could not be reached.")
+        # info = await self.query_info(ctx)
+        # if info:
+        #     if info.player_count == 0:
+        #         await ctx.send("The server is empty.")
+        #     else:
+        #         await ctx.send("There are currently **{0}/{1}** players.".format(info.player_count, info.max_players))
+        # else:
+        #     await ctx.send("Server could not be reached.")
+        await ctx.send(
+            "This is no longer necessary, the player count is now available on the bots status in the member list.")
 
     @commands.guild_only()
     @commands.command()
