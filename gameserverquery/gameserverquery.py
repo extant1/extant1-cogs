@@ -64,6 +64,22 @@ class GameServerQuery(commands.Cog):
             await ctx.send("IP and Port must be set.")
             return None
 
+    async def query_rules(self, ctx):
+        ip = await self.config.guild(ctx.guild).ip()
+        query_port = await self.config.guild(ctx.guild).query_port()
+        if ip and query_port:
+            try:
+                return a2s.rules((ip, int(query_port)), 2)
+            except socket.timeout:
+                await ctx.send("Connection timed out to server.")
+                return None
+            except socket.gaierror:
+                await ctx.send("Invalid host address.")
+                return None
+        else:
+            await ctx.send("IP and Port must be set.")
+            return None
+
     @staticmethod
     def remove_microseconds(delta):
         return delta - datetime.timedelta(microseconds=delta.microseconds)
@@ -266,10 +282,22 @@ class GameServerQuery(commands.Cog):
         """GameServerQuery debug player query."""
         players = await self.query_players(ctx)
         if len(players) != 0:
-            debug_info = "".join(
+            debug_players = "".join(
                 '{}\n{}, {}\n'.format(x.name, x.duration, x.score) for x in players
             )
 
-            await ctx.send("```json\n" + debug_info + "```")
+            await ctx.send("```json\n" + debug_players + "```")
         else:
             await ctx.send("Server is empty.")
+
+    @checks.admin()
+    @commands.guild_only()
+    @_gsqd.command(name="rules")
+    async def _rules(self, ctx):
+        """GameServerQuery debug player query."""
+        rules = await self.query_rules(ctx)
+        if rules:
+            debug_rules = "".join('{} = {}\n'.format(x, y) for x, y in rules.items())
+            await ctx.send("```json\n" + debug_rules + "```")
+        else:
+            await ctx.send("Could not query rules.")
