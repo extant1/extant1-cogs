@@ -30,7 +30,7 @@ class GameServerQuery(commands.Cog):
         self.server_poll.cancel()
 
     async def query_server(self):
-        return a2s.info(("64.94.95.122", int(28082)), 2)
+        return a2s.info(("23.92.73.162", int(23027)), 2)
 
     async def query_info(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
