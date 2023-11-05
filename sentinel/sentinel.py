@@ -1,5 +1,5 @@
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import discord
 from redbot.core import Config, commands, checks
@@ -34,22 +34,21 @@ class Sentinel(commands.Cog):
         enabled = await self.config.guild(member.guild).enabled()
         toggle_join = await self.config.guild(member.guild).toggle_join()
         if enabled and toggle_join:
-            # logger.info("{} joined the server.".format(member.display_name))
             channel_name = await self.config.guild(guild).channel()
             channel = guild.get_channel(channel_name)
-            if (datetime.utcnow() - member.created_at) < timedelta(1):
+            if (datetime.now(timezone.utc) - member.created_at) < timedelta(1):
                 message = "\nWARNING!!!  ACCOUNT IS LESS THAN ONE DAY OLD."
-            elif (datetime.utcnow() - member.created_at) < timedelta(7):
+            elif (datetime.now(timezone.utc) - member.created_at) < timedelta(7):
                 message = "\nWARNING!!!  ACCOUNT IS LESS THAN SEVEN DAYS OLD."
-            elif (datetime.utcnow() - member.created_at) > timedelta(7):
+            elif (datetime.now(timezone.utc) - member.created_at) > timedelta(7):
                 message = ""
-            embed = discord.Embed(title="Member Joined", description="\n{}{}".format(member.mention, message),
-                                  color=0x00ff00)
+            embed = discord.Embed(title="Member Joined", description=f"\n{member.mention}{message}", color=0x00FF00)
+
             embed.set_thumbnail(url=member.avatar_url)
-            embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
-                            inline=True)
-            embed.add_field(name="Account Created:", value="{}".format(member.created_at))
-            embed.set_footer(text="ID: {}".format(member.id))
+            embed.add_field(name=member.display_name, value=f"{member.name}#{member.discriminator}", inline=True)
+
+            embed.add_field(name="Account Created:", value=f"{member.created_at}")
+            embed.set_footer(text=f"ID: {member.id}")
             await channel.send(embed=embed)
         else:
             return
@@ -60,14 +59,13 @@ class Sentinel(commands.Cog):
         enabled = await self.config.guild(member.guild).enabled()
         toggle_leave = await self.config.guild(member.guild).toggle_leave()
         if enabled and toggle_leave:
-            # logger.info("{} left the server.".format(member.display_name))
             channel_name = await self.config.guild(guild).channel()
             channel = guild.get_channel(channel_name)
             embed = discord.Embed(title="Member Left", color=0xff8000)
             embed.set_thumbnail(url=member.avatar_url)
-            embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
-                            inline=True)
-            embed.set_footer(text="ID: {}".format(member.id))
+            embed.add_field(name=member.display_name, value=f"{member.name}#{member.discriminator}", inline=True)
+
+            embed.set_footer(text=f"ID: {member.id}")
             await channel.send(embed=embed)
         else:
             return
@@ -77,14 +75,13 @@ class Sentinel(commands.Cog):
         enabled = await self.config.guild(member.guild).enabled()
         toggle_ban = await self.config.guild(member.guild).toggle_ban()
         if enabled and toggle_ban:
-            # logger.info("{} was banned from the server.".format(member.display_name))
             channel_name = await self.config.guild(guild).channel()
             channel = guild.get_channel(channel_name)
             embed = discord.Embed(title="Member Banned", color=0xffff00)
             embed.set_thumbnail(url=member.avatar_url)
-            embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
-                            inline=True)
-            embed.set_footer(text="ID: {}".format(member.id))
+            embed.add_field(name=member.display_name, value=f"{member.name}#{member.discriminator}", inline=True)
+
+            embed.set_footer(text=f"ID: {member.id}")
             await channel.send(embed=embed)
         else:
             return
@@ -94,14 +91,13 @@ class Sentinel(commands.Cog):
         enabled = await self.config.guild(member.guild).enabled()
         toggle_unban = await self.config.guild(member.guild).toggle_unban()
         if enabled and toggle_unban:
-            # logger.info("{} was unbanned from the server.".format(user.display_name))
             channel_name = await self.config.guild(guild).channel()
             channel = guild.get_channel(channel_name)
             embed = discord.Embed(title="Member Unbanned", color=0x8080ff)
             embed.set_thumbnail(url=member.avatar_url)
-            embed.add_field(name=member.display_name, value="{}#{}".format(member.name, member.discriminator),
-                            inline=True)
-            embed.set_footer(text="ID: {}".format(member.id))
+            embed.add_field(name=member.display_name, value=f"{member.name}#{member.discriminator}", inline=True)
+
+            embed.set_footer(text=f"ID: {member.id}")
             await channel.send(embed=embed)
         else:
             return
@@ -116,20 +112,15 @@ class Sentinel(commands.Cog):
         toggle_role_change = await self.config.guild(before.guild).toggle_unban()
         ignored_roles = await self.config.guild(before.guild).ignored_roles()
         if enabled and toggle_name_change and before.display_name != after.display_name or before.name != after.name:
-            # logger.info("{} changed their name to {}.".format(before.display_name, after.display_name))
-            embed = discord.Embed(title="User changed their name",
-                                  description="{}".format(after.mention),
-                                  color=0xffff00)
-            embed.set_thumbnail(url=after.avatar_url)
-            embed.add_field(name="Before",
-                            value="{}\n{}#{}".format(before.display_name, before.name, before.discriminator),
-                            inline=True)
-            embed.add_field(name="After",
-                            value="{}\n{}#{}".format(after.display_name, after.name, after.discriminator),
-                            inline=True)
-            embed.set_footer(text="ID: {}".format(before.id))
-            await channel.send(embed=embed)
+            embed = discord.Embed(title="User changed their name", description=f"{after.mention}", color=0xffff00)
 
+            embed.set_thumbnail(url=after.avatar_url)
+            embed.add_field(name="Before", value=f"{before.display_name}\n{before.name}#{before.discriminator}", inline=True)
+
+            embed.add_field(name="After", value=f"{after.display_name}\n{after.name}#{after.discriminator}", inline=True)
+
+            embed.set_footer(text=f"ID: {before.id}")
+            await channel.send(embed=embed)
         if enabled and toggle_role_change and before.roles != after.roles:
             old_roles = [r.name for r in before.roles if r.name != "@everyone"]
             new_roles = [r.name for r in after.roles if r.name != "@everyone"]
@@ -137,24 +128,21 @@ class Sentinel(commands.Cog):
             new_roles_length = len(new_roles)
             verb = None
             role = []
-
             if old_roles_length < new_roles_length:
                 verb = 'added'
                 role = list(set(new_roles).difference(old_roles))
             elif old_roles_length > new_roles_length:
                 verb = 'removed'
                 role = list(set(old_roles).difference(new_roles))
-
             if role[0] in ignored_roles:
                 return
-            # logger.info("{} roles changed from {} to {}.".format(after.display_name, old_roles, new_roles))
-            embed = discord.Embed(title="Role changed",
-                                  description="{} was {}.".format(role[0], verb),
-                                  color=0xffff00)
+            embed = discord.Embed(title="Role changed", description=f"{role[0]} was {verb}.", color=0xffff00)
+
+
             embed.set_thumbnail(url=after.avatar_url)
-            embed.add_field(name="{}".format(after.display_name),
-                            value="{}#{}".format(after.name, after.discriminator))
-            embed.set_footer(text="ID: {}".format(before.id))
+            embed.add_field(name=f"{after.display_name}", value=f"{after.name}#{after.discriminator}")
+
+            embed.set_footer(text=f"ID: {before.id}")
             await channel.send(embed=embed)
 
     @commands.Cog.listener()
@@ -163,22 +151,17 @@ class Sentinel(commands.Cog):
         enabled = await self.config.guild(guild).enabled()
         toggle_edit = await self.config.guild(before.guild).toggle_edit()
         if enabled and toggle_edit:
-            if len(after.embeds) is not 0:
+            if len(after.embeds) != 0:
                 return
             if after.call is MessageType.pins_add:
-                # logger.info("messaged was pinned:  {}".format(after.content))
                 return
             if not after.author.bot:
-                # logger.info("{} changed the message {} to {}.".format(after.author.display_name, before.content,
-                #                                                       after.content))
                 channel_name = await self.config.guild(after.guild).channel()
                 channel = guild.get_channel(channel_name)
-                embed = discord.Embed(title="Message edited",
-                                      description="{}\n{}\nto\n{}".format(after.author.display_name, before.content,
-                                                                          after.content),
-                                      color=0x8080ff)
+                embed = discord.Embed(title="Message edited", description=f"{after.author.display_name}\n{before.content}\nto\n{after.content}", color=0x8080ff)
+
                 embed.set_thumbnail(url=after.author.avatar_url)
-                embed.set_footer(text="ID: {}".format(after.author.id))
+                embed.set_footer(text=f"ID: {after.author.id}")
                 await channel.send(embed=embed)
         else:
             return
@@ -220,8 +203,9 @@ class Sentinel(commands.Cog):
         """Set the channel the sentinel logs messages to."""
         if channel is not None:
             channel_object = discord.utils.get(ctx.guild.channels, name=channel, type=ChannelType.text)
+
             await self.config.guild(ctx.guild).channel.set(channel_object.id)
-            await ctx.send("Sentinel is using channel " + bold(channel) + " for logging.")
+            await ctx.send(f"Sentinel is using channel {bold(channel)} for logging.")
         else:
             await ctx.send_help()
 
@@ -333,11 +317,11 @@ class Sentinel(commands.Cog):
     @commands.guild_only()
     @_sentinel.command(name="ignored")
     async def _ignored(self, ctx, *ignored):
-        """Set a list of roles to ignore. Use space as a separator and quotes (") around roles with spaces.\n
+        """Set a list of roles to ignore. Use space as a separator and quotes (") around roles with spaces.\\n
         Example: [p]sentinel ignored First \"A Second\" \"The Third\" Fourth"""
-        if len(ignored) != 0:
+        if ignored:
             await self.config.guild(ctx.guild).ignored_roles.set(ignored)
             ignored = ' '.join(ignored)
-            await ctx.send("Sentinel is ignoring roles " + bold(ignored) + ".")
+            await ctx.send(f"Sentinel is ignoring roles {bold(ignored)}.")
         else:
             await ctx.send_help()

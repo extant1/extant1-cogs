@@ -1,5 +1,6 @@
+from redbot.core.bot import Red
 from .mapleweb import MapleWeb
 
 
-def setup(bot):
-    bot.add_cog(MapleWeb(bot))
+async def setup(bot: Red) -> None:
+    await bot.add_cog(MapleWeb(bot))

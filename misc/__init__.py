@@ -1,5 +1,6 @@
+from redbot.core.bot import Red
 from .misc import Misc
 
 
-def setup(bot):
-    bot.add_cog(Misc(bot))
+async def setup(bot: Red) -> None:
+    await bot.add_cog(Misc(bot))

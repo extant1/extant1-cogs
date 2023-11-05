@@ -1,4 +1,6 @@
+from redbot.core.bot import Red
 from .heist import Heist
 
-def setup(bot):
-    bot.add_cog(Heist(bot))
+
+async def setup(bot: Red) -> None:
+    await bot.add_cog(Heist(bot))

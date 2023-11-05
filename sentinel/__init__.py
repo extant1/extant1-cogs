@@ -1,5 +1,6 @@
+from redbot.core.bot import Red
 from .sentinel import Sentinel
 
 
-def setup(bot):
-    bot.add_cog(Sentinel(bot))
+async def setup(bot: Red) -> None:
+    await bot.add_cog(Sentinel(bot))
