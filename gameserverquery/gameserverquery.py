@@ -30,7 +30,7 @@ class GameServerQuery(commands.Cog):
         self.server_poll.cancel()
 
     async def query_server(self):
-        return a2s.info(("64.94.95.122", 28082), 2)
+        return a2s.info(("64.94.95.122", int(28082)), 2)
 
     async def query_info(self, ctx):
         ip = await self.config.guild(ctx.guild).ip()
@@ -124,7 +124,7 @@ class GameServerQuery(commands.Cog):
         ip = await self.config.guild(ctx.guild).ip()
         game_port = await self.config.guild(ctx.guild).game_port()
         if ip and game_port:
-            await ctx.send(f"The server ip is {bold(ip)}:{bold(game_port)}.")
+            await ctx.send("The server ip is " + bold(ip) + ":" + bold(game_port) + ".")
         else:
             await ctx.send("This information is not yet configured.")
 
@@ -135,7 +135,7 @@ class GameServerQuery(commands.Cog):
         info = await self.query_info(ctx)
         if info:
             if info.folder is not None or "lifyo":
-                await ctx.send(f"The server is running **{info.game}** on **{info.map_name}**.")
+                await ctx.send("The server is running **" + info.game + "** on ** " + info.map_name + " **.")
             else:
                 await ctx.send("There is no mission available for this game.")
         else:
@@ -191,7 +191,7 @@ class GameServerQuery(commands.Cog):
         """Set the ip."""
         if ip is not None:
             await self.config.guild(ctx.guild).ip.set(ip)
-            await ctx.send(f"GameServerQuery ip is set to {bold(ip)}.")
+            await ctx.send("GameServerQuery ip is set to " + bold(ip) + ".")
         else:
             await ctx.send_help()
 
@@ -202,7 +202,7 @@ class GameServerQuery(commands.Cog):
         """Set the game port."""
         if game_port is not None:
             await self.config.guild(ctx.guild).game_port.set(game_port)
-            await ctx.send(f"GameServerQuery game port is set to {bold(game_port)}.")
+            await ctx.send("GameServerQuery game port is set to " + bold(game_port) + ".")
         else:
             await ctx.send_help()
 
@@ -213,7 +213,7 @@ class GameServerQuery(commands.Cog):
         """Set the query port."""
         if query_port is not None:
             await self.config.guild(ctx.guild).query_port.set(query_port)
-            await ctx.send(f"GameServerQuery query port is set to {bold(query_port)}.")
+            await ctx.send("GameServerQuery query port is set to " + bold(query_port) + ".")
         else:
             await ctx.send_help()
 
@@ -224,7 +224,7 @@ class GameServerQuery(commands.Cog):
         """Set the discord GM role."""
         if gm_role is not None:
             await self.config.guild(ctx.guild).gm_role.set(gm_role)
-            await ctx.send(f"GameServerQuery GM role is set to {bold(gm_role)}.")
+            await ctx.send("GameServerQuery GM role is set to " + bold(gm_role) + ".")
         else:
             await ctx.send_help()
 
@@ -235,11 +235,11 @@ class GameServerQuery(commands.Cog):
         """Set the game."""
         if game is not None:
             await self.config.guild(ctx.guild).game.set(game)
-            await ctx.send(f"GameServerQuery game is set to {bold(game)}.")
+            await ctx.send("GameServerQuery game is set to " + bold(game) + ".")
         else:
             info = self.query_info(ctx)
             await self.config.guild(ctx.guild).game.set(info.folder)
-            await ctx.send(f"GameServerQuery used query info and set game to {bold(game)}.")
+            await ctx.send("GameServerQuery used query info and set game to " + bold(game) + ".")
 
     @checks.admin()
     @commands.guild_only()
